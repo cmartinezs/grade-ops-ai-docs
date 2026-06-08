@@ -1,14 +1,33 @@
 # Hackathon Strategy
 
-GradeOps AI is being built for the XPRIZE AI hackathon as an AI-native assessment operations business, not only as a software demo.
+GradeOps AI is being built for the **Build with Gemini XPRIZE** hackathon as an AI-native assessment operations business, not only as a software demo.
 
-## Strategic thesis
+## Verified Hackathon Constraints
+
+As of June 8, 2026, the public Devpost rules and challenge page indicate:
+
+- submission period: May 19, 2026 to August 17, 2026;
+- deadline: August 17, 2026 at 1:00 PM PDT;
+- projects must be newly created after the submission period starts;
+- the business must be operated by AI agents;
+- the project must use at least one Google Cloud product;
+- LLM-powered projects must include Gemini usage in the deployed product;
+- evaluation favors real business evidence, not only technical novelty.
+
+These constraints should be rechecked before final submission.
+
+Sources to recheck:
+
+- Devpost rules: https://xprize.devpost.com/rules
+- Devpost challenge page: https://xprize.devpost.com/
+
+## Strategic Thesis
 
 Most teams will build AI tools. GradeOps AI will compete as an operational business: real educators, real assessment workflows, real usage, real payments, and auditable AI agent activity.
 
 The product is intentionally focused on programming educators because this segment has frequent assessment cycles, high grading workload, strong need for personalized feedback, and clear adoption potential for practical workflow tools.
 
-## Winning position
+## Winning Position
 
 GradeOps AI is not a generic quiz generator, chatbot, LMS, or grading toy.
 
@@ -26,15 +45,25 @@ It is an AI-operated assessment workflow where agents help educators:
 
 Teachers remain in control. Agents operate the repetitive workflow.
 
-## Hackathon alignment
+## Category Fit
 
-### Business viability
+Primary category:
+
+> Education & Human Potential
+
+Secondary narrative:
+
+> Small education providers can operate with the assessment capacity of a larger academic team.
+
+This framing avoids making the project sound like a generic teacher tool. It positions GradeOps AI as operational infrastructure for educators and small learning businesses.
+
+## Business Viability Strategy
 
 GradeOps AI targets educators, tutors, bootcamps, and small academies that need to reduce assessment workload without hiring additional academic operations staff.
 
 The initial commercial offer should be simple:
 
-Run your next programming assessment with AI agents.
+> Run your next programming assessment with AI agents.
 
 Evidence to collect:
 
@@ -47,7 +76,7 @@ Evidence to collect:
 - time saved;
 - payment evidence.
 
-### AI-native operations
+## AI-Native Operations Strategy
 
 GradeOps AI must show agents executing meaningful operational steps, not only generating text.
 
@@ -74,9 +103,10 @@ Each agent execution should produce structured logs:
 - status;
 - teacher approval state;
 - estimated time saved;
+- estimated cost;
 - operational evidence generated.
 
-### Category impact
+## Category Impact Strategy
 
 GradeOps AI improves education workflows by helping teachers provide faster, more consistent, and more actionable feedback.
 
@@ -88,7 +118,7 @@ Expected impact:
 - better support for small education providers;
 - stronger assessment consistency across cohorts.
 
-## What the demo must prove
+## What The Demo Must Prove
 
 The demo must prove the business and the operation, not just the interface.
 
@@ -103,7 +133,7 @@ The 3-minute video should show:
 7. Agent logs prove AI-native operation.
 8. Business evidence proves real validation.
 
-## What not to build
+## What Not To Build
 
 Avoid expanding into a full academic platform during the hackathon.
 
@@ -119,7 +149,7 @@ Do not prioritize:
 
 The winning version should be narrow, useful, demonstrable, and sellable.
 
-## Primary success metrics
+## Primary Success Metrics
 
 For the hackathon, success should be measured by evidence.
 
@@ -135,7 +165,7 @@ Target metrics:
 - measurable teacher time saved;
 - at least 1 strong testimonial.
 
-## Final positioning
+## Final Positioning
 
 GradeOps AI helps programming educators operate assessments with AI agents.
 

@@ -2,6 +2,8 @@
 
 > Nota raw formateada desde la segunda conversación estratégica.
 
+> Decisión posterior: este archivo consolida el giro desde GRADE/ClassOps hacia **GradeOps AI** como marca principal para la hackathon.
+
 ## Tesis
 
 Sí. Tu cabeza hizo la conexión correcta: esto es **GRADE**.

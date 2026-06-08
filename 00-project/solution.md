@@ -4,15 +4,16 @@ GradeOps AI is an AI-operated assessment workflow for programming education.
 
 It helps educators move from a learning goal to reviewed feedback and teacher reports through a controlled agent workflow.
 
-## Core approach
+## Core Approach
 
 - One workflow from assessment setup to reporting.
 - Specialized agents for repetitive assessment operations.
 - Teacher approval on important outputs.
 - Structured evidence capture from day one.
 - Auditable logs for AI actions, cost, usage, and decisions.
+- A narrow MVP focused on practical programming assessments.
 
-## Workflow
+## MVP Workflow
 
 1. Teacher defines what they want to evaluate.
 2. Assessment Agent generates the activity.
@@ -26,9 +27,66 @@ It helps educators move from a learning goal to reviewed feedback and teacher re
 10. Teacher Report Agent prepares the final report.
 11. Ops Evidence Agent records usage, costs, outcomes, and agent logs.
 
-## Value proposition
+## Agent Responsibilities
 
-### For teachers
+| Agent | Responsibility | Output |
+| --- | --- | --- |
+| Assessment Agent | Generate assessment activities from a learning goal. | Activity brief, instructions, expected evidence. |
+| Rubric Agent | Create and validate grading criteria. | Rubric, criteria weights, consistency notes. |
+| Grading Agent | Analyze submissions against the rubric. | Suggested score, rubric evidence, uncertainty flags. |
+| Feedback Agent | Draft student-facing feedback. | Personalized feedback and improvement advice. |
+| Learning Gap Agent | Detect repeated misconceptions. | Gap summary and affected students/cohorts. |
+| Recovery Agent | Suggest reinforcement work. | Recovery activities tied to specific gaps. |
+| Teacher Report Agent | Summarize the assessment run. | Teacher-facing report and next-step recommendations. |
+| Ops Evidence Agent | Capture operational proof. | Logs, cost estimates, usage events, time-saved evidence. |
+
+## Human Control Model
+
+The product should be explicit about authority:
+
+- agents suggest;
+- teachers review;
+- teachers approve;
+- approved outputs can be delivered to students;
+- rejected or edited outputs remain part of the audit trail.
+
+This avoids the most dangerous misinterpretation: that GradeOps AI replaces teacher judgment.
+
+## Evidence Model
+
+Each agent execution should record:
+
+- timestamp;
+- teacher or account;
+- assessment;
+- agent name;
+- model used;
+- input summary;
+- structured output summary;
+- status;
+- teacher approval state;
+- estimated cost;
+- estimated time saved;
+- final action taken.
+
+This evidence is not only observability. It is part of the business narrative for the hackathon.
+
+## Technical Direction
+
+The MVP should use a simple, defensible architecture:
+
+- frontend for teacher workflow and dashboard;
+- backend API for orchestration and persistence;
+- Gemini API for at least one deployed LLM call;
+- at least one Google Cloud product in production;
+- structured storage for assessments, submissions, rubrics, feedback, and logs;
+- operational dashboard for usage, agent runs, cost, and evidence.
+
+Google Cloud Run, Firebase, Firestore, Cloud SQL, Cloud Storage, and Cloud Logging are valid candidates depending on implementation speed and team preference.
+
+## Value Proposition
+
+### For Teachers
 
 - Reduce grading and feedback workload.
 - Improve feedback consistency.
@@ -36,14 +94,14 @@ It helps educators move from a learning goal to reviewed feedback and teacher re
 - Keep control over evaluation decisions.
 - Prepare reports faster.
 
-### For students
+### For Students
 
 - Receive faster feedback.
 - Understand mistakes more clearly.
 - Get targeted recovery activities.
 - Benefit from more consistent assessment criteria.
 
-### For small education providers
+### For Small Education Providers
 
 - Operate like a larger academic team without hiring more staff.
 - Standardize assessment quality across cohorts.
@@ -51,13 +109,13 @@ It helps educators move from a learning goal to reviewed feedback and teacher re
 - Reduce operational bottlenecks.
 - Create a repeatable assessment workflow.
 
-## Strategic differentiator
+## Strategic Differentiator
 
 GradeOps AI is not a generic quiz generator.
 
 It is an AI-native assessment operations platform where agents run meaningful workflow steps and teachers retain final pedagogical authority.
 
-## Hackathon relevance
+## Hackathon Relevance
 
 GradeOps AI is designed to produce the evidence needed for a credible AI venture:
 
@@ -72,6 +130,6 @@ GradeOps AI is designed to produce the evidence needed for a credible AI venture
 - cost tracking;
 - demo-ready operational dashboard.
 
-## Core principle
+## Core Principle
 
 AI operates the repetitive workflow. Teachers retain judgment, standards, and final approval.

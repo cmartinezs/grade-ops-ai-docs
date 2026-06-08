@@ -2,6 +2,8 @@
 
 > Nota raw formateada desde la primera conversación estratégica.
 
+> Decisión posterior: este archivo conserva la exploración original. El nombre final de trabajo para el proyecto es **GradeOps AI**; **ClassOps AI** queda como alternativa histórica de naming, no como marca principal.
+
 ## Contexto Inicial
 
 Voy a revisar las bases públicas de la hackathon, extraer criterios, restricciones, entregables y señales de evaluación. Con eso te propongo una idea vendible, no solo "interesante técnicamente", y la bajo a pitch, MVP y estrategia de demo.

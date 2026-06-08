@@ -6,7 +6,7 @@ Programming educators do not only create tests. They operate a full assessment c
 
 For small academies, tutors, bootcamps, and independent educators, this work is usually manual, fragmented, and difficult to scale.
 
-## Current pain points
+## Current Pain Points
 
 - Assessment design is repeated from scratch.
 - Rubrics are inconsistent across instructors or cohorts.
@@ -18,9 +18,25 @@ For small academies, tutors, bootcamps, and independent educators, this work is 
 - Small schools lack dedicated assessment operations staff.
 - Evidence of grading, feedback, and learning progress is hard to consolidate.
 
-## Why existing tools fall short
+## Why Programming Assessment Is Different
 
-### LMS platforms
+Programming education is not well served by simple multiple-choice tooling.
+
+Practical programming assessment often requires:
+
+- code analysis;
+- reasoning review;
+- partial credit;
+- rubric-based judgment;
+- feedback by type of mistake;
+- detection of repeated misconceptions;
+- recovery activities tied to specific learning gaps.
+
+This is why the initial wedge matters. Programming creates a clear, repeated, high-friction assessment workflow where AI agents can provide visible operational leverage.
+
+## Why Existing Tools Fall Short
+
+### LMS Platforms
 
 LMS tools organize content, classes, and submissions, but they do not operate the assessment workflow end to end.
 
@@ -33,20 +49,13 @@ They usually leave the hardest work to the teacher:
 - identifying patterns;
 - preparing recovery actions.
 
-### Quiz generators
+### Quiz Generators
 
 Quiz generators are useful for simple objective questions, but they are too narrow for authentic programming assessment.
 
-Programming education often requires:
+They typically produce questions, not operations. They do not reliably manage rubric validation, grading assistance, feedback quality, learning-gap detection, teacher approval, and evidence capture.
 
-- code analysis;
-- reasoning review;
-- partial credit;
-- rubric-based judgment;
-- feedback by type of mistake;
-- detection of repeated misconceptions.
-
-### Generic AI tools
+### Generic AI Tools
 
 Generic AI tools can help draft content, but they are not structured around assessment operations.
 
@@ -61,12 +70,26 @@ They usually lack:
 - business evidence;
 - operational dashboards.
 
-## Business problem
+## Business Problem
 
 Small education providers need to deliver better feedback without hiring more academic operations staff.
 
 The buyer does not only need an AI writing assistant. The buyer needs a way to run assessments faster, with more consistency, better visibility, and measurable value.
 
-## Strategic problem statement
+## Risk Of Misinterpretation
+
+GradeOps AI should not be interpreted as:
+
+- a fully automated grading authority;
+- a student-facing tutoring chatbot;
+- a full school administration system;
+- a generic question generator;
+- a compliance-heavy institutional LMS.
+
+The correct interpretation is narrower and stronger:
+
+> GradeOps AI is an AI-native operating layer for practical programming assessments, where agents run repetitive workflow steps and teachers approve the educational decisions.
+
+## Strategic Problem Statement
 
 Programming educators need an AI-native operating layer for practical assessments: one that reduces repetitive work, preserves teacher control, improves feedback speed, and creates evidence of learning and business value.
