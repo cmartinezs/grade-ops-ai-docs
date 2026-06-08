@@ -13,6 +13,7 @@ The hackathon rewards real revenue, real users, AI-native operations, and busine
 - Separate product operating costs from personal AI development tooling.
 - Track cost per agent run, assessment, graded submission, active teacher, and customer.
 - Report marketing and customer acquisition spend separately, even if it is zero.
+- Keep cash cost, allocated tooling cost, credits, and related-party revenue separated.
 
 ## Required Hackathon Reporting
 
@@ -27,10 +28,14 @@ Devpost requires evidence around both revenue and costs. GradeOps AI should be r
 | Related-Party Revenue | Revenue from team members, family, related entities, or pre-existing customer relationships, reported separately. |
 | Product Evidence | Agent execution logs, API usage records, dashboards, screenshots, and production evidence. |
 
-Sources:
+Sources to recheck:
 
-- Devpost rules: https://xprize.devpost.com/rules
-- Devpost challenge page: https://xprize.devpost.com/
+- Devpost rules: <https://xprize.devpost.com/rules>
+- Devpost challenge page: <https://xprize.devpost.com/>
+- Gemini API pricing: <https://ai.google.dev/gemini-api/docs/pricing>
+- Cloud Run pricing: <https://cloud.google.com/run/pricing>
+- Firestore pricing: <https://cloud.google.com/firestore/pricing>
+- Cloud Storage pricing: <https://cloud.google.com/storage/pricing>
 
 ## Product Operating Costs
 
@@ -82,11 +87,31 @@ Estimated token budget per 30-student assessment:
 | Final teacher report | 40,000 | 8,000 |
 | **Total** | **545,000** | **168,000** |
 
-Working cost estimate:
+## Current Model Cost Assumptions
+
+Model names and prices change. Verify against official pricing before deployment and final submission.
+
+Working assumptions as of this revision:
+
+| Model Policy | Example Model | Input / 1M Tokens | Output / 1M Tokens | Use |
+| --- | --- | ---: | ---: | --- |
+| Low-cost bulk | Gemini 3.1 Flash-Lite | US$0.25 | US$1.50 | bulk grading, simple feedback, high-volume tasks |
+| Balanced | Gemini 3 Flash Preview | US$0.50 | US$3.00 | assessment generation, rubric, reports |
+| Premium fallback | Gemini 3.1 Pro Preview | US$2.00 | US$12.00 | rare complex review only |
+
+Estimated AI cost for one 30-submission assessment:
+
+| Routing Scenario | Base AI Cost | With 25% Retry/Overhead Buffer | Interpretation |
+| --- | ---: | ---: | --- |
+| All Flash-Lite-class | US$0.39 | US$0.49 | Cheapest acceptable path for high volume. |
+| All Flash-class | US$0.78 | US$0.97 | Good planning baseline. |
+| All premium fallback | US$3.11 | US$3.88 | Should never be the default path. |
+
+Working planning range:
 
 - with efficient routing, a 30-student assessment should usually cost about **US$0.50-US$1.20** in AI usage;
-- if every step uses a higher-cost model, the same assessment can approach **US$3.00** in AI usage;
-- budget extra for retries, long submissions, logs, failed calls, and premium fallbacks.
+- premium fallbacks should be rare and explicitly logged;
+- budget extra for retries, long submissions, logs, failed calls, and manual review support.
 
 ## Model Routing Policy
 
@@ -94,23 +119,13 @@ Use cheaper models for high-volume tasks and stronger models where quality matte
 
 | Workload | Default Model Policy | Rationale |
 | --- | --- | --- |
-| Assessment generation | Gemini Flash-class model | Quality matters; moderate volume. |
-| Rubric generation | Gemini Flash-class model | Needs consistent structure and pedagogy. |
-| Rubric validation | Gemini Flash-class model | Needs reasoning and calibration. |
-| Bulk grading | Gemini Flash-Lite-class model | Highest volume; cost control matters. |
+| Assessment generation | Flash-class model | Quality matters; moderate volume. |
+| Rubric generation | Flash-class model | Needs consistent structure and pedagogy. |
+| Rubric validation | Flash-class model | Needs reasoning and calibration. |
+| Bulk grading | Flash-Lite-class model | Highest volume; cost control matters. |
 | Individual feedback | Flash-Lite by default; Flash fallback | High volume with occasional quality escalation. |
-| Teacher report | Gemini Flash-class model | Lower volume; quality matters. |
+| Teacher report | Flash-class model | Lower volume; quality matters. |
 | Complex cases | Premium fallback only | Avoid premium models for default volume. |
-
-Prices change. Before launch and submission, verify current pricing on the official Gemini API pricing page:
-
-- https://ai.google.dev/gemini-api/docs/pricing
-
-Also verify the Google Cloud runtime pricing pages before final submission:
-
-- Cloud Run pricing: https://cloud.google.com/run/pricing
-- Firestore pricing: https://cloud.google.com/firestore/pricing
-- Cloud Storage pricing: https://cloud.google.com/storage/pricing
 
 ## Initial Pricing
 
@@ -132,6 +147,26 @@ For Chile/LatAm testing:
 | Teacher Pro | $19.990-$24.990 CLP/month |
 | Cohort Pro | $59.990-$79.990 CLP/month |
 | Pilot Pack | $39.990-$79.990 CLP one-time |
+
+## Margin Logic
+
+Gross margin should be evaluated per plan using this formula:
+
+```text
+Gross margin = (Revenue - AI runtime - cloud runtime - storage/logging - payment fees - support allocation) / Revenue
+```
+
+Minimum planning targets:
+
+| Offer | Target Gross Margin |
+| --- | ---: |
+| Free | Negative or break-even, but capped hard |
+| Teacher Lite | 70%+ |
+| Teacher Pro | 75%+ |
+| Cohort Pro | 70%+ |
+| Pilot Pack | 60%+ after onboarding/support time |
+
+The Pilot Pack can have lower margin because it generates customer evidence, testimonials, and revenue proof during the hackathon.
 
 ## Overuse Policy
 
@@ -166,6 +201,40 @@ The MVP should include an internal dashboard that tracks:
 - costs covered by credits;
 - cash costs actually paid;
 - related-party revenue separated from arms-length revenue.
+
+## Revenue And Cost Ledger Schema
+
+Minimum fields for business evidence:
+
+### `RevenueEvent`
+
+| Field | Purpose |
+| --- | --- |
+| `event_id` | Unique event identifier. |
+| `customer_id` | Customer or pilot account. |
+| `date` | Revenue date. |
+| `month` | May, June, July, or August 2026. |
+| `amount_usd` | Amount converted to USD. |
+| `amount_original` | Amount in original currency. |
+| `currency` | CLP, USD, etc. |
+| `source` | Stripe, bank transfer, manual invoice, commitment. |
+| `offer` | Pilot Pack, Teacher Lite, Teacher Pro, Cohort Pro. |
+| `related_party` | `true` or `false`. |
+| `evidence_link` | Screenshot/export/invoice reference. |
+
+### `CostEvent`
+
+| Field | Purpose |
+| --- | --- |
+| `event_id` | Unique event identifier. |
+| `date` | Cost date. |
+| `category` | Gemini API, Cloud Run, storage, payment fee, tooling, marketing. |
+| `amount_usd` | Amount in USD. |
+| `cash_cost` | Whether cash was actually paid. |
+| `covered_by_credit` | Whether free tier/credit covered it. |
+| `customer_id` | Optional attribution. |
+| `assessment_id` | Optional attribution. |
+| `evidence_link` | Billing screenshot/export/reference. |
 
 ## Initial Operating Budget
 

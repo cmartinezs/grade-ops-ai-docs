@@ -27,6 +27,21 @@ It helps educators move from a learning goal to reviewed feedback and teacher re
 10. Teacher Report Agent prepares the final report.
 11. Ops Evidence Agent records usage, costs, outcomes, and agent logs.
 
+## MVP Scope Matrix
+
+| Area | Must Build For MVP | Demo Support | Later | Do Not Build Now |
+| --- | --- | --- | --- | --- |
+| Assessment creation | Learning goal input, generated activity | Example templates | Question bank versioning | Full curriculum design |
+| Rubric | Structured rubric with weights | Rubric validation notes | Rubric library | Institutional rubric governance |
+| Submissions | Text/code paste and file upload | Seed sample submissions | Git repo integration | OCR-first workflow |
+| Grading assistance | Suggested score and evidence per criterion | Uncertainty flags | Automated tests/sandboxes | Fully autonomous final grades |
+| Feedback | Individual feedback draft | Teacher edit/approve | Student portal history | Chat tutor |
+| Learning gaps | Cohort summary | Common mistake clustering | Longitudinal analytics | Predictive student profiling |
+| Recovery | Suggested activity | Exportable recommendation | Recovery plan library | Adaptive course engine |
+| Reporting | Teacher report | Dashboard screenshots | Multi-cohort analytics | Executive BI suite |
+| Evidence | Agent logs, API usage, cost estimate | Hackathon dashboard | Audit export | Complex compliance workflows |
+| Payments | Manual or Stripe evidence | Pilot Pack checkout | Full billing portal | Marketplace |
+
 ## Agent Responsibilities
 
 | Agent | Responsibility | Output |
@@ -40,17 +55,50 @@ It helps educators move from a learning goal to reviewed feedback and teacher re
 | Teacher Report Agent | Summarize the assessment run. | Teacher-facing report and next-step recommendations. |
 | Ops Evidence Agent | Capture operational proof. | Logs, cost estimates, usage events, time-saved evidence. |
 
+## Agent Choreography
+
+```text
+Learning goal
+  -> Assessment Agent
+  -> Rubric Agent
+  -> Teacher review checkpoint
+  -> Submission intake
+  -> Grading Agent
+  -> Feedback Agent
+  -> Learning Gap Agent
+  -> Recovery Agent
+  -> Teacher approval checkpoint
+  -> Teacher Report Agent
+  -> Ops Evidence Agent
+```
+
+The product should show this choreography visually in the demo. The judges should understand that AI is operating the workflow, not only answering prompts.
+
 ## Human Control Model
 
-The product should be explicit about authority:
+The product must be explicit about authority:
 
 - agents suggest;
 - teachers review;
 - teachers approve;
 - approved outputs can be delivered to students;
-- rejected or edited outputs remain part of the audit trail.
+- rejected or edited outputs remain part of the audit trail;
+- uncertain agent outputs are flagged instead of hidden;
+- final grades and final feedback are attributed to teacher approval, not autonomous AI authority.
 
 This avoids the most dangerous misinterpretation: that GradeOps AI replaces teacher judgment.
+
+## Approval States
+
+| State | Meaning |
+| --- | --- |
+| `drafted_by_agent` | Agent generated an output but no teacher has reviewed it yet. |
+| `needs_review` | Output is ready for teacher validation. |
+| `approved` | Teacher accepted the output. |
+| `edited_by_teacher` | Teacher changed the output before approval. |
+| `rejected` | Teacher rejected the output. |
+| `blocked_uncertain` | Output is too uncertain or incomplete to recommend. |
+| `published` | Approved output has been delivered or exported. |
 
 ## Evidence Model
 
@@ -59,21 +107,44 @@ Each agent execution should record:
 - timestamp;
 - teacher or account;
 - assessment;
+- submission when applicable;
 - agent name;
 - model used;
+- input token estimate;
+- output token estimate;
 - input summary;
 - structured output summary;
 - status;
+- uncertainty score or flags;
 - teacher approval state;
 - estimated cost;
 - estimated time saved;
-- final action taken.
+- final action taken;
+- whether the output was edited, approved, rejected, or published.
 
 This evidence is not only observability. It is part of the business narrative for the hackathon.
 
+## Minimal Data Model
+
+| Entity | Purpose |
+| --- | --- |
+| `TeacherAccount` | Owner of assessments and billing/customer evidence. |
+| `Customer` | Person or organization paying or piloting. |
+| `Assessment` | Learning goal, generated activity, state, due date, and metadata. |
+| `Rubric` | Criteria, weights, levels, validation notes, and version. |
+| `Submission` | Student answer/code/file reference and processing state. |
+| `GradingSuggestion` | Suggested score, criterion evidence, uncertainty, and rationale. |
+| `FeedbackDraft` | Student-facing feedback with approval state. |
+| `LearningGapReport` | Cohort-level gaps and affected submissions. |
+| `RecoveryActivity` | Suggested reinforcement activity tied to gaps. |
+| `TeacherReport` | Summary report for teacher/customer. |
+| `AgentExecutionLog` | Operational evidence for agent decisions, tokens, costs, and status. |
+| `RevenueEvent` | Payment, commitment, related-party flag, customer source. |
+| `CostEvent` | AI/API/cloud/payment/marketing cost event. |
+
 ## Cost Evidence Model
 
-Each assessment run should also calculate:
+Each assessment run should calculate:
 
 - input tokens by agent;
 - output tokens by agent;
@@ -99,7 +170,19 @@ The MVP should use a simple, defensible architecture:
 - structured storage for assessments, submissions, rubrics, feedback, and logs;
 - operational dashboard for usage, agent runs, cost, and evidence.
 
-Google Cloud Run, Firebase, Firestore, Cloud SQL, Cloud Storage, and Cloud Logging are valid candidates depending on implementation speed and team preference.
+Valid implementation candidates:
+
+| Layer | Preferred Direction | Notes |
+| --- | --- | --- |
+| Frontend | Next.js or Angular | Choose speed and confidence over novelty. |
+| Backend | Spring Boot or Node/NestJS | Spring Boot fits existing strength; Node may speed agent orchestration. |
+| Runtime | Cloud Run | Clean fit for containerized backend/agent workers. |
+| AI | Gemini API / Vertex AI Gemini | Required for deployed LLM usage. |
+| Data | Firestore or Cloud SQL PostgreSQL | Firestore for speed, PostgreSQL for relational consistency. |
+| Storage | Cloud Storage | Student files, exports, report artifacts. |
+| Logs | Cloud Logging plus DB business logs | Technical logs and business evidence should not be mixed only in stdout. |
+| Auth | Firebase Auth or simple controlled auth | Avoid overbuilding identity. |
+| Payments | Stripe or manual payment evidence | Stripe ideal, manual evidence acceptable for pilot validation. |
 
 Personal AI subscriptions can be used for development acceleration, but not as the production grading runtime. The deployed product must use traceable API/cloud billing and save agent execution evidence.
 
@@ -109,12 +192,39 @@ Use model routing to control cost:
 
 | Workload | Model Policy |
 | --- | --- |
-| Assessment generation | Gemini Flash-class model. |
-| Rubric generation and validation | Gemini Flash-class model. |
-| Bulk grading | Gemini Flash-Lite-class model by default. |
+| Assessment generation | Flash-class model. |
+| Rubric generation and validation | Flash-class model. |
+| Bulk grading | Flash-Lite-class model by default. |
 | Individual feedback | Flash-Lite by default, Flash fallback for difficult cases. |
-| Teacher reports | Gemini Flash-class model. |
+| Teacher reports | Flash-class model. |
 | Premium review | Stronger fallback model only when needed. |
+
+Model names and pricing change. The cost model must be verified against official pricing before deployment and before final submission.
+
+## Security, Privacy, And Trust
+
+Minimum MVP rules:
+
+- Do not require unnecessary student personal data.
+- Use pseudonymous student identifiers when possible.
+- Store uploaded files only when needed for the assessment run.
+- Do not expose one teacher's submissions or reports to another teacher.
+- Log agent inputs and outputs carefully; avoid storing secrets or sensitive unrelated data.
+- Make teacher approval visible in the UI.
+- Preserve a clear audit trail of AI suggestions and human edits.
+- Be transparent that AI output is assistive and must be reviewed.
+
+## Non-Functional Requirements
+
+| Requirement | MVP Target |
+| --- | --- |
+| Traceability | 100% of agent runs have logs. |
+| Cost tracking | Every assessment estimates AI cost and graded-submission cost. |
+| Reliability | Failed agent calls are retried or marked as failed with reason. |
+| Latency | Teacher-facing operations should show progress states instead of blocking silently. |
+| Auditability | Teacher approval and edits are retained. |
+| Exportability | Teacher report can be exported or shared as evidence. |
+| Demo readiness | Product can demonstrate one full workflow in under three minutes. |
 
 ## Value Proposition
 
@@ -164,4 +274,4 @@ GradeOps AI is designed to produce the evidence needed for a credible AI venture
 
 ## Core Principle
 
-AI operates the repetitive workflow. Teachers retain judgment, standards, and final approval.
+> AI operates the repetitive workflow. Teachers retain judgment, standards, and final approval.

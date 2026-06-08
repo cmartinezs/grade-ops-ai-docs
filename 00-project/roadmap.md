@@ -11,6 +11,22 @@ Current planning date: **June 8, 2026**. Hackathon deadline: **August 17, 2026 a
 - Keep the MVP narrow: programming assessments, teacher approval, agent logs, and reports.
 - Avoid becoming a full LMS during the hackathon.
 - Prioritize demo clarity over feature breadth.
+- Treat evidence as product output, not as final paperwork.
+
+## Critical Path
+
+```text
+Positioning -> Paid pilot offer -> Landing/waitlist -> MVP workflow -> Agent logs -> Pilot runs -> Revenue evidence -> Demo packaging
+```
+
+The project loses strategic strength if the app works but cannot prove:
+
+- real users;
+- real or semi-real assessment runs;
+- agent execution evidence;
+- cost tracking;
+- customer feedback;
+- payment, payment intent, or signed pilot commitment.
 
 ## Phase 1: Strategic Foundation
 
@@ -129,7 +145,7 @@ Goal: prepare a submission that sells the business, not just the app.
 
 - 3-minute demo video.
 - 500-1000 word narrative.
-- Public repository documentation.
+- Public repository documentation or private repository shared with required judges/testers.
 - Testing instructions.
 - Revenue evidence.
 - Expense evidence.
@@ -138,6 +154,7 @@ Goal: prepare a submission that sells the business, not just the app.
 - Customer evidence.
 - Google Cloud / Gemini usage evidence.
 - Business viability summary.
+- English version of all required materials.
 
 ### Success Evidence
 
@@ -156,6 +173,40 @@ Goal: prepare a submission that sells the business, not just the app.
 6. Report and dashboard summarize the run.
 7. Agent logs prove AI-native operations.
 8. Business evidence proves real validation.
+
+## Weekly Execution Plan
+
+| Week | Dates | Primary Outcome | Must Have Evidence |
+| --- | --- | --- | --- |
+| 1 | Jun 8-14 | Positioning, pilot offer, landing copy, outreach list | 10 target contacts, interview script, pilot offer |
+| 2 | Jun 15-21 | Discovery and sales conversations | 5+ conversations, 1+ pilot commitment |
+| 3 | Jun 22-28 | MVP skeleton: teacher flow + assessment/rubric generation | Deployed app shell, first Gemini call, first agent log |
+| 4 | Jun 29-Jul 5 | Submission intake + grading assistance | End-to-end sample assessment processed |
+| 5 | Jul 6-12 | Feedback, learning gaps, teacher report | Report output, approval states, cost estimates |
+| 6 | Jul 13-19 | First pilot operations | Real/semi-real educator run, testimonial draft |
+| 7 | Jul 20-26 | Payments and business dashboard | Revenue or payment-intent evidence, cost dashboard |
+| 8 | Jul 27-Aug 2 | Hardening and second pilot wave | 3+ pilot runs, 100+ submissions target path |
+| 9 | Aug 3-9 | Submission package draft | Demo script, narrative draft, testing instructions |
+| 10 | Aug 10-17 | Final evidence, video, repo cleanup | Final video, evidence folder, cost/revenue summary |
+
+## Kill Or Pivot Criteria
+
+If these are not true by mid-July, adjust aggressively:
+
+- No teacher understands the offer after a 30-second explanation.
+- No educator agrees to test a real or semi-real assessment.
+- The workflow requires too much manual intervention to demo clearly.
+- Agent logs are not being captured reliably.
+- The product cannot estimate cost per assessment.
+- The team is building LMS features instead of assessment operations.
+
+Pivot options:
+
+- reduce to one assessment type;
+- reduce to one programming language;
+- use manual payments instead of full Stripe flow;
+- use sample submissions for demo while still collecting customer interviews;
+- sell “done-with-you assessment operation” before self-serve SaaS.
 
 ## Phase 5: Expansion
 
@@ -179,3 +230,16 @@ Goal: expand beyond the initial programming education wedge after validating the
 - Institution-wide administration.
 - Broad multi-subject support.
 - Complex curriculum mapping.
+
+## Definition Of Done For Hackathon Submission
+
+GradeOps AI is submission-ready when it can prove:
+
+- a deployed product uses Google Cloud and Gemini API;
+- AI agents operate meaningful workflow steps;
+- teachers remain in control through approval states;
+- logs exist for agent executions and API usage;
+- revenue, costs, marketing spend, and related-party revenue are documented;
+- real users or pilot customers are evidenced;
+- demo video shows the product functioning on the target platform;
+- the written narrative explains what AI does, what humans do, and why the business matters.
