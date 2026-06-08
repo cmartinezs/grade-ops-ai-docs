@@ -6,7 +6,7 @@
 Programming educators spend too much time running assessment operations by hand: drafting assessments, defining rubrics, collecting submissions, grading consistently, writing feedback, and identifying learning gaps. Generic quiz tools and isolated AI helpers do not cover the full workflow, and they often weaken control instead of improving it.
 
 ## Solution
-GradeOps AI helps teachers operate the full assessment workflow with AI agents. Teachers stay in control of decisions and standards while agents handle repetitive assessment tasks such as rubric drafting, grading support, feedback generation, learning-gap detection, recovery suggestions, and report preparation.
+GradeOps AI helps teachers operate the full assessment workflow with AI agents. Teachers stay in control of decisions and standards while agents handle repetitive assessment tasks such as rubric drafting, grading support, feedback generation, learning gap detection, recovery suggestions, and report preparation.
 
 ## Target users
 - Programming instructors in bootcamps
@@ -20,7 +20,7 @@ GradeOps AI helps teachers operate the full assessment workflow with AI agents. 
 - Submission intake tracking
 - Grading support with teacher approval
 - Personalized feedback drafts
-- Learning-gap summaries and recovery suggestions
+- Learning gap summaries and recovery suggestions
 - Teacher-facing reporting for a cohort or assignment
 - Evidence capture for usage, revenue, customer learning, and agent logs
 

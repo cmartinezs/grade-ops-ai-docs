@@ -13,7 +13,7 @@ GradeOps AI uses specialized agents instead of one generic assistant.
 - Rubric agent
 - Grading agent
 - Feedback agent
-- Learning-gap agent
+- Learning gap agent
 - Recovery agent
-- Teacher-report agent
+- Teacher report agent
 - Ops agent

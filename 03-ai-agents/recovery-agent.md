@@ -4,7 +4,7 @@
 Suggest recovery activities that map to identified learning gaps.
 
 ## Inputs
-- Learning-gap summaries
+- Learning gap summaries
 - Course context
 - Allowed activity formats
 

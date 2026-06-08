@@ -7,7 +7,7 @@
 - Submission tracking
 - AI grading assistance with teacher review
 - Feedback draft generation
-- Learning-gap summary
+- Learning gap summary
 - Recovery activity suggestion
 - Teacher report generation
 - Agent log and usage evidence capture

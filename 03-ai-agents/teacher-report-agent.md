@@ -5,7 +5,7 @@ Prepare concise reports for teachers or operators after an assessment cycle.
 
 ## Inputs
 - Final grading data
-- Learning-gap summaries
+- Learning gap summaries
 - Feedback completion status
 
 ## Outputs
