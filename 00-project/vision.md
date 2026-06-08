@@ -44,6 +44,8 @@ The expansion path is not to become a full LMS. The expansion path is to own ass
 - Teachers approve important outputs before they affect students.
 - Agent decisions are logged.
 - The product shows evidence of usage, cost, time saved, and business value.
+- Product runtime costs are tracked separately from personal AI development tooling.
+- Pricing is bounded by assessments and graded submissions; unlimited AI grading is not part of the model.
 - The MVP stays focused on programming assessments.
 - The project is positioned as a real business operation, not only a software demo.
 

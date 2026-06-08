@@ -71,6 +71,23 @@ Each agent execution should record:
 
 This evidence is not only observability. It is part of the business narrative for the hackathon.
 
+## Cost Evidence Model
+
+Each assessment run should also calculate:
+
+- input tokens by agent;
+- output tokens by agent;
+- model used by agent;
+- estimated cost per agent execution;
+- retries and failed calls;
+- cost per assessment;
+- cost per graded submission;
+- cost per active teacher;
+- revenue attached to the customer or pilot;
+- whether the revenue is arms-length or related-party.
+
+This prevents a weak interpretation of the product as a demo. GradeOps AI should prove it understands its unit economics.
+
 ## Technical Direction
 
 The MVP should use a simple, defensible architecture:
@@ -83,6 +100,21 @@ The MVP should use a simple, defensible architecture:
 - operational dashboard for usage, agent runs, cost, and evidence.
 
 Google Cloud Run, Firebase, Firestore, Cloud SQL, Cloud Storage, and Cloud Logging are valid candidates depending on implementation speed and team preference.
+
+Personal AI subscriptions can be used for development acceleration, but not as the production grading runtime. The deployed product must use traceable API/cloud billing and save agent execution evidence.
+
+## Model Routing Direction
+
+Use model routing to control cost:
+
+| Workload | Model Policy |
+| --- | --- |
+| Assessment generation | Gemini Flash-class model. |
+| Rubric generation and validation | Gemini Flash-class model. |
+| Bulk grading | Gemini Flash-Lite-class model by default. |
+| Individual feedback | Flash-Lite by default, Flash fallback for difficult cases. |
+| Teacher reports | Gemini Flash-class model. |
+| Premium review | Stronger fallback model only when needed. |
 
 ## Value Proposition
 

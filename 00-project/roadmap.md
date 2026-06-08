@@ -24,6 +24,7 @@ Goal: define the smallest sellable assessment operation for programming educator
 - Landing page copy.
 - Discovery interview script.
 - Evidence plan for users, payments, usage, costs, and agent logs.
+- Initial cost model and pricing policy.
 
 ### Success Evidence
 
@@ -38,6 +39,7 @@ Goal: define the smallest sellable assessment operation for programming educator
 - One clear buyer persona.
 - One clear assessment workflow.
 - One paid-pilot offer.
+- One pricing table with usage limits and no unlimited AI grading.
 - One demo scenario based on a realistic programming class.
 
 ## Phase 2: Hackathon MVP
@@ -69,6 +71,7 @@ Goal: build a demonstrable workflow that can process real programming assessment
 - Cohort report.
 - Agent execution logs.
 - Usage events.
+- Cost dashboard events.
 - Basic Google Cloud deployment.
 - Gemini API integration.
 
@@ -84,6 +87,7 @@ Goal: build a demonstrable workflow that can process real programming assessment
 
 - A teacher can complete the full workflow without manual setup by the team.
 - Every agent run creates structured evidence.
+- Every assessment run estimates token usage and cost.
 - The demo can show the product and logs in under 3 minutes.
 
 ## Phase 3: Pilot Operations
@@ -98,6 +102,8 @@ Goal: operate GradeOps AI with real educators and collect business evidence.
 - Before/after workflow comparison.
 - Exportable teacher reports.
 - Cost tracking.
+- Revenue and related-party revenue tracking.
+- Marketing spend tracking, even if zero.
 - Product feedback loop.
 
 ### Success Evidence
@@ -112,6 +118,7 @@ Goal: operate GradeOps AI with real educators and collect business evidence.
 
 - There is evidence that someone outside the builder team used the workflow.
 - There is evidence of payment, payment intent, or signed pilot commitment.
+- Costs, payment fees, and runtime usage are tracked separately.
 - There is a credible time-saved estimate.
 
 ## Phase 4: Hackathon Packaging
@@ -126,6 +133,7 @@ Goal: prepare a submission that sells the business, not just the app.
 - Testing instructions.
 - Revenue evidence.
 - Expense evidence.
+- Cost model and unit economics summary.
 - Agent logs.
 - Customer evidence.
 - Google Cloud / Gemini usage evidence.

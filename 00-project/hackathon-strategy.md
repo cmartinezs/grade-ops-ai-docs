@@ -12,6 +12,7 @@ As of June 8, 2026, the public Devpost rules and challenge page indicate:
 - the business must be operated by AI agents;
 - the project must use at least one Google Cloud product;
 - LLM-powered projects must include Gemini usage in the deployed product;
+- submissions must disclose revenue, costs, marketing/customer acquisition spend, related-party revenue, users, product evidence, and agent/API logs;
 - evaluation favors real business evidence, not only technical novelty.
 
 These constraints should be rechecked before final submission.
@@ -70,11 +71,25 @@ Evidence to collect:
 - educator interviews;
 - pilot commitments;
 - paid pilots;
+- arms-length revenue separated from related-party revenue;
 - usage metrics;
 - repeat-use intent;
 - testimonials;
 - time saved;
-- payment evidence.
+- payment evidence;
+- product operating costs;
+- marketing and customer acquisition spend, even if zero.
+
+Initial commercial offer:
+
+| Offer | Price | Purpose |
+| --- | ---: | --- |
+| Pilot Pack | US$99 one-time | Fastest path to real revenue and testimonials. |
+| Teacher Lite | US$12/month | Entry paid plan. |
+| Teacher Pro | US$29/month | Main individual teacher plan. |
+| Cohort Pro | US$79/month | Small academies, bootcamps, and tutors. |
+
+No plan should include unlimited AI grading. Usage must be bounded by assessments and graded submissions.
 
 ## AI-Native Operations Strategy
 
@@ -105,6 +120,8 @@ Each agent execution should produce structured logs:
 - estimated time saved;
 - estimated cost;
 - operational evidence generated.
+
+The business dashboard should also show cost per assessment, cost per graded submission, revenue by customer, payment fees, credits used, cash costs paid, and marketing spend.
 
 ## Category Impact Strategy
 

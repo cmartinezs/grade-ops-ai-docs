@@ -54,6 +54,23 @@ For independent teachers, tutors, bootcamps, and small academies:
 
 > GradeOps AI gives you the assessment operations capacity of a larger academic team without hiring one.
 
+## Initial Offer
+
+The first sellable offer is a paid pilot, not a broad subscription platform:
+
+> We operate your next 3 programming assessments with AI agents: assessment design, rubric, grading assistance, personalized feedback, learning-gap report, and teacher approval.
+
+Recommended hackathon offer:
+
+| Offer | Price | Includes |
+| --- | ---: | --- |
+| Pilot Pack | US$99 one-time | 3 real assessments, up to 150 graded submissions, onboarding, feedback, and teacher report. |
+| Teacher Lite | US$12/month | 3 assessments and 90 graded submissions. |
+| Teacher Pro | US$29/month | 10 assessments and 300 graded submissions. |
+| Cohort Pro | US$79/month | 30 assessments and 1,000 graded submissions. |
+
+The product should never be sold as unlimited AI grading. The commercial unit is graded submissions plus assessment operations.
+
 ## Spanish Version
 
 GradeOps AI ayuda a docentes de programación a operar evaluaciones prácticas con agentes de IA. El docente ingresa un objetivo de aprendizaje y los agentes generan la evaluación, rúbrica, criterios de corrección, feedback personalizado, análisis de brechas, actividades de reforzamiento y reporte docente.

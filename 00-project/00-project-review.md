@@ -16,8 +16,10 @@ The docs should be interpreted as a project foundation, not as disconnected note
 - **Product category:** Education & Human Potential.
 - **Business framing:** assessment operations capacity for small education providers.
 - **MVP boundary:** practical programming assessments with teacher approval and agent logs.
+- **Initial pricing:** Pilot Pack at `US$99`, plus bounded subscription plans by assessment and graded-submission volume.
 - **Human role:** teachers retain judgment, standards, and final approval.
 - **AI role:** agents operate repetitive workflow steps and create structured evidence.
+- **Cost policy:** product runtime costs are tracked separately from personal AI development tooling.
 
 ## Files
 
@@ -29,7 +31,17 @@ The docs should be interpreted as a project foundation, not as disconnected note
 | `solution.md` | Workflow, agent responsibilities, evidence model, and technical direction. |
 | `roadmap.md` | Execution phases, success evidence, exit criteria, and deferred scope. |
 | `hackathon-strategy.md` | Hackathon alignment, constraints, evidence strategy, and demo requirements. |
+| `cost-model.md` | Pricing, unit economics, cost tracking, runtime costs, and reporting policy. |
 | `raw/` | Source notes and reasoning history. Not the canonical product spec. |
+
+Current raw sequence:
+
+- `raw/00-chat.md`: first strategic exploration, including the old ClassOps naming.
+- `raw/01-chat.md`: GRADE-to-GradeOps positioning.
+- `raw/02-chat.md`: strategic reading of TodoDeIA article.
+- `raw/03-chat.md`: technical reading of TodoDeIA article.
+- `raw/04-chat.md`: cost, credits, pricing, and operations estimate.
+- `raw/05-chat.md`: personal AI tooling versus product runtime costs.
 
 ## Coherence Checks
 
@@ -40,8 +52,11 @@ The docs should be interpreted as a project foundation, not as disconnected note
 - The product does not claim full autonomous grading authority.
 - Teacher approval is explicit.
 - Agent logs and business evidence are explicit.
+- Unit economics and pricing are explicit.
+- Personal AI tooling is separated from product runtime.
 - Google Cloud and Gemini requirements are acknowledged.
 - MVP scope is intentionally narrow.
+- Unlimited AI grading is explicitly avoided.
 - Expansion paths are separated from MVP commitments.
 
 ## Remaining Validation Work
@@ -54,12 +69,15 @@ Before final hackathon submission, validate and cite:
 - Google Cloud and Gemini usage requirements;
 - any public education workload statistics used in the pitch;
 - customer testimonials and payment evidence.
+- current Gemini API and Google Cloud pricing before final submission.
 
 ## Risk Notes
 
 - Do not overbuild broad academic-management features before the core assessment workflow works.
 - Do not present old GRADE work as newly built hackathon product without clear disclosure.
 - Do not use unsupported statistics in final materials without citations.
+- Do not price plans from development-tooling costs; price from runtime cost, usage volume, and customer value.
+- Do not use personal AI subscriptions as production grading infrastructure.
 - Do not let the demo become a technical walkthrough; it must show business operation and evidence.
 
 ## Final Interpretation
