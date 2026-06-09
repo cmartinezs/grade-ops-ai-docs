@@ -146,18 +146,21 @@ For MVP, student accounts are not required. Student value can be measured from t
 
 ## Activation Funnel
 
-```text
-Visitor / outreach target
-  -> discovery conversation
-  -> demo
-  -> pilot candidate
-  -> paid pilot or commitment
-  -> assessment created
-  -> rubric approved
-  -> submissions processed
-  -> feedback approved
-  -> report generated
-  -> testimonial / repeat use
+```mermaid
+flowchart TD
+  A[Visitor / outreach target]
+  B[Discovery conversation]
+  C[Demo]
+  D[Pilot candidate]
+  E[Paid pilot or commitment]
+  F[Assessment created]
+  G[Rubric approved]
+  H[Submissions processed]
+  I[Feedback approved]
+  J[Report generated]
+  K[Testimonial / repeat use]
+
+  A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K
 ```
 
 ## Product Funnel Metrics

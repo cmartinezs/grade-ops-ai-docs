@@ -49,18 +49,21 @@ The first usable product should feel like an assessment operations console, not 
 
 A teacher should be able to complete this loop:
 
-```text
-Learning goal
-  -> assessment draft
-  -> rubric draft
-  -> teacher approval
-  -> submissions
-  -> grading suggestions
-  -> feedback drafts
-  -> learning gaps
-  -> teacher approval
-  -> report
-  -> evidence dashboard
+```mermaid
+flowchart TD
+  A[Learning goal]
+  B[Assessment draft]
+  C[Rubric draft]
+  D[Teacher approval]
+  E[Submissions]
+  F[Grading suggestions]
+  G[Feedback drafts]
+  H[Learning gaps]
+  I[Teacher approval]
+  J[Report]
+  K[Evidence dashboard]
+
+  A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K
 ```
 
 ## MVP Scope Matrix

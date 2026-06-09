@@ -15,8 +15,18 @@ Current planning date: **June 8, 2026**. Hackathon deadline: **August 17, 2026 a
 
 ## Critical Path
 
-```text
-Positioning -> Paid pilot offer -> Landing/waitlist -> MVP workflow -> Agent logs -> Pilot runs -> Revenue evidence -> Demo packaging
+```mermaid
+flowchart LR
+  A[Positioning]
+  B[Paid pilot offer]
+  C[Landing / waitlist]
+  D[MVP workflow]
+  E[Agent logs]
+  F[Pilot runs]
+  G[Revenue evidence]
+  H[Demo packaging]
+
+  A --> B --> C --> D --> E --> F --> G --> H
 ```
 
 The project loses strategic strength if the app works but cannot prove:

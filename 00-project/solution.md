@@ -57,19 +57,22 @@ It helps educators move from a learning goal to reviewed feedback and teacher re
 
 ## Agent Choreography
 
-```text
-Learning goal
-  -> Assessment Agent
-  -> Rubric Agent
-  -> Teacher review checkpoint
-  -> Submission intake
-  -> Grading Agent
-  -> Feedback Agent
-  -> Learning Gap Agent
-  -> Recovery Agent
-  -> Teacher approval checkpoint
-  -> Teacher Report Agent
-  -> Ops Evidence Agent
+```mermaid
+flowchart TD
+  A[Learning goal]
+  B[Assessment Agent]
+  C[Rubric Agent]
+  D[Teacher review checkpoint]
+  E[Submission intake]
+  F[Grading Agent]
+  G[Feedback Agent]
+  H[Learning Gap Agent]
+  I[Recovery Agent]
+  J[Teacher approval checkpoint]
+  K[Teacher Report Agent]
+  L[Ops Evidence Agent]
+
+  A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L
 ```
 
 The product should show this choreography visually in the demo. The judges should understand that AI is operating the workflow, not only answering prompts.

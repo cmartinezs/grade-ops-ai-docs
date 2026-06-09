@@ -160,6 +160,13 @@ For the hackathon, success is measured by evidence, not feature volume.
 - `/99-decisions/` — architecture, product, business, and scope decision records.
 - `/.github/copilot-instructions.md` — repository guidance for contributors and AI coding agents.
 
+## Documentation conventions
+
+- Diagrams must be written in Mermaid by default.
+- Use PlantUML only when Mermaid cannot express the diagram clearly.
+- Use ASCII diagrams only as a last fallback.
+- Plain text blocks are acceptable for formulas, message templates, command examples, file trees, and literal snippets.
+
 ## Current status
 
 - Documentation repository created for the XPRIZE AI hackathon.
