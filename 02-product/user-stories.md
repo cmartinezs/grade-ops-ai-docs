@@ -154,26 +154,26 @@ Acceptance criteria:
 - Versions show timestamp and author/agent.
 - Approved version is clearly marked.
 
-## Epic 4: Submission Intake
+## Epic 4: Student Submission Intake
 
-### US-030: Manual Submission Creation
+### US-030: Manual Student Submission Creation
 
 **Priority:** P0
 
-As a teacher, I want to add a student submission manually so I can process real assessment answers.
+As a teacher, I want to add a student answer/submission manually so I can process real assessment responses.
 
 Acceptance criteria:
 
 - Teacher can create submission record.
-- Submission has student identifier.
+- StudentSubmission has a `student_identifier`.
 - Teacher can paste code/text.
-- Submission is associated with an assessment.
+- StudentSubmission is associated with an assessment.
 
-### US-031: File Upload Submission
+### US-031: File Upload Student Submission
 
 **Priority:** P0
 
-As a teacher, I want to upload simple code/text files so I can process student work without retyping.
+As a teacher, I want to upload simple code/text files as student submissions so I can process student work without retyping.
 
 Acceptance criteria:
 
@@ -206,6 +206,20 @@ Acceptance criteria:
 - Submission state is visible.
 - States include received, pending, analyzed, needs review, approved, rejected/excluded.
 - Errors are visible and recoverable.
+
+### US-034: Graded Submission Usage Count
+
+**Priority:** P0
+
+As an operator, I want every analyzed student submission to count against plan usage so pricing and cost controls reflect real AI workload.
+
+Acceptance criteria:
+
+- A `StudentSubmission` is created when the teacher loads a student answer.
+- Usage is consumed when grading/feedback analysis is executed, not when a student account is created.
+- One analyzed attempt counts as one graded submission.
+- Re-analysis can be tracked separately if it creates additional AI cost.
+- Usage totals are visible by assessment and organization.
 
 ## Epic 5: Grading Assistance
 
@@ -501,7 +515,7 @@ The minimum viable story set is:
 - US-020
 - US-021
 - US-022
-- US-030 / US-031
+- US-030 / US-031 / US-034
 - US-033
 - US-040
 - US-041

@@ -50,6 +50,8 @@ Prefer the thematic folders for current decisions:
 | `07-chat.md` | Review summary for aligning `01-business` with `00-project`. |
 | `08-chat.md` | Review summary for aligning `02-product` with project and business docs. |
 | `09-chat.md` | Review summary for aligning `03-ai-agents` with project/product docs. |
+| `10-chat.md` | Review summary for aligning `04-architecture` with prior canonical docs. |
+| `11-chat.md` | Conceptual correction around student responses, `StudentSubmission`, and plan limits. |
 
 ## How To Use This Folder
 

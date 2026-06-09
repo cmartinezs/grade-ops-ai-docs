@@ -383,13 +383,33 @@ The MVP is not a full LMS, not a generic quiz generator, not a student chatbot, 
 | Pricing by assessments/submissions | Product must track assessment count and graded-submission count |
 | Hackathon evidence | Usage, cost, revenue, customer, and agent evidence must be captured from day one |
 
+## Teacher-Led, Student-Submission-Centered MVP
+
+The MVP user interface is teacher-led, but the product is not limited to assessment generation.
+
+The central workflow includes student answers:
+
+```text
+Teacher creates assessment
+  -> teacher approves rubric
+  -> student submissions are loaded
+  -> agents analyze each student submission
+  -> agents draft grading suggestions and feedback
+  -> teacher approves or edits outputs
+  -> report summarizes the assessment run
+```
+
+For MVP, students do **not** need accounts or a portal. A student can be represented by a minimal `student_identifier` inside a `StudentSubmission`.
+
+The commercial usage limit in plans refers to **graded student submissions**, not registered students.
+
 ## MVP Product Objective
 
 Enable a programming educator to:
 
 1. create an assessment from a learning goal;
 2. generate a rubric and expected evidence;
-3. receive student submissions;
+3. receive student submissions or answers;
 4. generate grading suggestions against the rubric;
 5. draft personalized feedback;
 6. detect cohort-level learning gaps;
@@ -413,21 +433,18 @@ The first usable product should feel like an assessment operations console, not 
 
 A teacher should be able to complete this loop:
 
-```mermaid
-flowchart TD
-  A[Learning goal]
-  B[Assessment draft]
-  C[Rubric draft]
-  D[Teacher approval]
-  E[Submissions]
-  F[Grading suggestions]
-  G[Feedback drafts]
-  H[Learning gaps]
-  I[Teacher approval]
-  J[Report]
-  K[Evidence dashboard]
-
-  A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K
+```text
+Learning goal
+  -> assessment draft
+  -> rubric draft
+  -> teacher approval
+  -> submissions
+  -> grading suggestions
+  -> feedback drafts
+  -> learning gaps
+  -> teacher approval
+  -> report
+  -> evidence dashboard
 ```
 
 ## MVP Scope Matrix
@@ -437,7 +454,7 @@ flowchart TD
 | Authentication | Simple teacher login | Account profile | Organization admin | Complex SSO |
 | Assessment creation | Learning-goal intake and constraints | Templates for intro programming | Rich curriculum mapping | Full LMS authoring |
 | Rubrics | AI-generated rubric draft | Rubric validation notes | Rubric library | Institutional rubric governance |
-| Submissions | Text/code paste and simple file upload | CSV/bulk import | GitHub Classroom integration | OCR/photo-first intake |
+| Student submissions | Text/code paste and simple file upload for student answers | CSV/bulk import | GitHub Classroom integration | OCR/photo-first intake |
 | Grading assistance | Rubric-based score suggestion | Uncertainty flags | Code execution sandbox | Fully autonomous grading |
 | Feedback | Individual feedback draft | Tone/style controls | Feedback templates | Student chatbot |
 | Learning gaps | Cohort summary | Gap-to-recovery mapping | Longitudinal analytics | Predictive student profiling |
@@ -514,14 +531,17 @@ Teacher can:
 
 No grading should start until the rubric is approved or explicitly marked as draft/demo.
 
-### 6. Submission Intake
+### 6. Student Submission Intake
 
 Supported MVP input types:
 
-- pasted code/text;
+- pasted student code/text;
 - uploaded `.txt`, `.java`, `.py`, `.js`, `.ts`, `.html`, `.css`, `.md`;
-- manual student identifier;
+- manual `student_identifier`;
+- optional `student_display_name` if the teacher needs it;
 - bulk paste/import if simple.
+
+Each loaded answer becomes a `StudentSubmission`. A graded submission is consumed only when that `StudentSubmission` is analyzed for grading/feedback.
 
 Student accounts are not required for MVP if that slows delivery. Teacher-managed submission intake is acceptable.
 
@@ -629,7 +649,7 @@ Do not build in the MVP:
 | --- | --- |
 | Teacher | Create assessment, approve rubric, upload submissions, review grading, approve feedback, view report/logs |
 | Operator/Admin | View evidence dashboard, cost/revenue summary, customer/pilot status |
-| Student | Not required as login for MVP; can be represented as submission record |
+| Student | Not required as login for MVP; represented through `StudentSubmission` records loaded by the teacher |
 
 ## Required Product States
 
@@ -694,7 +714,7 @@ The MVP is acceptable when:
 1. a teacher can create one programming assessment from a learning goal;
 2. AI generates an assessment and rubric as structured data;
 3. the teacher can approve or edit the rubric;
-4. at least 30 submissions can be ingested in a controlled demo/pilot;
+4. at least 30 student submissions can be ingested in a controlled demo/pilot;
 5. grading suggestions are generated against the rubric;
 6. feedback drafts are produced per submission;
 7. learning gaps and recovery suggestions are produced;
@@ -1246,26 +1266,26 @@ Acceptance criteria:
 - Versions show timestamp and author/agent.
 - Approved version is clearly marked.
 
-## Epic 4: Submission Intake
+## Epic 4: Student Submission Intake
 
-### US-030: Manual Submission Creation
+### US-030: Manual Student Submission Creation
 
 **Priority:** P0
 
-As a teacher, I want to add a student submission manually so I can process real assessment answers.
+As a teacher, I want to add a student answer/submission manually so I can process real assessment responses.
 
 Acceptance criteria:
 
 - Teacher can create submission record.
-- Submission has student identifier.
+- StudentSubmission has a `student_identifier`.
 - Teacher can paste code/text.
-- Submission is associated with an assessment.
+- StudentSubmission is associated with an assessment.
 
-### US-031: File Upload Submission
+### US-031: File Upload Student Submission
 
 **Priority:** P0
 
-As a teacher, I want to upload simple code/text files so I can process student work without retyping.
+As a teacher, I want to upload simple code/text files as student submissions so I can process student work without retyping.
 
 Acceptance criteria:
 
@@ -1298,6 +1318,20 @@ Acceptance criteria:
 - Submission state is visible.
 - States include received, pending, analyzed, needs review, approved, rejected/excluded.
 - Errors are visible and recoverable.
+
+### US-034: Graded Submission Usage Count
+
+**Priority:** P0
+
+As an operator, I want every analyzed student submission to count against plan usage so pricing and cost controls reflect real AI workload.
+
+Acceptance criteria:
+
+- A `StudentSubmission` is created when the teacher loads a student answer.
+- Usage is consumed when grading/feedback analysis is executed, not when a student account is created.
+- One analyzed attempt counts as one graded submission.
+- Re-analysis can be tracked separately if it creates additional AI cost.
+- Usage totals are visible by assessment and organization.
 
 ## Epic 5: Grading Assistance
 
@@ -1593,7 +1627,7 @@ The minimum viable story set is:
 - US-020
 - US-021
 - US-022
-- US-030 / US-031
+- US-030 / US-031 / US-034
 - US-033
 - US-040
 - US-041
@@ -1623,6 +1657,16 @@ The workflow principle is:
 
 > AI agents operate repetitive assessment steps; teachers retain judgment, standards, and final approval.
 
+## Student Submission Principle
+
+The product is teacher-led, but not teacher-only.
+
+Student answers are represented as `StudentSubmission` records loaded by the teacher. The MVP does not require student login, but it must process real student responses because graded submissions are the economic and technical usage unit.
+
+```text
+1 student answer analyzed = 1 graded submission
+```
+
 ## Workflow Map
 
 | Workflow | Primary User | MVP Priority |
@@ -1640,23 +1684,20 @@ The workflow principle is:
 
 ## Core End-To-End Workflow
 
-```mermaid
-flowchart TD
-  A[Teacher logs in]
-  B[Creates assessment brief]
-  C[Assessment Agent drafts assessment]
-  D[Rubric Agent drafts and validates rubric]
-  E[Teacher edits and approves assessment and rubric]
-  F[Teacher uploads or pastes submissions]
-  G[Grading Agent generates rubric-based suggestions]
-  H[Feedback Agent drafts student feedback]
-  I[Learning Gap Agent summarizes cohort gaps]
-  J[Recovery Agent suggests reinforcement activity]
-  K[Teacher reviews, edits, and approves outputs]
-  L[Teacher Report Agent generates report]
-  M[Ops Evidence Agent records logs, cost, usage, and evidence]
-
-  A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L --> M
+```text
+Teacher logs in
+  -> creates assessment brief
+  -> Assessment Agent drafts assessment
+  -> Rubric Agent drafts and validates rubric
+  -> teacher edits/approves assessment and rubric
+  -> teacher uploads or pastes submissions
+  -> Grading Agent generates rubric-based suggestions
+  -> Feedback Agent drafts student feedback
+  -> Learning Gap Agent summarizes cohort gaps
+  -> Recovery Agent suggests reinforcement activity
+  -> teacher reviews/edits/approves outputs
+  -> Teacher Report Agent generates report
+  -> Ops Evidence Agent records logs, cost, usage, and evidence
 ```
 
 ## Workflow 1: Teacher Onboarding
@@ -1791,11 +1832,11 @@ Grading cannot proceed unless:
 }
 ```
 
-## Workflow 4: Submission Intake
+## Workflow 4: Student Submission Intake
 
 ### Goal
 
-Collect student submissions in a simple MVP-compatible way.
+Collect student answers/submissions in a simple MVP-compatible way without requiring student accounts.
 
 ### Supported Intake
 
@@ -1806,9 +1847,10 @@ Collect student submissions in a simple MVP-compatible way.
 ### Steps
 
 1. Teacher opens assessment.
-2. Teacher adds submissions.
-3. For each submission:
-   - student identifier is added;
+2. Teacher adds student submissions.
+3. For each student submission:
+   - `student_identifier` is added;
+   - optional display name can be added;
    - code/text/file is stored;
    - status becomes `received`.
 4. Teacher reviews submission list.
@@ -1816,7 +1858,7 @@ Collect student submissions in a simple MVP-compatible way.
 
 ### Submission Data
 
-- submission ID;
+- student submission ID;
 - assessment ID;
 - student identifier;
 - submitted content or file reference;
@@ -1841,8 +1883,8 @@ Generate rubric-based scoring suggestions while preserving teacher authority.
 
 ### Steps
 
-1. Teacher clicks `Analyze submissions`.
-2. Grading Agent processes each submission.
+1. Teacher clicks `Analyze submissions` for selected `StudentSubmission` records.
+2. Grading Agent processes each student submission.
 3. Agent returns score suggestion per rubric criterion.
 4. Agent flags uncertainty.
 5. Product displays review queue.
@@ -2064,56 +2106,36 @@ Connect product usage to business validation.
 
 ### Assessment Lifecycle
 
-```mermaid
-stateDiagram-v2
-  [*] --> draft
-  draft --> rubric_pending_review
-  rubric_pending_review --> ready_for_submissions
-  ready_for_submissions --> submissions_received
-  submissions_received --> grading_in_progress
-  grading_in_progress --> pending_teacher_review
-  pending_teacher_review --> approved
-  approved --> reported
-  reported --> archived
-  archived --> [*]
+```text
+draft
+  -> rubric_pending_review
+  -> ready_for_submissions
+  -> submissions_received
+  -> grading_in_progress
+  -> pending_teacher_review
+  -> approved
+  -> reported
+  -> archived
 ```
 
 ### Submission Lifecycle
 
-```mermaid
-stateDiagram-v2
-  [*] --> received
-  received --> analysis_pending
-  analysis_pending --> analyzed
-  analyzed --> needs_review
-  needs_review --> approved
-  needs_review --> edited_by_teacher
-  needs_review --> rejected
-  needs_review --> excluded
-  approved --> [*]
-  edited_by_teacher --> [*]
-  rejected --> [*]
-  excluded --> [*]
+```text
+received
+  -> analysis_pending
+  -> analyzed
+  -> needs_review
+  -> approved | edited_by_teacher | rejected | excluded
 ```
 
 ### Agent Run Lifecycle
 
-```mermaid
-stateDiagram-v2
-  [*] --> queued
-  queued --> running
-  running --> succeeded
-  running --> failed
-  running --> retried
-  retried --> running
-  succeeded --> requires_human_review
-  requires_human_review --> approved
-  requires_human_review --> edited
-  requires_human_review --> rejected
-  failed --> [*]
-  approved --> [*]
-  edited --> [*]
-  rejected --> [*]
+```text
+queued
+  -> running
+  -> succeeded | failed | retried
+  -> requires_human_review
+  -> approved | edited | rejected
 ```
 
 ## Critical Failure Workflows

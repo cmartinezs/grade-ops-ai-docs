@@ -6,6 +6,16 @@ The workflow principle is:
 
 > AI agents operate repetitive assessment steps; teachers retain judgment, standards, and final approval.
 
+## Student Submission Principle
+
+The product is teacher-led, but not teacher-only.
+
+Student answers are represented as `StudentSubmission` records loaded by the teacher. The MVP does not require student login, but it must process real student responses because graded submissions are the economic and technical usage unit.
+
+```text
+1 student answer analyzed = 1 graded submission
+```
+
 ## Workflow Map
 
 | Workflow | Primary User | MVP Priority |
@@ -23,23 +33,20 @@ The workflow principle is:
 
 ## Core End-To-End Workflow
 
-```mermaid
-flowchart TD
-  A[Teacher logs in]
-  B[Creates assessment brief]
-  C[Assessment Agent drafts assessment]
-  D[Rubric Agent drafts and validates rubric]
-  E[Teacher edits and approves assessment and rubric]
-  F[Teacher uploads or pastes submissions]
-  G[Grading Agent generates rubric-based suggestions]
-  H[Feedback Agent drafts student feedback]
-  I[Learning Gap Agent summarizes cohort gaps]
-  J[Recovery Agent suggests reinforcement activity]
-  K[Teacher reviews, edits, and approves outputs]
-  L[Teacher Report Agent generates report]
-  M[Ops Evidence Agent records logs, cost, usage, and evidence]
-
-  A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L --> M
+```text
+Teacher logs in
+  -> creates assessment brief
+  -> Assessment Agent drafts assessment
+  -> Rubric Agent drafts and validates rubric
+  -> teacher edits/approves assessment and rubric
+  -> teacher uploads or pastes submissions
+  -> Grading Agent generates rubric-based suggestions
+  -> Feedback Agent drafts student feedback
+  -> Learning Gap Agent summarizes cohort gaps
+  -> Recovery Agent suggests reinforcement activity
+  -> teacher reviews/edits/approves outputs
+  -> Teacher Report Agent generates report
+  -> Ops Evidence Agent records logs, cost, usage, and evidence
 ```
 
 ## Workflow 1: Teacher Onboarding
@@ -174,11 +181,11 @@ Grading cannot proceed unless:
 }
 ```
 
-## Workflow 4: Submission Intake
+## Workflow 4: Student Submission Intake
 
 ### Goal
 
-Collect student submissions in a simple MVP-compatible way.
+Collect student answers/submissions in a simple MVP-compatible way without requiring student accounts.
 
 ### Supported Intake
 
@@ -189,9 +196,10 @@ Collect student submissions in a simple MVP-compatible way.
 ### Steps
 
 1. Teacher opens assessment.
-2. Teacher adds submissions.
-3. For each submission:
-   - student identifier is added;
+2. Teacher adds student submissions.
+3. For each student submission:
+   - `student_identifier` is added;
+   - optional display name can be added;
    - code/text/file is stored;
    - status becomes `received`.
 4. Teacher reviews submission list.
@@ -199,7 +207,7 @@ Collect student submissions in a simple MVP-compatible way.
 
 ### Submission Data
 
-- submission ID;
+- student submission ID;
 - assessment ID;
 - student identifier;
 - submitted content or file reference;
@@ -224,8 +232,8 @@ Generate rubric-based scoring suggestions while preserving teacher authority.
 
 ### Steps
 
-1. Teacher clicks `Analyze submissions`.
-2. Grading Agent processes each submission.
+1. Teacher clicks `Analyze submissions` for selected `StudentSubmission` records.
+2. Grading Agent processes each student submission.
 3. Agent returns score suggestion per rubric criterion.
 4. Agent flags uncertainty.
 5. Product displays review queue.
@@ -447,56 +455,36 @@ Connect product usage to business validation.
 
 ### Assessment Lifecycle
 
-```mermaid
-stateDiagram-v2
-  [*] --> draft
-  draft --> rubric_pending_review
-  rubric_pending_review --> ready_for_submissions
-  ready_for_submissions --> submissions_received
-  submissions_received --> grading_in_progress
-  grading_in_progress --> pending_teacher_review
-  pending_teacher_review --> approved
-  approved --> reported
-  reported --> archived
-  archived --> [*]
+```text
+draft
+  -> rubric_pending_review
+  -> ready_for_submissions
+  -> submissions_received
+  -> grading_in_progress
+  -> pending_teacher_review
+  -> approved
+  -> reported
+  -> archived
 ```
 
 ### Submission Lifecycle
 
-```mermaid
-stateDiagram-v2
-  [*] --> received
-  received --> analysis_pending
-  analysis_pending --> analyzed
-  analyzed --> needs_review
-  needs_review --> approved
-  needs_review --> edited_by_teacher
-  needs_review --> rejected
-  needs_review --> excluded
-  approved --> [*]
-  edited_by_teacher --> [*]
-  rejected --> [*]
-  excluded --> [*]
+```text
+received
+  -> analysis_pending
+  -> analyzed
+  -> needs_review
+  -> approved | edited_by_teacher | rejected | excluded
 ```
 
 ### Agent Run Lifecycle
 
-```mermaid
-stateDiagram-v2
-  [*] --> queued
-  queued --> running
-  running --> succeeded
-  running --> failed
-  running --> retried
-  retried --> running
-  succeeded --> requires_human_review
-  requires_human_review --> approved
-  requires_human_review --> edited
-  requires_human_review --> rejected
-  failed --> [*]
-  approved --> [*]
-  edited --> [*]
-  rejected --> [*]
+```text
+queued
+  -> running
+  -> succeeded | failed | retried
+  -> requires_human_review
+  -> approved | edited | rejected
 ```
 
 ## Critical Failure Workflows

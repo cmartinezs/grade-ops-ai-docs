@@ -2,7 +2,7 @@
 
 GradeOps AI pricing must validate business value while protecting margins from unbounded AI usage.
 
-The pricing model is based on assessment operations and graded submissions, not unlimited access.
+The pricing model is based on assessment operations and graded student submissions, not unlimited access.
 
 ## Pricing Principles
 
@@ -11,15 +11,36 @@ The pricing model is based on assessment operations and graded submissions, not 
 - Keep plans simple enough for a hackathon demo.
 - Make the first paid offer easy to buy.
 - Use a paid pilot to validate willingness to pay.
-- Track cost per assessment, graded submission, active teacher, and customer.
+- Track cost per assessment, graded student submission, active teacher, and customer.
 - Separate free-tier/credit benefits from real unit economics.
 - Separate related-party revenue from arms-length revenue.
+
+## Definition Of Graded Submission
+
+A **graded submission** is the unit consumed by the plans.
+
+It means:
+
+> One student answer, attempt, code file, pasted response, or delivered work item processed by the AI-assisted grading and feedback workflow.
+
+It does **not** mean a student account.
+
+Examples:
+
+| Scenario | Counted Usage |
+| --- | ---: |
+| 30 students submit 1 answer each | 30 graded submissions |
+| 10 students submit 3 exercises each | 30 graded submissions |
+| 1 student submits 2 attempts and both are analyzed | 2 graded submissions |
+| Teacher creates an assessment but no answers are analyzed | 0 graded submissions |
+
+For MVP pricing, student login is not required. The teacher can upload or paste student responses. The cost driver is the number and size of responses processed, not the number of registered learners.
 
 ## Business Unit
 
 Primary unit:
 
-> 1 assessment = activity + rubric + grading assistance for 30 submissions + personalized feedback + teacher report.
+> 1 assessment = activity + rubric + grading assistance for 30 student submissions + personalized feedback + teacher report.
 
 Primary cost drivers:
 
@@ -40,7 +61,7 @@ Primary cost drivers:
 | Teacher Lite | US$12/month | 3 assessments / 90 graded submissions | Tutor or low-volume educator |
 | Teacher Pro | US$29/month | 10 assessments / 300 graded submissions | Main individual teacher plan |
 | Cohort Pro | US$79/month | 30 assessments / 1,000 graded submissions | Bootcamps, tutors, small academies |
-| Pilot Pack | US$99 one-time | 3 real assessments / up to 150 submissions / onboarding | Best hackathon revenue offer |
+| Pilot Pack | US$99 one-time | 3 real assessments / up to 150 graded student submissions / onboarding | Best hackathon revenue offer |
 
 ## LatAm / Chile Testing Prices
 
@@ -279,7 +300,7 @@ For the hackathon period:
 
 1. Lead with **Pilot Pack**.
 2. Keep subscription plans visible but secondary.
-3. Limit usage by assessments and graded submissions.
+3. Limit usage by assessments and graded student submissions.
 4. Track overuse but avoid aggressive billing friction early.
 5. Report revenue, costs, discounts, and related-party status transparently.
 6. Use pricing conversations as customer discovery, not only sales.

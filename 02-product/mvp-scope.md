@@ -19,13 +19,33 @@ The MVP is not a full LMS, not a generic quiz generator, not a student chatbot, 
 | Pricing by assessments/submissions | Product must track assessment count and graded-submission count |
 | Hackathon evidence | Usage, cost, revenue, customer, and agent evidence must be captured from day one |
 
+## Teacher-Led, Student-Submission-Centered MVP
+
+The MVP user interface is teacher-led, but the product is not limited to assessment generation.
+
+The central workflow includes student answers:
+
+```text
+Teacher creates assessment
+  -> teacher approves rubric
+  -> student submissions are loaded
+  -> agents analyze each student submission
+  -> agents draft grading suggestions and feedback
+  -> teacher approves or edits outputs
+  -> report summarizes the assessment run
+```
+
+For MVP, students do **not** need accounts or a portal. A student can be represented by a minimal `student_identifier` inside a `StudentSubmission`.
+
+The commercial usage limit in plans refers to **graded student submissions**, not registered students.
+
 ## MVP Product Objective
 
 Enable a programming educator to:
 
 1. create an assessment from a learning goal;
 2. generate a rubric and expected evidence;
-3. receive student submissions;
+3. receive student submissions or answers;
 4. generate grading suggestions against the rubric;
 5. draft personalized feedback;
 6. detect cohort-level learning gaps;
@@ -49,21 +69,18 @@ The first usable product should feel like an assessment operations console, not 
 
 A teacher should be able to complete this loop:
 
-```mermaid
-flowchart TD
-  A[Learning goal]
-  B[Assessment draft]
-  C[Rubric draft]
-  D[Teacher approval]
-  E[Submissions]
-  F[Grading suggestions]
-  G[Feedback drafts]
-  H[Learning gaps]
-  I[Teacher approval]
-  J[Report]
-  K[Evidence dashboard]
-
-  A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K
+```text
+Learning goal
+  -> assessment draft
+  -> rubric draft
+  -> teacher approval
+  -> submissions
+  -> grading suggestions
+  -> feedback drafts
+  -> learning gaps
+  -> teacher approval
+  -> report
+  -> evidence dashboard
 ```
 
 ## MVP Scope Matrix
@@ -73,7 +90,7 @@ flowchart TD
 | Authentication | Simple teacher login | Account profile | Organization admin | Complex SSO |
 | Assessment creation | Learning-goal intake and constraints | Templates for intro programming | Rich curriculum mapping | Full LMS authoring |
 | Rubrics | AI-generated rubric draft | Rubric validation notes | Rubric library | Institutional rubric governance |
-| Submissions | Text/code paste and simple file upload | CSV/bulk import | GitHub Classroom integration | OCR/photo-first intake |
+| Student submissions | Text/code paste and simple file upload for student answers | CSV/bulk import | GitHub Classroom integration | OCR/photo-first intake |
 | Grading assistance | Rubric-based score suggestion | Uncertainty flags | Code execution sandbox | Fully autonomous grading |
 | Feedback | Individual feedback draft | Tone/style controls | Feedback templates | Student chatbot |
 | Learning gaps | Cohort summary | Gap-to-recovery mapping | Longitudinal analytics | Predictive student profiling |
@@ -150,14 +167,17 @@ Teacher can:
 
 No grading should start until the rubric is approved or explicitly marked as draft/demo.
 
-### 6. Submission Intake
+### 6. Student Submission Intake
 
 Supported MVP input types:
 
-- pasted code/text;
+- pasted student code/text;
 - uploaded `.txt`, `.java`, `.py`, `.js`, `.ts`, `.html`, `.css`, `.md`;
-- manual student identifier;
+- manual `student_identifier`;
+- optional `student_display_name` if the teacher needs it;
 - bulk paste/import if simple.
+
+Each loaded answer becomes a `StudentSubmission`. A graded submission is consumed only when that `StudentSubmission` is analyzed for grading/feedback.
 
 Student accounts are not required for MVP if that slows delivery. Teacher-managed submission intake is acceptable.
 
@@ -265,7 +285,7 @@ Do not build in the MVP:
 | --- | --- |
 | Teacher | Create assessment, approve rubric, upload submissions, review grading, approve feedback, view report/logs |
 | Operator/Admin | View evidence dashboard, cost/revenue summary, customer/pilot status |
-| Student | Not required as login for MVP; can be represented as submission record |
+| Student | Not required as login for MVP; represented through `StudentSubmission` records loaded by the teacher |
 
 ## Required Product States
 
@@ -330,7 +350,7 @@ The MVP is acceptable when:
 1. a teacher can create one programming assessment from a learning goal;
 2. AI generates an assessment and rubric as structured data;
 3. the teacher can approve or edit the rubric;
-4. at least 30 submissions can be ingested in a controlled demo/pilot;
+4. at least 30 student submissions can be ingested in a controlled demo/pilot;
 5. grading suggestions are generated against the rubric;
 6. feedback drafts are produced per submission;
 7. learning gaps and recovery suggestions are produced;
