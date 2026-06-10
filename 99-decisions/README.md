@@ -61,6 +61,9 @@ A decision record should explain:
 
 | File | Topic | Status |
 | --- | --- | --- |
+| [`2026-06-08-use-gradeops-ai-name.md`](2026-06-08-use-gradeops-ai-name.md) | Product is named GradeOps AI; "Ops" signals workflow platform, not a quiz tool | Accepted |
+| [`2026-06-08-price-by-graded-submissions.md`](2026-06-08-price-by-graded-submissions.md) | Primary billing unit is the graded submission; aligns cost with value delivered | Accepted |
+| [`2026-06-08-mermaid-diagram-standard.md`](2026-06-08-mermaid-diagram-standard.md) | Mermaid is the default diagram format; PlantUML only when Mermaid is insufficient | Accepted |
 | [`2026-06-10-closed-assessment-mode.md`](2026-06-10-closed-assessment-mode.md) | Adding closed (objective/alternatives) assessment mode alongside open mode | Accepted |
 | [`2026-06-10-ai-native-question-bank.md`](2026-06-10-ai-native-question-bank.md) | Question bank is AI-generated and teacher-curated, not manually authored | Accepted |
 | [`2026-06-10-assessment-snapshot-on-publish.md`](2026-06-10-assessment-snapshot-on-publish.md) | Questions, options, answer key, and scoring policy are frozen at publication | Accepted |

@@ -1647,7 +1647,7 @@ Mixed-channel intake (same student responds both digitally and physically) is an
 
 ## Digital Intake (P0)
 
-Students receive an email with a unique, signed `assessment_access_link`. They open the link, respond, and submit without creating an account. See [Student Access](./student-access.md) for the full student experience and token security rules.
+Students receive an email with a unique, signed `assessment_access_link`. They open the link, respond, and submit without creating an account. See [Student Access](#student-access) for the full student experience and token security rules.
 
 ### Digital Flow
 
@@ -1762,7 +1762,7 @@ Every printed answer sheet must include:
 
 ### Digital Intake Exceptions
 
-See [Student Access — MVP Pending Decisions](./student-access.md) and [Workflows — Workflow 4d](./workflows.md) for token validation edge cases (expired links, already-submitted attempts, etc.).
+See [Student Access — MVP Pending Decisions](#student-access) and [Workflows — Workflow 4d](#workflows) for token validation edge cases (expired links, already-submitted attempts, etc.).
 
 ## Conflict Resolution: Dual-Channel Attempts
 
@@ -1793,7 +1793,7 @@ For open assessments:
 flowchart LR
   A[Digital OpenSubmission] --> C[AssessmentAttempt]
   C --> D[Grading Agent analysis]
-  D --> E[GradeSuggestion → Teacher approval → GradeResult]
+  D --> E["GradeSuggestion → Teacher approval → GradeResult"]
 ```
 
 ## Relationship to Data Model
@@ -2189,7 +2189,7 @@ Acceptance criteria:
 
 **Priority:** P0
 
-As a teacher, I want to see submission processing status so I know what is pending.
+As a teacher, I want to see submission processing status, so I know what is pending.
 
 Acceptance criteria:
 
@@ -2217,7 +2217,7 @@ Acceptance criteria:
 
 **Priority:** P0
 
-As a teacher, I want grading suggestions tied to rubric criteria so I can review rather than score from scratch.
+As a teacher, I want to grade suggestions tied to rubric criteria so I can review rather than score from scratch.
 
 Acceptance criteria:
 
@@ -2232,7 +2232,7 @@ Acceptance criteria:
 
 **Priority:** P0
 
-As a teacher, I want uncertainty flags so I know where to review carefully.
+As a teacher, I want uncertainty flags, so I know where to review carefully.
 
 Acceptance criteria:
 
@@ -2578,7 +2578,7 @@ Acceptance criteria:
 
 **Priority:** P0
 
-As a student, I want to respond to a closed assessment using the link sent to my email so I do not need to create an account.
+As a student, I want to respond to a closed assessment using the link sent to my email, so I do not need to create an account.
 
 Acceptance criteria:
 

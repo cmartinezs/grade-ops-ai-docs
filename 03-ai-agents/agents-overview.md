@@ -72,7 +72,7 @@ flowchart TD
   F[Approved questions enter bank]
   G[Assessment Assembly Agent]
   H[Teacher reviews and approves composition]
-  I[Snapshot created — assessment published]
+  I["Snapshot created — assessment published"]
   J[Student access links sent]
   K[Students respond via secure link]
   L[Deterministic grading engine]

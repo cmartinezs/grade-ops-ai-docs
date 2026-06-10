@@ -167,7 +167,7 @@ For open assessments:
 flowchart LR
   A[Digital OpenSubmission] --> C[AssessmentAttempt]
   C --> D[Grading Agent analysis]
-  D --> E[GradeSuggestion → Teacher approval → GradeResult]
+  D --> E["GradeSuggestion → Teacher approval → GradeResult"]
 ```
 
 ## Relationship to Data Model

@@ -39,4 +39,4 @@ Both modes share the same assessment lifecycle envelope, teacher workspace, and 
 
 ---
 
-[↑ inicio](#closed-assessment-mode) | [README](README.md) | [AI-Native Question Bank →](2026-06-10-ai-native-question-bank.md)
+← [Mermaid as Diagram Standard](2026-06-08-mermaid-diagram-standard.md) | [↑ inicio](#closed-assessment-mode) | [README](README.md) | [AI-Native Question Bank →](2026-06-10-ai-native-question-bank.md)
