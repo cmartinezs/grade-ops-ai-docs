@@ -206,3 +206,9 @@ Physical intake entities (`PaperAnswerSheet`, `PaperCapture`, `ExtractedAnswer`)
 - Mobile app for in-classroom capture.
 - Offline recognition.
 - Mixed open + closed answer sheets.
+
+<!-- nav -->
+
+---
+
+← [Student Access](student-access.md) | [↑ inicio](#response-intake) | [README](README.md) | [Curriculum Structure →](curriculum-structure.md)

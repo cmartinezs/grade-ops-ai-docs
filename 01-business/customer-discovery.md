@@ -290,3 +290,9 @@ The expected decision after discovery is one of:
 4. adjust the pricing unit;
 5. delay features that do not help paid pilots;
 6. reject assumptions that did not survive customer evidence.
+
+<!-- nav -->
+
+---
+
+← [Business Model](business-model.md) | [↑ inicio](#customer-discovery) | [README](README.md) | [Go-To-Market →](go-to-market.md)

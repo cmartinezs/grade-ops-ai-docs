@@ -116,3 +116,9 @@ Log assessment ID, number of items analyzed, number of flags raised, reinforceme
 ## Acceptance Criteria
 
 The Item Analytics Agent is ready when it produces correct-rate statistics per item, applies difficulty and ambiguity flags, generates learning-outcome coverage summaries, suggests reinforcement for underperforming outcomes, and returns results for teacher review without modifying grades or the answer key.
+
+<!-- nav -->
+
+---
+
+← [Assessment Assembly Agent](assessment-assembly-agent.md) | [↑ inicio](#item-analytics-agent) | [README](README.md)

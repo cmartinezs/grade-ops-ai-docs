@@ -124,3 +124,9 @@ These are not replacements for the current files, but implementation artifacts t
 ## Final Interpretation
 
 GradeOps AI is not a general academic evaluation platform. It is a focused, AI-operated assessment workflow for programming educators. The hackathon version must prove a business: real educators, real usage, real payments, auditable AI operations, controlled runtime costs, and measurable value.
+
+<!-- nav -->
+
+---
+
+[↑ inicio](#review-00-project) | [README](README.md) | [Pitch →](pitch.md)

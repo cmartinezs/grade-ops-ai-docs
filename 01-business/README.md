@@ -22,11 +22,11 @@ The focus is not broad market theory. The focus is getting real educators, real 
 
 Use these files when planning outreach, pilots, pricing, and business validation:
 
-1. `business-model.md` — ICP, segments, value proposition, revenue streams, risks, and validation gates.
-2. `customer-discovery.md` — hypotheses, interview scripts, scoring, consent, and evidence capture.
-3. `go-to-market.md` — founder-led sales motion, outreach messages, landing copy, funnel, and pilot path.
-4. `pricing.md` — plans, usage limits, CLP/USD testing prices, overuse, discounts, and margins.
-5. `hackathon-strategy.md` — business evidence map for the hackathon submission.
+1. [`business-model.md`](business-model.md) — ICP, segments, value proposition, revenue streams, risks, and validation gates.
+2. [`customer-discovery.md`](customer-discovery.md) — hypotheses, interview scripts, scoring, consent, and evidence capture.
+3. [`go-to-market.md`](go-to-market.md) — founder-led sales motion, outreach messages, landing copy, funnel, and pilot path.
+4. [`pricing.md`](pricing.md) — plans, usage limits, CLP/USD testing prices, overuse, discounts, and margins.
+5. [`hackathon-strategy.md`](hackathon-strategy.md) — business evidence map for the hackathon submission.
 
 ## What Belongs Here
 

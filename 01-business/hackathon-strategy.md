@@ -247,3 +247,9 @@ Do not overclaim.
 The hackathon business strategy is simple:
 
 > Build the narrowest workflow that can process real programming assessments, sell it as a paid pilot, and capture enough evidence to prove GradeOps AI is an AI-operated assessment business with real demand, real usage, real costs, and teacher-controlled value.
+
+<!-- nav -->
+
+---
+
+← [Pricing](pricing.md) | [↑ inicio](#business-hackathon-strategy) | [README](README.md)

@@ -142,3 +142,9 @@ Student enters email in "resend my link" form
 - Token hashes must not appear in logs; log only `learner_ref_id` and event type.
 - Delete or anonymize student data at the end of a pilot if requested.
 - Do not cross-share student data across organizations.
+
+<!-- nav -->
+
+---
+
+← [Assessment Modes](assessment-modes.md) | [↑ inicio](#student-access) | [README](README.md) | [Response Intake →](response-intake.md)

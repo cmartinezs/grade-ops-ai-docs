@@ -174,14 +174,14 @@ For the hackathon, success is measured by evidence, not feature volume.
 
 ## Repository map
 
-- `/00-project/` — vision, pitch, problem, solution, roadmap, and hackathon strategy.
-- `/01-business/` — business model, pricing, go-to-market, discovery, and revenue evidence.
-- `/02-product/` — personas, MVP scope, stories, workflows, UX, and metrics.
-- `/03-ai-agents/` — agent roles, responsibilities, boundaries, prompts, and logs.
-- `/04-architecture/` — system design, data model, API, security, deployment, and Google Cloud assumptions.
-- `/05-evidence/` — templates for proof of demand, usage, revenue, outcomes, and demo evidence.
-- `/99-decisions/` — architecture, product, business, and scope decision records.
-- `/.github/copilot-instructions.md` — repository guidance for contributors and AI coding agents.
+- [`/00-project/`](00-project/README.md) — vision, pitch, problem, solution, roadmap, and hackathon strategy.
+- [`/01-business/`](01-business/README.md) — business model, pricing, go-to-market, discovery, and revenue evidence.
+- [`/02-product/`](02-product/README.md) — personas, MVP scope, stories, workflows, UX, and metrics.
+- [`/03-ai-agents/`](03-ai-agents/README.md) — agent roles, responsibilities, boundaries, prompts, and logs.
+- [`/04-architecture/`](04-architecture/README.md) — system design, data model, API, security, deployment, and Google Cloud assumptions.
+- [`/05-evidence/`](05-evidence/README.md) — templates for proof of demand, usage, revenue, outcomes, and demo evidence.
+- [`/99-decisions/`](99-decisions/README.md) — architecture, product, business, and scope decision records.
+- [`/.github/copilot-instructions.md`](.github/copilot-instructions.md) — repository guidance for contributors and AI coding agents.
 
 ## Documentation conventions
 

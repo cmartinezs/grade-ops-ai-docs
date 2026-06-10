@@ -805,3 +805,9 @@ The data model is sufficient when it can answer:
 8. What evidence supports a pilot/customer claim?
 9. Which revenue is related-party?
 10. What usage volume maps to the customer plan?
+
+<!-- nav -->
+
+---
+
+← [System Architecture](system-architecture.md) | [↑ inicio](#data-model) | [README](README.md) | [API Design →](api-design.md)

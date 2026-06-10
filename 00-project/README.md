@@ -27,14 +27,14 @@ Start here when you need to understand the project.
 
 Recommended reading order:
 
-1. `project-review.md` — executive index and canonical decisions.
-2. `pitch.md` — concise positioning and commercial language.
-3. `problem.md` — the pain and misinterpretation guardrails.
-4. `solution.md` — workflow, agents, control model, and evidence model.
-5. `cost-model.md` — pricing, unit economics, runtime costs, and reporting.
-6. `roadmap.md` — phases, exit criteria, and demo path.
-7. `hackathon-strategy.md` — hackathon constraints, evidence, and submission strategy.
-8. `vision.md` — long-term direction and strategic boundaries.
+1. [`project-review.md`](project-review.md) — executive index and canonical decisions.
+2. [`pitch.md`](pitch.md) — concise positioning and commercial language.
+3. [`problem.md`](problem.md) — the pain and misinterpretation guardrails.
+4. [`solution.md`](solution.md) — workflow, agents, control model, and evidence model.
+5. [`cost-model.md`](cost-model.md) — pricing, unit economics, runtime costs, and reporting.
+6. [`roadmap.md`](roadmap.md) — phases, exit criteria, and demo path.
+7. [`hackathon-strategy.md`](hackathon-strategy.md) — hackathon constraints, evidence, and submission strategy.
+8. [`vision.md`](vision.md) — long-term direction and strategic boundaries.
 
 ## What Belongs Here
 

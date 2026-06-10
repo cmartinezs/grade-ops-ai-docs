@@ -137,3 +137,9 @@ GradeOps AI solves the assessment-operation problem first. It does not initially
 - plagiarism investigation as a primary product.
 
 Academic integrity can be supported through logs, rubric evidence, and uncertainty flags, but it should not become the MVP’s central promise.
+
+<!-- nav -->
+
+---
+
+← [Pitch](pitch.md) | [↑ inicio](#problem) | [README](README.md) | [Solution →](solution.md)

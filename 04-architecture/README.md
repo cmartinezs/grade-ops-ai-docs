@@ -67,11 +67,11 @@ Recommended implementation stance:
 
 | File | Purpose |
 | --- | --- |
-| `system-architecture.md` | System components, runtime topology, module boundaries, and diagrams. |
-| `data-model.md` | Core entities, relationships, states, audit/evidence records, and modeling rules. |
-| `api-design.md` | REST API resources, commands, endpoints, DTO expectations, and error behavior. |
-| `security.md` | Authentication, authorization, privacy, data handling, audit, and AI safety posture. |
-| `deployment.md` | Environments, Google Cloud deployment, CI/CD, config, observability, and release strategy. |
+| [`system-architecture.md`](system-architecture.md) | System components, runtime topology, module boundaries, and diagrams. |
+| [`data-model.md`](data-model.md) | Core entities, relationships, states, audit/evidence records, and modeling rules. |
+| [`api-design.md`](api-design.md) | REST API resources, commands, endpoints, DTO expectations, and error behavior. |
+| [`security.md`](security.md) | Authentication, authorization, privacy, data handling, audit, and AI safety posture. |
+| [`deployment.md`](deployment.md) | Environments, Google Cloud deployment, CI/CD, config, observability, and release strategy. |
 
 ## What Belongs Here
 

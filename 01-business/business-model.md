@@ -254,3 +254,9 @@ The immediate business objective is not to maximize feature breadth. It is to pr
 3. AI agents can execute meaningful parts of that workflow in production;
 4. teachers can remain in control;
 5. the business can track revenue, cost, usage, and value per customer.
+
+<!-- nav -->
+
+---
+
+[↑ inicio](#business-model) | [README](README.md) | [Customer Discovery →](customer-discovery.md)

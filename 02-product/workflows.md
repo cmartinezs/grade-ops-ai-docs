@@ -697,3 +697,9 @@ The product workflow should feel controlled, transparent, and operational.
 The best demo is not a tour of screens. It is a proof that:
 
 > A real assessment moved from learning goal to rubric, submissions, grading suggestions, feedback, report, teacher approval, and auditable AI-agent evidence.
+
+<!-- nav -->
+
+---
+
+← [User Stories](user-stories.md) | [↑ inicio](#workflows) | [README](README.md) | [Assessment Modes →](assessment-modes.md)

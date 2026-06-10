@@ -25,28 +25,28 @@ Each agent should be treated as an operational component with:
 
 Start with:
 
-1. `agents-overview.md` — overall agent architecture, common envelope, logs, model routing, and control principles. Covers both open and closed assessment agents.
+1. [`agents-overview.md`](agents-overview.md) — overall agent architecture, common envelope, logs, model routing, and control principles. Covers both open and closed assessment agents.
 
 Then use the individual contracts.
 
 **Open assessment agents:**
 
-- `assessment-agent.md` — generates assessment draft from learning goal;
-- `rubric-agent.md` — creates and validates rubric criteria;
-- `grading-agent.md` — analyzes submissions against approved rubric;
-- `feedback-agent.md` — drafts student-facing feedback;
-- `learning-gap-agent.md` — identifies cohort-level recurring issues;
-- `recovery-agent.md` — suggests reinforcement activities;
-- `teacher-report-agent.md` — prepares the final class report;
-- `ops-agent.md` — records usage, costs, outcomes, and agent logs.
+- [`assessment-agent.md`](assessment-agent.md) — generates assessment draft from learning goal;
+- [`rubric-agent.md`](rubric-agent.md) — creates and validates rubric criteria;
+- [`grading-agent.md`](grading-agent.md) — analyzes submissions against approved rubric;
+- [`feedback-agent.md`](feedback-agent.md) — drafts student-facing feedback;
+- [`learning-gap-agent.md`](learning-gap-agent.md) — identifies cohort-level recurring issues;
+- [`recovery-agent.md`](recovery-agent.md) — suggests reinforcement activities;
+- [`teacher-report-agent.md`](teacher-report-agent.md) — prepares the final class report;
+- [`ops-agent.md`](ops-agent.md) — records usage, costs, outcomes, and agent logs.
 
 **Closed assessment agents:**
 
-- `question-generation-agent.md` — generates objective questions (TF/SC/MC) with alternatives, answer key, difficulty, and learning outcome;
-- `distractor-quality-agent.md` — evaluates and flags weak, biased, or misleading incorrect alternatives;
-- `ambiguity-review-agent.md` — detects interpretation problems, double-valid answers, and structural issues;
-- `assessment-assembly-agent.md` — composes a balanced assessment from approved bank questions;
-- `item-analytics-agent.md` — analyzes post-assessment item performance, difficulty, and outcome coverage.
+- [`question-generation-agent.md`](question-generation-agent.md) — generates objective questions (TF/SC/MC) with alternatives, answer key, difficulty, and learning outcome;
+- [`distractor-quality-agent.md`](distractor-quality-agent.md) — evaluates and flags weak, biased, or misleading incorrect alternatives;
+- [`ambiguity-review-agent.md`](ambiguity-review-agent.md) — detects interpretation problems, double-valid answers, and structural issues;
+- [`assessment-assembly-agent.md`](assessment-assembly-agent.md) — composes a balanced assessment from approved bank questions;
+- [`item-analytics-agent.md`](item-analytics-agent.md) — analyzes post-assessment item performance, difficulty, and outcome coverage.
 
 ## What Belongs Here
 

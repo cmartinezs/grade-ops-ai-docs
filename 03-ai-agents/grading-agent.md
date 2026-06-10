@@ -92,3 +92,9 @@ Log assessment ID, submission ID, rubric version, model policy, token/cost estim
 ## Acceptance Criteria
 
 The Grading Agent is MVP-ready when it accepts an approved rubric and submission, returns score suggestions per criterion, provides evidence notes, flags uncertainty, marks outputs as suggestions, supports teacher edit/reject workflows, and logs execution/cost metadata.
+
+<!-- nav -->
+
+---
+
+← [Rubric Agent](rubric-agent.md) | [↑ inicio](#grading-agent) | [README](README.md) | [Feedback Agent →](feedback-agent.md)

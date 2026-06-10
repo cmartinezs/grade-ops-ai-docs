@@ -192,3 +192,9 @@ Both modes produce the same result structure for the student:
 | `grading_status` | enum | `calculated`, `teacher_approved`, `published_to_student` |
 | `teacher_approved_by` | UUID | Nullable |
 | `published_at` | timestamp | When student can see result |
+
+<!-- nav -->
+
+---
+
+← [Workflows](workflows.md) | [↑ inicio](#assessment-modes) | [README](README.md) | [Student Access →](student-access.md)

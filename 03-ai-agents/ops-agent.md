@@ -120,3 +120,9 @@ The Ops Agent itself logs evidence summaries generated, dashboard exports, missi
 ## Acceptance Criteria
 
 The Ops Agent is MVP-ready when every agent run can be traced, every assessment has usage metrics, cost/model metadata is present or flagged as missing, approval states are visible, customer/pilot evidence can be linked, revenue and related-party flags can be tracked, dashboard data supports the demo, and no private student data is required for public evidence.
+
+<!-- nav -->
+
+---
+
+← [Teacher Report Agent](teacher-report-agent.md) | [↑ inicio](#ops-agent) | [README](README.md) | [Question Generation Agent →](question-generation-agent.md)

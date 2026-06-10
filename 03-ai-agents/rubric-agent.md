@@ -104,3 +104,9 @@ Log assessment ID, rubric version, criteria count, validation status, warnings, 
 ## Acceptance Criteria
 
 The Rubric Agent is MVP-ready when it produces a structured rubric, validates weight and objective coverage, provides evidence guidance, flags ambiguity, requires teacher approval, and creates an auditable log.
+
+<!-- nav -->
+
+---
+
+← [Assessment Agent](assessment-agent.md) | [↑ inicio](#rubric-agent) | [README](README.md) | [Grading Agent →](grading-agent.md)

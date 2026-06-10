@@ -253,3 +253,9 @@ GradeOps AI is submission-ready when it can prove:
 - real users or pilot customers are evidenced;
 - demo video shows the product functioning on the target platform;
 - the written narrative explains what AI does, what humans do, and why the business matters.
+
+<!-- nav -->
+
+---
+
+← [Cost Model](cost-model.md) | [↑ inicio](#roadmap) | [README](README.md) | [Hackathon Strategy →](hackathon-strategy.md)

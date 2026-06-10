@@ -98,3 +98,9 @@ Log assessment ID, gap IDs used, activity count, estimated duration, uncertainty
 ## Acceptance Criteria
 
 The Recovery Agent is MVP-ready when it generates at least one focused activity for a selected gap, ties it to rubric/gap evidence, respects target level and duration, requires teacher approval, returns structured output, and logs execution/cost metadata.
+
+<!-- nav -->
+
+---
+
+← [Learning Gap Agent](learning-gap-agent.md) | [↑ inicio](#recovery-agent) | [README](README.md) | [Teacher Report Agent →](teacher-report-agent.md)

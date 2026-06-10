@@ -430,3 +430,9 @@ The winning product story is not:
 It is:
 
 > We ran real programming assessments with AI agents, teachers stayed in control, students got feedback faster, and the business captured usage, cost, revenue, and operational evidence.
+
+<!-- nav -->
+
+---
+
+[↑ inicio](#mvp-scope) | [README](README.md) | [Personas →](personas.md)

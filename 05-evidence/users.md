@@ -10,3 +10,9 @@ Track who has evaluated, piloted, or adopted GradeOps AI.
 - Use case
 - Stage: interviewed, pilot, active, churned
 - Notes
+
+<!-- nav -->
+
+---
+
+[↑ inicio](#users) | [README](README.md) | [Revenue →](revenue.md)

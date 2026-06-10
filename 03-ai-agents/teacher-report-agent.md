@@ -122,3 +122,9 @@ Log assessment ID, submissions included, approval status of source data, report 
 ## Acceptance Criteria
 
 The Teacher Report Agent is MVP-ready when it generates a concise report from assessment data, includes learning gaps and next actions, includes evidence/cost summary, respects approval states, requires teacher validation, and returns structured logs.
+
+<!-- nav -->
+
+---
+
+← [Recovery Agent](recovery-agent.md) | [↑ inicio](#teacher-report-agent) | [README](README.md) | [Ops Agent →](ops-agent.md)

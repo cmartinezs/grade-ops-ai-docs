@@ -248,3 +248,9 @@ Set or track:
 ## Deployment Acceptance Criteria
 
 The deployment is sufficient when a public/demo URL exists, teacher can authenticate, assessment workflow persists, deployed backend calls Gemini, at least one Google Cloud service is used and visible, files/reports can be stored if required, agent logs and costs are visible, failures are logged, demo can be recorded from the deployed environment, and pilot data can be distinguished from seed/demo data.
+
+<!-- nav -->
+
+---
+
+← [Security](security.md) | [↑ inicio](#deployment) | [README](README.md)

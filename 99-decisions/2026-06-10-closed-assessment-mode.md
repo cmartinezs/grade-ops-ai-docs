@@ -34,3 +34,9 @@ Both modes share the same assessment lifecycle envelope, teacher workspace, and 
 - Grading for closed assessments is deterministic; AI does not suggest scores.
 - The teacher workspace must support two assessment creation paths.
 - MVP must prototype the closed assessment flow; it does not need full feature parity with the open flow on day one.
+
+<!-- nav -->
+
+---
+
+[↑ inicio](#closed-assessment-mode) | [README](README.md) | [AI-Native Question Bank →](2026-06-10-ai-native-question-bank.md)

@@ -44,3 +44,9 @@ Any post-grading key correction by the teacher creates a new recalculation event
 - Post-hoc changes to the key require an explicit teacher action and trigger a recalculation with audit trail.
 - The `GradeSuggestion` entity from the open assessment flow does not apply to closed assessments; `GradeResult` is calculated directly.
 - Item Analytics Agent runs after scoring and provides interpretation, not scoring.
+
+<!-- nav -->
+
+---
+
+← [Assessment Snapshot on Publish](2026-06-10-assessment-snapshot-on-publish.md) | [↑ inicio](#deterministic-grading-for-closed-assessments) | [README](README.md) | [Student Access via Secure Link →](2026-06-10-student-access-via-secure-link.md)

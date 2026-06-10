@@ -228,3 +228,9 @@ Protect these first: Assessment Agent, Rubric Agent, Grading Agent, Feedback Age
 ### Closed Assessment MVP
 
 Protect these first: Question Generation Agent, question curation queue (Distractor Quality + Ambiguity Review integrated), Assessment Assembly Agent, deterministic grading engine (not an AI agent), and Item Analytics Agent. The demo must show at least one complete closed assessment cycle with student link delivery.
+
+<!-- nav -->
+
+---
+
+[↑ inicio](#agents-overview) | [README](README.md) | [Assessment Agent →](assessment-agent.md)

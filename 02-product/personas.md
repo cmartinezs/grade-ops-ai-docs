@@ -358,3 +358,9 @@ GradeOps AI should not try to satisfy every education stakeholder in the MVP.
 The first product must delight the educator who feels the pain directly:
 
 > The person who has to turn 30 programming submissions into fair scores, useful feedback, and a clear next teaching action.
+
+<!-- nav -->
+
+---
+
+← [MVP Scope](mvp-scope.md) | [↑ inicio](#personas) | [README](README.md) | [User Stories →](user-stories.md)

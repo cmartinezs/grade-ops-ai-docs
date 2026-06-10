@@ -9,3 +9,9 @@ Store short, attributable proof points from educators.
 - Organization
 - Quote
 - Context of use
+
+<!-- nav -->
+
+---
+
+← [Agent Logs](agent-logs.md) | [↑ inicio](#testimonials) | [README](README.md)

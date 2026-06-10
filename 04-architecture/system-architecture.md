@@ -235,3 +235,9 @@ Evidence is not a side-effect. It is part of the core architecture.
 ## MVP Architecture Acceptance Criteria
 
 The architecture is sufficient when the system can create and persist an assessment, call Gemini from the deployed backend/agent runtime, store structured agent output, store submissions, generate grading suggestions linked to rubric criteria, persist teacher approvals, generate reports, expose agent logs with model/status/cost/approval state, support evidence dashboard, and use at least one Google Cloud product.
+
+<!-- nav -->
+
+---
+
+[↑ inicio](#system-architecture) | [README](README.md) | [Data Model →](data-model.md)

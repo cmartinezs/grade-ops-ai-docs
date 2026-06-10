@@ -15,3 +15,9 @@ Why is this the best choice now?
 
 ## Consequences
 What becomes easier, harder, or riskier because of this decision?
+
+<!-- nav -->
+
+---
+
+← [Curriculum Taxonomy](2026-06-10-curriculum-taxonomy.md) | [↑ inicio](#adr-template) | [README](README.md)

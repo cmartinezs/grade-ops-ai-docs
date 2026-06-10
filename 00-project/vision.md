@@ -131,3 +131,9 @@ GradeOps AI should not become, during the hackathon:
 ## Strategic Principle
 
 > AI operates the repetitive workflow. Teachers retain judgment, standards, and final approval.
+
+<!-- nav -->
+
+---
+
+← [Hackathon Strategy](hackathon-strategy.md) | [↑ inicio](#vision) | [README](README.md)

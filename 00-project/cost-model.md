@@ -257,3 +257,9 @@ Charge for value and usage volume, not for how cheaply the MVP was built.
 GradeOps AI should be able to say:
 
 > We know what every assessment, correction, agent run, and customer costs. This is a measurable AI-operated business, not a demo.
+
+<!-- nav -->
+
+---
+
+← [Solution](solution.md) | [↑ inicio](#cost-model) | [README](README.md) | [Roadmap →](roadmap.md)

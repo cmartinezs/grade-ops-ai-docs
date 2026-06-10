@@ -91,3 +91,9 @@ Log item ID, number of distractors evaluated, flags raised per option, overall q
 ## Acceptance Criteria
 
 The Distractor Quality Agent is ready when it evaluates all incorrect options per question, applies consistent quality verdicts, produces actionable improvement suggestions, and returns results as part of the question curation queue without blocking teacher authority.
+
+<!-- nav -->
+
+---
+
+← [Question Generation Agent](question-generation-agent.md) | [↑ inicio](#distractor-quality-agent) | [README](README.md) | [Ambiguity Review Agent →](ambiguity-review-agent.md)

@@ -88,3 +88,9 @@ Log assessment ID, submission ID, source grading result, tone preference, output
 ## Acceptance Criteria
 
 The Feedback Agent is MVP-ready when it generates feedback tied to rubric evidence, avoids final delivery language before approval, supports tone preferences, returns structured output, flags unsafe/uncertain drafts, and logs execution/cost metadata.
+
+<!-- nav -->
+
+---
+
+← [Grading Agent](grading-agent.md) | [↑ inicio](#feedback-agent) | [README](README.md) | [Learning Gap Agent →](learning-gap-agent.md)

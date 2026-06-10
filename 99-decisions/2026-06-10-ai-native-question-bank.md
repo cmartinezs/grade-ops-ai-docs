@@ -46,3 +46,9 @@ Teacher writes each question manually → Enters into bank
 - Approved questions are versioned; edits after approval create a new version.
 - Questions used in published assessments are frozen in a snapshot and cannot be retroactively changed.
 - The question bank must expose quality flags from Distractor Quality and Ambiguity Review agents.
+
+<!-- nav -->
+
+---
+
+← [Closed Assessment Mode](2026-06-10-closed-assessment-mode.md) | [↑ inicio](#ai-native-question-bank) | [README](README.md) | [Assessment Snapshot on Publish →](2026-06-10-assessment-snapshot-on-publish.md)

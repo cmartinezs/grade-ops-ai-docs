@@ -43,3 +43,9 @@ If a teacher needs to correct an error after publication, the only supported pat
 - Storage increases because question and option data is duplicated per assessment run.
 - Key correction and question annulment must be first-class operations with audit event recording.
 - The assessment lifecycle state machine must gate grading against snapshot existence, not bank state.
+
+<!-- nav -->
+
+---
+
+← [AI-Native Question Bank](2026-06-10-ai-native-question-bank.md) | [↑ inicio](#assessment-snapshot-on-publish) | [README](README.md) | [Deterministic Grading for Closed Assessments →](2026-06-10-deterministic-grading-for-closed.md)

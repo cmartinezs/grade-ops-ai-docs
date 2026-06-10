@@ -88,3 +88,9 @@ Log item ID, subject area, flags detected with severity, overall verdict, model 
 ## Acceptance Criteria
 
 The Ambiguity Review Agent is ready when it evaluates question stems and alternatives, produces actionable flags with specific descriptions and suggestions, assigns severity levels consistently, and integrates into the question curation review queue without blocking teacher decisions.
+
+<!-- nav -->
+
+---
+
+← [Distractor Quality Agent](distractor-quality-agent.md) | [↑ inicio](#ambiguity-review-agent) | [README](README.md) | [Assessment Assembly Agent →](assessment-assembly-agent.md)

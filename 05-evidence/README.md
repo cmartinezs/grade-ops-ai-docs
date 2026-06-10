@@ -24,11 +24,11 @@ GradeOps AI must prove:
 
 Use these files to collect and organize proof:
 
-1. `users.md` — user and pilot records.
-2. `revenue.md` — payment, commitment, related-party, and revenue evidence.
-3. `usage-metrics.md` — product usage and activation metrics.
-4. `agent-logs.md` — evidence of AI-native operations.
-5. `testimonials.md` — customer quotes, feedback, and proof of value.
+1. [`users.md`](users.md) — user and pilot records.
+2. [`revenue.md`](revenue.md) — payment, commitment, related-party, and revenue evidence.
+3. [`usage-metrics.md`](usage-metrics.md) — product usage and activation metrics.
+4. [`agent-logs.md`](agent-logs.md) — evidence of AI-native operations.
+5. [`testimonials.md`](testimonials.md) — customer quotes, feedback, and proof of value.
 
 ## What Belongs Here
 

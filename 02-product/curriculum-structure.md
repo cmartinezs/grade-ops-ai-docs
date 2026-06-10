@@ -238,3 +238,9 @@ The architecture must support multiple countries, each as its own `CurriculumPro
 - Longitudinal reporting across curriculum versions.
 - Institutional curriculum customization on top of official packs.
 - Comparison between aligned and non-aligned questions.
+
+<!-- nav -->
+
+---
+
+← [Response Intake](response-intake.md) | [↑ inicio](#curriculum-structure) | [README](README.md) | [Metrics →](metrics.md)

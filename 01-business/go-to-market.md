@@ -329,3 +329,9 @@ GradeOps AI wins early if it can show:
 5. teacher approval and trust;
 6. measurable time/value;
 7. revenue and cost evidence.
+
+<!-- nav -->
+
+---
+
+← [Customer Discovery](customer-discovery.md) | [↑ inicio](#go-to-market) | [README](README.md) | [Pricing →](pricing.md)

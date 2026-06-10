@@ -278,3 +278,9 @@ Avoid:
 GradeOps AI should measure what it claims to be:
 
 > a real AI-operated assessment workflow for programming educators with teacher control, evidence, cost awareness, and business validation.
+
+<!-- nav -->
+
+---
+
+← [Curriculum Structure](curriculum-structure.md) | [↑ inicio](#metrics) | [README](README.md)

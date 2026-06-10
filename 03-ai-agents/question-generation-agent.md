@@ -107,3 +107,9 @@ Log subject area, learning outcome, question count requested and returned, flagg
 ## Acceptance Criteria
 
 The Question Generation Agent is ready when it generates well-structured questions for all three supported types, validates type-specific cardinality rules, attaches explanations and distractor rationale, flags quality issues, produces output in `pending_review` state, and logs the full execution with cost estimate.
+
+<!-- nav -->
+
+---
+
+← [Ops Agent](ops-agent.md) | [↑ inicio](#question-generation-agent) | [README](README.md) | [Distractor Quality Agent →](distractor-quality-agent.md)

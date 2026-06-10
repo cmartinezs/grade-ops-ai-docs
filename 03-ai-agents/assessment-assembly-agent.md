@@ -103,3 +103,9 @@ Log assessment ID, requested and achieved composition parameters, coverage summa
 ## Acceptance Criteria
 
 The Assessment Assembly Agent is ready when it selects only approved bank questions, respects difficulty and coverage constraints, produces clear alerts for gaps, returns a composition the teacher can review and modify before approval, and correctly passes the approved composition for snapshotting.
+
+<!-- nav -->
+
+---
+
+← [Ambiguity Review Agent](ambiguity-review-agent.md) | [↑ inicio](#assessment-assembly-agent) | [README](README.md) | [Item Analytics Agent →](item-analytics-agent.md)

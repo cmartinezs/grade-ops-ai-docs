@@ -39,3 +39,9 @@ Specifically:
 - Student privacy rules apply to `LearnerRef` data (minimal PII, tenant-scoped, deletable).
 - Student result portal must be added to product scope; it is a read-only, link-authenticated view.
 - Prior documentation stating "student portal: future" is superseded; a minimal result view is now P0 for closed assessments and P1 for open assessments.
+
+<!-- nav -->
+
+---
+
+← [Deterministic Grading for Closed Assessments](2026-06-10-deterministic-grading-for-closed.md) | [↑ inicio](#student-access-via-secure-link) | [README](README.md) | [Curriculum Taxonomy →](2026-06-10-curriculum-taxonomy.md)

@@ -390,3 +390,9 @@ For batch operations:
 ## API Acceptance Criteria
 
 The API is sufficient when it supports end-to-end assessment creation, rubric generation and approval, submission intake, grading agent execution, teacher review, feedback approval, learning gap/recovery generation, teacher report generation, agent log retrieval, evidence dashboard retrieval, and usage limit tracking.
+
+<!-- nav -->
+
+---
+
+← [Data Model](data-model.md) | [↑ inicio](#api-design) | [README](README.md) | [Security →](security.md)

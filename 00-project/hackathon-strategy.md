@@ -234,3 +234,9 @@ Target metrics:
 GradeOps AI helps programming educators operate assessments with AI agents.
 
 It gives small education teams the operational capacity of a larger academic team while keeping teachers in control of judgment, feedback, and student outcomes.
+
+<!-- nav -->
+
+---
+
+← [Roadmap](roadmap.md) | [↑ inicio](#hackathon-strategy) | [README](README.md) | [Vision →](vision.md)

@@ -278,3 +278,9 @@ GradeOps AI is designed to produce the evidence needed for a credible AI venture
 ## Core Principle
 
 > AI operates the repetitive workflow. Teachers retain judgment, standards, and final approval.
+
+<!-- nav -->
+
+---
+
+← [Problem](problem.md) | [↑ inicio](#solution) | [README](README.md) | [Cost Model →](cost-model.md)

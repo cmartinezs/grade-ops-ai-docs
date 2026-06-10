@@ -93,3 +93,9 @@ Log assessment ID, submission count, source status, gaps found, severity distrib
 ## Acceptance Criteria
 
 The Learning Gap Agent is MVP-ready when it groups repeated issues, links gaps to rubric criteria, gives affected counts, avoids unsupported student profiling, requires teacher confirmation, and produces structured logs.
+
+<!-- nav -->
+
+---
+
+← [Feedback Agent](feedback-agent.md) | [↑ inicio](#learning-gap-agent) | [README](README.md) | [Recovery Agent →](recovery-agent.md)

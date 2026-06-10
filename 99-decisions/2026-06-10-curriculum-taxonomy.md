@@ -41,3 +41,9 @@ At all times, the P0 string fields are backward-compatible with the P1 model: th
 - Curriculum-based reports (performance by topic, by learning outcome) are enabled at P0 using string aggregation; richer reports require the P1 structured model.
 - The `CurriculumProvider` / `CurriculumFramework` architecture must be designed to avoid hardcoding any country's curriculum into the core model; each country is a separate provider.
 - The Chile national curriculum pack (`Ministerio de Educación de Chile` as `CurriculumProvider`) is the first concrete P1 implementation target.
+
+<!-- nav -->
+
+---
+
+← [Student Access via Secure Link](2026-06-10-student-access-via-secure-link.md) | [↑ inicio](#curriculum-taxonomy-for-questions-and-assessments) | [README](README.md) | [ADR Template →](adr-template.md)

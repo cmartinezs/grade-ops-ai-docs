@@ -304,3 +304,9 @@ For the hackathon period:
 4. Track overuse but avoid aggressive billing friction early.
 5. Report revenue, costs, discounts, and related-party status transparently.
 6. Use pricing conversations as customer discovery, not only sales.
+
+<!-- nav -->
+
+---
+
+← [Go-To-Market](go-to-market.md) | [↑ inicio](#pricing) | [README](README.md) | [Business Hackathon Strategy →](hackathon-strategy.md)

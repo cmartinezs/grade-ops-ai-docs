@@ -233,3 +233,9 @@ Because AI calls cost money:
 ## Security Acceptance Criteria
 
 The MVP security baseline is sufficient when teacher access requires authentication, tenant boundaries are enforced, Gemini/API secrets are server-side only, student submissions are private, agent logs are structured and redacted, teacher approval events are stored, high-impact outputs remain pending until approval, uploaded files are private and size/type-limited, cost abuse controls exist, and public demo evidence can be shown without exposing private student data.
+
+<!-- nav -->
+
+---
+
+← [API Design](api-design.md) | [↑ inicio](#security) | [README](README.md) | [Deployment →](deployment.md)

@@ -115,3 +115,9 @@ El docente mantiene el control. Los estudiantes reciben feedback más rápido. L
 ## Demo Closing Line
 
 > GradeOps AI is not just an app that uses AI. It is a real assessment operation run by AI agents, with teachers in control and evidence that the workflow creates value.
+
+<!-- nav -->
+
+---
+
+← [Project Review](project-review.md) | [↑ inicio](#pitch) | [README](README.md) | [Problem →](problem.md)

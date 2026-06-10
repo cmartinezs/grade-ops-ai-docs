@@ -10,3 +10,9 @@ Record commercial proof, even if early revenue is small.
 - Currency
 - Status: proposed, paid, refunded
 - Notes
+
+<!-- nav -->
+
+---
+
+← [Users](users.md) | [↑ inicio](#revenue) | [README](README.md) | [Usage Metrics →](usage-metrics.md)

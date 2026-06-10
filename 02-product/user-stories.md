@@ -738,3 +738,9 @@ The minimum viable story set is:
 - US-090
 
 If those stories work end to end, GradeOps AI can demo the core business.
+
+<!-- nav -->
+
+---
+
+← [Personas](personas.md) | [↑ inicio](#user-stories) | [README](README.md) | [Workflows →](workflows.md)

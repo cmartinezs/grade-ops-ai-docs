@@ -115,3 +115,9 @@ Log teacher/account, assessment ID, input summary, output summary, model policy,
 ## Acceptance Criteria
 
 The Assessment Agent is MVP-ready when it generates a complete structured assessment draft, includes objectives and expected evidence, prepares rubric seed data, flags ambiguity, requires teacher approval, and creates a valid agent log.
+
+<!-- nav -->
+
+---
+
+← [Agents Overview](agents-overview.md) | [↑ inicio](#assessment-agent) | [README](README.md) | [Rubric Agent →](rubric-agent.md)
