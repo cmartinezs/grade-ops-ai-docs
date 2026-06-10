@@ -4,38 +4,59 @@ GradeOps AI MVP is a focused product workflow for programming educators.
 
 It must prove one thing clearly:
 
-> A teacher can run a practical programming assessment with AI agents, keep final control, generate useful feedback/reporting, and produce auditable evidence of usage, cost, and AI-native operations.
+> A teacher can run assessments — practical programming exercises and objective knowledge checks — with AI agents, keep final control, generate useful feedback/reporting, and produce auditable evidence of usage, cost, and AI-native operations.
 
 The MVP is not a full LMS, not a generic quiz generator, not a student chatbot, and not an OCR-first grading platform.
+
+The MVP supports two assessment modes:
+
+- **Open assessments** — practical programming tasks; rubric-based grading; AI generates, teacher approves.
+- **Closed assessments** — objective questions with alternatives (TF, single choice, multiple choice); AI-native question bank; deterministic grading against a frozen answer key.
 
 ## Alignment With Canonical Strategy
 
 | Canonical Decision | Product Scope Implication |
 | --- | --- |
-| Initial wedge: programming assessments | Build only for practical programming tasks first |
-| Core promise: run the next assessment with AI agents | Prioritize end-to-end assessment workflow over feature breadth |
-| Teacher authority | Every high-impact output requires teacher review/approval |
-| AI-native operations | Agent executions must be visible, logged, and structured |
-| Pricing by assessments/submissions | Product must track assessment count and graded-submission count |
+| Initial wedge: programming assessments | Open assessments remain the primary wedge; closed assessments expand scope within the same target user |
+| Core promise: run the next assessment with AI agents | Prioritize end-to-end assessment workflow over feature breadth; both modes must have a viable demo path |
+| Teacher authority | Every high-impact output requires teacher review/approval in both modes |
+| AI-native operations | Agent executions must be visible, logged, and structured; closed mode adds question generation and curation agents |
+| Pricing by assessments/submissions | Product must track assessment count and graded-submission count across both modes |
 | Hackathon evidence | Usage, cost, revenue, customer, and agent evidence must be captured from day one |
+| Closed assessment mode | Add question bank, deterministic grading engine, and student access via secure link |
 
-## Teacher-Led, Student-Submission-Centered MVP
+## Teacher-Led, Student-Centered MVP
 
 The MVP user interface is teacher-led, but the product is not limited to assessment generation.
 
-The central workflow includes student answers:
+### Open Assessment Flow
 
 ```text
 Teacher creates assessment
   -> teacher approves rubric
-  -> student submissions are loaded
+  -> students receive access link or teacher loads submissions
   -> agents analyze each student submission
   -> agents draft grading suggestions and feedback
   -> teacher approves or edits outputs
   -> report summarizes the assessment run
 ```
 
-For MVP, students do **not** need accounts or a portal. A student can be represented by a minimal `student_identifier` inside a `StudentSubmission`.
+### Closed Assessment Flow
+
+```text
+Teacher defines evaluative intent
+  -> AI generates question batch
+  -> teacher reviews and approves questions into bank
+  -> teacher or AI composes assessment from bank
+  -> teacher approves composition and answer key
+  -> system publishes assessment and sends student access links
+  -> students respond via secure link
+  -> deterministic engine grades responses
+  -> teacher reviews exceptions and analytics
+  -> results published to students
+```
+
+Students are represented as `LearnerRef` records with an email. Access to the assessment and results is delivered via secure, signed links — no student account required.
 
 The commercial usage limit in plans refers to **graded student submissions**, not registered students.
 
@@ -43,15 +64,16 @@ The commercial usage limit in plans refers to **graded student submissions**, no
 
 Enable a programming educator to:
 
-1. create an assessment from a learning goal;
-2. generate a rubric and expected evidence;
-3. receive student submissions or answers;
-4. generate grading suggestions against the rubric;
-5. draft personalized feedback;
+1. create an open or closed assessment from a learning goal;
+2. generate a rubric (open) or question bank (closed) with AI assistance;
+3. invite students via secure links or load submissions directly;
+4. grade: AI suggestions against rubric (open) or deterministic scoring against answer key (closed);
+5. draft personalized feedback (open) or generate item analytics (closed);
 6. detect cohort-level learning gaps;
 7. approve or edit AI outputs;
 8. generate a teacher report;
-9. see the agent logs, model usage, cost estimates, and evidence dashboard.
+9. publish results accessible to students via link;
+10. see the agent logs, model usage, cost estimates, and evidence dashboard.
 
 ## Target User For MVP
 
@@ -88,15 +110,22 @@ Learning goal
 | Area | Must Build | Should Build | Could Build Later | Do Not Build Now |
 | --- | --- | --- | --- | --- |
 | Authentication | Simple teacher login | Account profile | Organization admin | Complex SSO |
-| Assessment creation | Learning-goal intake and constraints | Templates for intro programming | Rich curriculum mapping | Full LMS authoring |
+| Open assessment creation | Learning-goal intake and constraints | Templates for intro programming | Rich curriculum mapping | Full LMS authoring |
 | Rubrics | AI-generated rubric draft | Rubric validation notes | Rubric library | Institutional rubric governance |
-| Student submissions | Text/code paste and simple file upload for student answers | CSV/bulk import | GitHub Classroom integration | OCR/photo-first intake |
-| Grading assistance | Rubric-based score suggestion | Uncertainty flags | Code execution sandbox | Fully autonomous grading |
+| Closed assessment mode | Question generation, bank curation, answer key, deterministic grading | AI-assembled question composition | Bank sharing across teachers | Marketplace of question banks |
+| Question bank | AI generation + teacher curation queue, approve/reject | Versioning UI, clone, retire | Full analytics history per item | Institutional shared banks |
+| Subject and curriculum structure | String-based subject/topic/learning-outcome tagging on questions and assessments | Structured Subject + CurriculumNode + LearningObjective entities; AI-generated curriculum | National curriculum packs (e.g., Chile) | Multi-country curriculum marketplace |
+| Student submissions (open) | Text/code paste and simple file upload | CSV/bulk import | GitHub Classroom integration | OCR/photo-first intake |
+| Student response (closed) | Secure link delivery, web response portal | CSV response import | Paper/OMR ingestion | Complex proctoring |
+| Student access | LearnerRef + signed links, no account required | Result portal via link | Magic link resend | Full student account and portal |
+| Grading assistance (open) | Rubric-based score suggestion | Uncertainty flags | Code execution sandbox | Fully autonomous grading |
+| Grading (closed) | Deterministic engine against answer key | Exception review queue | Partial credit configuration | AI-based objective grading |
 | Feedback | Individual feedback draft | Tone/style controls | Feedback templates | Student chatbot |
 | Learning gaps | Cohort summary | Gap-to-recovery mapping | Longitudinal analytics | Predictive student profiling |
 | Recovery | Suggested remedial activity | Short exercise draft | Personalized recovery plan | Full adaptive learning system |
+| Item analytics | Post-assessment difficulty and correct-rate per item | Reinforcement suggestions from analytics | Longitudinal item performance | BI suite for items |
 | Teacher review | Approve/edit/reject states | Bulk approve with warnings | Review delegation | Silent AI delivery |
-| Reports | Teacher report | Export PDF/CSV | Cohort comparison | BI suite |
+| Reports | Teacher report (both modes) | Export PDF/CSV | Cohort comparison | BI suite |
 | Evidence | Agent logs, usage, cost estimate | Business dashboard | Public evidence export | Hidden logs |
 | Payments | Manual/Stripe evidence outside product acceptable | Basic plan flag | Self-serve billing | Complex metering marketplace |
 
@@ -169,17 +198,31 @@ No grading should start until the rubric is approved or explicitly marked as dra
 
 ### 6. Student Submission Intake
 
-Supported MVP input types:
+#### Open Assessments
+
+Supported input types:
 
 - pasted student code/text;
 - uploaded `.txt`, `.java`, `.py`, `.js`, `.ts`, `.html`, `.css`, `.md`;
-- manual `student_identifier`;
+- manual `student_identifier` (teacher-controlled, no login);
 - optional `student_display_name` if the teacher needs it;
 - bulk paste/import if simple.
 
-Each loaded answer becomes a `StudentSubmission`. A graded submission is consumed only when that `StudentSubmission` is analyzed for grading/feedback.
+Each loaded answer becomes a `StudentSubmission`. A graded submission is consumed when that `StudentSubmission` is analyzed for grading/feedback.
 
-Student accounts are not required for MVP if that slows delivery. Teacher-managed submission intake is acceptable.
+#### Closed Assessments
+
+Students respond through a secure access link sent to their email. The teacher creates a `LearnerRef` per student (email required; display name and external identifier optional). No student account is required.
+
+Each `AssessmentAttempt` records the student's response. The graded submission usage counter increments when the attempt is analyzed.
+
+#### Student Identity Model
+
+The MVP uses a minimal identity approach:
+
+- Open assessments: `StudentSubmission` with `student_identifier` (teacher-loaded).
+- Closed assessments: `LearnerRef` + `AssessmentInvitation` + `AssessmentAttempt` (link-based).
+- No student login or account in either mode.
 
 ### 7. Grading Assistance
 
@@ -265,27 +308,28 @@ Each agent execution must record:
 Do not build in the MVP:
 
 - full LMS;
-- student social features;
+- student social features, student account with password;
 - chat tutor;
 - institution-wide administration;
 - complex roles/permissions;
 - SSO;
 - mobile app;
-- OCR-heavy workflow;
+- OCR/OMR for physical paper (P1 for closed assessments, not P0);
 - plagiarism detection as a core claim;
 - code execution sandbox unless trivial and safe;
 - advanced curriculum mapping;
-- marketplace of assessments;
+- marketplace of assessments or shared question banks;
 - broad multi-subject support;
-- fully autonomous grading.
+- fully autonomous grading (open assessments);
+- AI-based scoring for closed assessments (must be deterministic).
 
 ## MVP User Roles
 
 | Role | MVP Permissions |
 | --- | --- |
-| Teacher | Create assessment, approve rubric, upload submissions, review grading, approve feedback, view report/logs |
+| Teacher | Create assessment (open/closed), approve rubric/question bank, manage learner list, upload submissions, review grading/exceptions, approve feedback, view report/logs |
 | Operator/Admin | View evidence dashboard, cost/revenue summary, customer/pilot status |
-| Student | Not required as login for MVP; represented through `StudentSubmission` records loaded by the teacher |
+| Student (LearnerRef) | Access assessment via secure link, submit response, view published result via link; no login or account |
 
 ## Required Product States
 

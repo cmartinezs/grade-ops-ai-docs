@@ -52,6 +52,10 @@ Prefer the thematic folders for current decisions:
 | `09-chat.md` | Review summary for aligning `03-ai-agents` with project/product docs. |
 | `10-chat.md` | Review summary for aligning `04-architecture` with prior canonical docs. |
 | `11-chat.md` | Conceptual correction around student responses, `StudentSubmission`, and plan limits. |
+| `12-chat.md` | UX/Product gap analysis: absorption of GRADE capabilities for objective/alternatives assessments into GradeOps AI. Information architecture, flows, functional requirements, edge cases, and conceptual data model. |
+| `13-chat.md` | Strategic correction: the Question Bank is AI-native in GradeOps AI, not manually authored. AI generates questions; teacher curates. New agents: Question Generation, Distractor Quality, Ambiguity Review, Assessment Assembly, Item Analytics. |
+| `14-chat.md` | Unified product model: open assessments (practical/rubric) + closed assessments (alternatives/deterministic), student access via secure links without account, grade result associated to subject, weighted scoring model. |
+| `15-chat.md` | Response ingestion: digital channel (student portal via link) and physical channel (paper answer sheet, OMR/QR, docente validation). Canonical for PaperAnswerSheet, PaperCapture, ExtractedAnswer, and related UX flows. |
 
 ## How To Use This Folder
 

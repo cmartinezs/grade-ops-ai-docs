@@ -32,9 +32,12 @@ The MVP security posture must be simple but serious.
 | --- | --- | --- | --- |
 | Public marketing data | Low | Landing copy, public pitch | Can be public. |
 | Account data | Medium | Teacher email, organization | Auth required. |
-| Assessment content | Medium | Instructions, rubric | Tenant-restricted. |
+| Assessment content | Medium | Instructions, rubric, questions | Tenant-restricted. |
 | Student submissions | High | Code, answers, identifiers | Minimize, restrict, secure storage. |
 | Grading/feedback | High | Scores, feedback, gaps | Teacher approval + restricted access. |
+| Student access tokens | Critical | `AssessmentInvitation.token_hash`, result link tokens | Never store plain; hash only; rotate on revoke. |
+| Learner data | High | Email, name, external ID | Minimize; tenant-scoped; deletable on request. |
+| Paper captures | High | Scanned answer sheets | Private storage; treated as student submission. |
 | Agent logs | Medium/High | Model, summaries, cost, errors | Redact and restrict. |
 | Billing/revenue evidence | High | Receipts, invoices, customers | Operator/admin only. |
 | Secrets | Critical | API keys, tokens | Secret manager/env only. |
@@ -148,6 +151,22 @@ For uploaded submissions and exports:
 - restrict extensions;
 - scan or sanitize if execution is ever introduced;
 - do not execute student code in MVP unless sandboxed.
+
+## Student Access Token Security
+
+Access tokens for `AssessmentInvitation` links must follow these rules:
+
+- Token must be generated as a cryptographically random, high-entropy value.
+- Only the hash of the token is stored in the database; the plain token is sent in the email link only.
+- Each token is scoped to one `learner_ref_id` and one `assessment_id`.
+- Tokens have a configurable expiry; default varies by link type.
+- After submission, the `assessment_access` token is marked as used and cannot be reused by default.
+- Teacher can revoke any token; revocation is immediate.
+- The system validates assessment state at token use time: a `result_access` link must not work until results are published.
+- Tokens must not appear in server logs; log only `learner_ref_id` and event type.
+- Rate limit all student-facing endpoints to prevent token enumeration.
+- The "resend link" endpoint must not confirm or deny whether an email exists.
+- QR codes on physical answer sheets (P1) must use a signed, tokenized reference, not a plain assessment ID or database primary key.
 
 ## Academic Integrity Boundaries
 

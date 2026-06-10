@@ -13,7 +13,7 @@ The product is focused on programming assessment operations, so every persona mu
 | Bootcamp Instructor | Daily user | Influencer or buyer | P0 |
 | Academy Operator | Dashboard/report consumer | Buyer | P1 |
 | Program Manager | Evidence/report consumer | Buyer or approver | P1 |
-| Student | Feedback recipient | Impact beneficiary | P2 for MVP |
+| Student | Responds via secure link; receives results | Impact beneficiary | P1 |
 | Reviewer/Assistant | Supports teacher review | Internal/secondary user | P2 |
 | Institution Admin | Procurement/security | Later buyer | Out of MVP |
 
@@ -222,16 +222,19 @@ A manager responsible for learning quality, cohort outcomes, or technical traini
 
 > Turn assessment activity into evidence for better program decisions.
 
-## P2 Persona: Student
+## P1 Persona: Student
 
 ### Profile
 
-A learner receiving feedback from a programming assessment.
+A learner who responds to an assessment and receives results through a secure link. Students access GradeOps AI without creating an account.
 
-Students are not the primary MVP user, but their experience matters.
+For open assessments, the teacher may load submissions on the student's behalf. For closed assessments, the student receives a link and responds directly.
+
+Students are not the primary MVP user, but a real assessment operation requires real student participation.
 
 ### Goals
 
+- Receive and submit the assessment without friction.
 - Receive feedback quickly.
 - Understand what they did wrong.
 - Know what to practice next.
@@ -244,6 +247,7 @@ Students are not the primary MVP user, but their experience matters.
 - Feedback is too generic.
 - Mistakes are not connected to criteria.
 - Students do not know what to fix next.
+- Access is complicated or requires creating yet another account.
 
 ### Trust Requirements
 
@@ -251,16 +255,24 @@ Students are not the primary MVP user, but their experience matters.
 - Should receive understandable feedback.
 - Should not receive raw AI uncertainty or internal logs.
 - Should not have personal data exposed unnecessarily.
+- Access link should work on any device without installation.
+
+### Access Model
+
+- Students receive a unique link in their email.
+- No password, no registration.
+- One link per assessment.
+- Result link sent after teacher publishes results.
 
 ### Success Moment
 
-> I know what I missed, why it matters, and what to practice next.
+> I received the assessment, submitted my answers, and later saw my result with clear feedback — all without creating an account.
 
 ### Product Messaging
 
-Student-facing messaging is not primary for MVP. If needed:
+Student-facing messaging is secondary for MVP. If needed:
 
-> Faster, clearer feedback reviewed by your teacher.
+> Receive and submit your assessment, and see your results — no account required.
 
 ## P2 Persona: Reviewer Or Assistant
 
@@ -323,7 +335,7 @@ When a product decision is unclear, optimize in this order:
 2. Independent Tutor / Bootcamp Instructor;
 3. Academy Operator;
 4. Program Manager;
-5. Student recipient experience;
+5. Student (submission and result access via link);
 6. Reviewer/assistant;
 7. future institution admin.
 
@@ -336,7 +348,7 @@ When a product decision is unclear, optimize in this order:
 | Bootcamp Instructor | Process batch submissions and detect cohort gaps |
 | Academy Operator | See evidence of usage, time saved, and outcome reporting |
 | Program Manager | Understand learning gaps and assessment consistency |
-| Student | Receive clear teacher-approved feedback |
+| Student | Receive and submit assessment via link without account; receive result and feedback via link |
 | Reviewer | Support review without replacing teacher authority |
 
 ## Persona Conclusion

@@ -6,9 +6,9 @@ It translates the strategic, business, product, and agent documentation into a b
 
 ## Architecture Goal
 
-Support one focused product outcome:
+Support two complementary product outcomes:
 
-> A programming educator can run a practical assessment workflow with AI agents, teacher approval, structured persistence, cost tracking, and auditable evidence.
+> A programming educator can run open assessments (practical code/text, rubric-based, AI grading suggestion) and closed assessments (objective questions, AI-native question bank, deterministic grading) with teacher approval, structured persistence, cost tracking, and auditable evidence across both modes.
 
 The architecture must prove:
 

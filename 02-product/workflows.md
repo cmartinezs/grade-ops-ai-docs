@@ -21,31 +21,60 @@ Student answers are represented as `StudentSubmission` records loaded by the tea
 | Workflow | Primary User | MVP Priority |
 | --- | --- | --- |
 | Teacher onboarding | Teacher | P0 |
-| Assessment creation | Teacher + Assessment Agent | P0 |
+| Open assessment creation | Teacher + Assessment Agent | P0 |
 | Rubric generation and approval | Teacher + Rubric Agent | P0 |
-| Submission intake | Teacher | P0 |
-| Grading assistance | Teacher + Grading Agent | P0 |
+| Open submission intake | Teacher | P0 |
+| Grading assistance (open) | Teacher + Grading Agent | P0 |
 | Feedback approval | Teacher + Feedback Agent | P0 |
 | Learning gap and recovery | Teacher + Learning Gap/Recovery Agents | P0 |
 | Teacher report | Teacher + Teacher Report Agent | P0 |
 | Evidence dashboard | Operator / demo | P0 |
+| Closed assessment — question generation and curation | Teacher + Question Generation/Distractor/Ambiguity Agents | P0 |
+| Closed assessment — composition and publish | Teacher + Assessment Assembly Agent | P0 |
+| Student invitation and access | Teacher + System | P0 (closed) / P1 (open) |
+| Closed response intake and grading | System + Teacher | P0 |
+| Item analytics and reinforcement | Teacher + Item Analytics Agent | P0 |
 | Pilot/business evidence | Operator | P1 |
 
-## Core End-To-End Workflow
+## Core End-To-End Workflows
+
+### Open Assessment
 
 ```text
 Teacher logs in
-  -> creates assessment brief
+  -> creates open assessment brief
   -> Assessment Agent drafts assessment
   -> Rubric Agent drafts and validates rubric
   -> teacher edits/approves assessment and rubric
-  -> teacher uploads or pastes submissions
+  -> teacher uploads/pastes submissions or students submit via link
   -> Grading Agent generates rubric-based suggestions
   -> Feedback Agent drafts student feedback
   -> Learning Gap Agent summarizes cohort gaps
   -> Recovery Agent suggests reinforcement activity
   -> teacher reviews/edits/approves outputs
   -> Teacher Report Agent generates report
+  -> teacher publishes results
+  -> Ops Evidence Agent records logs, cost, usage, and evidence
+```
+
+### Closed Assessment
+
+```text
+Teacher logs in
+  -> creates closed assessment intent
+  -> Question Generation Agent produces question batch
+  -> Distractor Quality Agent and Ambiguity Review Agent flag issues
+  -> teacher reviews and approves questions into bank
+  -> Assessment Assembly Agent proposes composition
+  -> teacher reviews and approves composition
+  -> system creates snapshot and publishes assessment
+  -> system sends secure links to students
+  -> students respond via portal
+  -> deterministic engine grades responses
+  -> teacher reviews exceptions
+  -> Item Analytics Agent analyzes item performance
+  -> teacher publishes results
+  -> students view results via result link
   -> Ops Evidence Agent records logs, cost, usage, and evidence
 ```
 
@@ -181,7 +210,7 @@ Grading cannot proceed unless:
 }
 ```
 
-## Workflow 4: Student Submission Intake
+## Workflow 4: Open Submission Intake
 
 ### Goal
 
@@ -205,16 +234,6 @@ Collect student answers/submissions in a simple MVP-compatible way without requi
 4. Teacher reviews submission list.
 5. Teacher starts analysis.
 
-### Submission Data
-
-- student submission ID;
-- assessment ID;
-- student identifier;
-- submitted content or file reference;
-- created timestamp;
-- processing status;
-- error state if any.
-
 ### Failure Handling
 
 | Failure | Handling |
@@ -223,6 +242,109 @@ Collect student answers/submissions in a simple MVP-compatible way without requi
 | Empty submission | Mark invalid |
 | Duplicate student identifier | Warn teacher |
 | Large submission | Warn and estimate higher cost or require confirmation |
+
+## Workflow 4b: Closed Assessment — Question Generation and Curation
+
+### Goal
+
+Build an approved question bank from AI-generated questions, curated by the teacher.
+
+### Steps
+
+1. Teacher defines evaluative intent: subject, topic, difficulty distribution, question count, question types, level.
+2. Question Generation Agent produces question batch with alternatives, answer key, explanations, and difficulty.
+3. Distractor Quality Agent evaluates each incorrect alternative.
+4. Ambiguity Review Agent checks each question for interpretation problems.
+5. System presents curation queue showing questions with quality flags.
+6. Teacher reviews each question:
+   - approve: question moves to `approved` in bank;
+   - edit and approve: teacher edits content, then approves;
+   - regenerate: system requests new question for same slot;
+   - reject: question discarded with optional reason.
+7. Approved questions become available for assessment composition.
+
+### Curation Queue States
+
+| State | Meaning |
+| --- | --- |
+| `ai_generated` | Question created by agent |
+| `pending_review` | Waiting for teacher action |
+| `approved` | Teacher validated and accepted |
+| `needs_revision` | Teacher flagged for rework |
+| `rejected` | Teacher discarded |
+
+### Failure Handling
+
+| Failure | Handling |
+| --- | --- |
+| No questions generated | Show error; allow retry with adjusted parameters |
+| All questions flagged critical ambiguity | Warn teacher; allow approval with explicit confirmation |
+| Question generation timeout | Log failure; allow retry |
+
+## Workflow 4c: Closed Assessment — Composition, Publish, and Student Invitation
+
+### Goal
+
+Compose a closed assessment from approved bank questions, publish it, and deliver secure access links to students.
+
+### Steps
+
+1. Teacher creates a new closed assessment (or continues from question bank).
+2. Teacher defines: title, date, duration, learner list, scoring policy, grade scale.
+3. Assessment Assembly Agent proposes a question composition from the approved bank.
+4. Teacher reviews composition: questions selected, difficulty distribution, outcome coverage, scores.
+5. Teacher approves composition (or modifies and approves).
+6. System validates:
+   - all questions are approved;
+   - all questions have a defined correct answer;
+   - total score is consistent;
+   - no retired or rejected items are included.
+7. System creates snapshot: questions, options, answer key, scoring policy, scale are frozen.
+8. Assessment transitions to `published`.
+9. System generates a unique `AssessmentInvitation` per `LearnerRef`.
+10. System sends email with access link to each learner.
+
+### Failure Handling
+
+| Failure | Handling |
+| --- | --- |
+| Bank does not have enough approved questions | Alert teacher; suggest generating more questions |
+| Learning outcome gap | Alert teacher; allow proceed with explicit acknowledgment |
+| Snapshot fails | Rollback; prevent publication |
+| Email delivery fails | Log; teacher can resend from invitation management |
+
+## Workflow 4d: Student Response via Secure Link
+
+### Goal
+
+Enable students to respond to an assessment without a registered account.
+
+### Steps — Closed Assessment
+
+1. Student receives email with `assessment_access_link`.
+2. Student opens link; system validates token (not expired, not revoked, assessment in `accepting_responses` state).
+3. Student sees assessment instructions and questions.
+4. Student selects alternatives for each question.
+5. Student reviews their selections.
+6. Student confirms submission.
+7. System records `AssessmentAttempt` with `ClosedResponse`.
+8. System closes or marks link as used.
+9. Deterministic engine processes response against snapshot.
+10. After teacher approves results, system sends `result_access_link` or student can request via email.
+
+### Steps — Open Assessment
+
+1. Teacher shares access link or student submits file/text via teacher-managed flow (same as Workflow 4).
+2. Open assessment digital submission via link: P1.
+
+### Security Rules at Intake
+
+| Rule | Handling |
+| --- | --- |
+| Token expired | Show friendly error; allow magic link request |
+| Token already used (submitted) | Show confirmation page; do not allow re-submission by default |
+| Assessment not in `accepting_responses` | Inform student; do not expose internal state details |
+| Attempt from different device | Allow unless single-device policy is set |
 
 ## Workflow 5: Grading Assistance
 
@@ -451,9 +573,59 @@ Connect product usage to business validation.
 - time saved;
 - testimonial status.
 
+## Workflow 5b: Closed Assessment — Grading and Exception Review
+
+### Goal
+
+Grade closed responses deterministically and surface exceptions for teacher review.
+
+### Steps
+
+1. System receives `AssessmentAttempt` records.
+2. Deterministic engine compares each `ClosedResponse` against the `AssessmentOptionSnapshot` (frozen answer key).
+3. Engine applies `ScoringPolicy` (full credit, partial credit, penalty) per question.
+4. Engine calculates total score and converts to grade using the frozen scale.
+5. System identifies exceptions:
+   - blank answers;
+   - duplicate attempts;
+   - student not associated to `LearnerRef`;
+   - response with invalid option reference.
+6. Teacher reviews exception queue.
+7. Teacher resolves exceptions (exclude, assign manually, flag for re-intake).
+8. Teacher confirms results.
+9. System generates item analytics report via Item Analytics Agent.
+10. Teacher reviews analytics.
+11. Teacher publishes results.
+12. System sends `result_access_link` to students.
+
+### Teacher Override Actions
+
+| Action | Audit |
+| --- | --- |
+| Annul a question | Triggers recalculation for all students; logged with reason |
+| Correct answer key | Triggers recalculation; original result preserved |
+| Exclude a student attempt | Logged with reason |
+| Manual grade override | Logged with reason; AI does not override teacher |
+
 ## Workflow States
 
-### Assessment Lifecycle
+### Assessment Lifecycle (Unified)
+
+```text
+draft
+  -> pending_teacher_review         (AI output ready: rubric or question batch)
+  -> approved                       (Teacher approved rubric / question composition)
+  -> published                      (Snapshot created; links sent)
+  -> accepting_responses            (Open for student input)
+  -> responses_received             (At least one response)
+  -> grading_in_progress            (Grading engine or agents running)
+  -> pending_teacher_review         (Grading results ready for teacher)
+  -> graded                         (Teacher confirmed results)
+  -> results_published              (Results visible to students)
+  -> archived
+```
+
+### Open Assessment Lifecycle (legacy states preserved for compatibility)
 
 ```text
 draft

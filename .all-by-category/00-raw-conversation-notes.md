@@ -16,6 +16,11 @@
 - `.raw/09-chat.md`
 - `.raw/10-chat.md`
 - `.raw/11-chat.md`
+- `.raw/12-chat.md`
+- `.raw/13-chat.md`
+- `.raw/14-chat.md`
+- `.raw/15-chat.md`
+- `.raw/16-chat.md`
 - `.raw/README.md`
 
 ## Consolidated Content
@@ -2368,6 +2373,7 @@ Descarga el ZIP aquí:
 
 Descargar gradeops-ai-03-ai-agents-modified-docs.zip
 
+
 ---
 
 ## Source: `.raw/10-chat.md`
@@ -2673,6 +2679,3758 @@ El profesor es el usuario principal, pero la unidad económica y técnica real e
 
 ---
 
+## Source: `.raw/12-chat.md`
+
+# Análisis UX/Product — Absorción de capacidades de GRADE para GradeOps AI
+
+**Rol de análisis:** Product Designer Senior / Product Strategist  
+**Foco:** experiencia funcional, arquitectura de información y flujos de usuario  
+**Alcance funcional estricto:** evaluaciones basadas en preguntas con alternativas  
+**Fuentes revisadas:**  
+- `Wanku-CL/wiki-wanku`, carpeta `products/grade/`
+- `cmartinezs/grade-ops-ai-docs`
+- Antecedente estratégico de GradeOps AI / hackathon
+
+---
+
+## 1. Resumen ejecutivo
+
+GRADE y GradeOps AI no están documentando exactamente el mismo producto.
+
+**GRADE** está planteado como una plataforma de evaluación objetiva y cerrada: banco de preguntas, alternativas, pauta, versiones, generación de entregables, aplicación, ingesta de respuestas, calificación automática, publicación de resultados, reportes pedagógicos y trazabilidad.
+
+**GradeOps AI**, en su estado actual, está planteado como una consola operativa para evaluaciones prácticas de programación: el docente define un objetivo, agentes generan evaluación y rúbrica, se cargan respuestas/código, se sugieren notas, feedback, brechas, reforzamiento y evidencia operacional.
+
+Para el alcance solicitado —**preguntas con alternativas**— GradeOps AI debe absorber de GRADE tres cosas centrales:
+
+1. **El modelo de Banco de Preguntas como fuente de verdad.**
+2. **El ciclo de vida formal de una evaluación objetiva.**
+3. **La trazabilidad histórica entre pregunta, alternativa, versión, evaluación, respuesta y resultado.**
+
+La principal brecha actual es que GradeOps AI tiene muy bien resuelto el discurso de operación, revisión docente, evidencias y logs, pero no tiene documentado con suficiente fuerza el flujo específico de evaluación objetiva: ítems, alternativas, clave, snapshots, escala, aplicación, respuestas cerradas, revisión de excepciones y reportes por ítem.
+
+La oportunidad no es copiar GRADE tal cual. La oportunidad es convertir su estructura funcional en un **modo “Objective Assessment Ops”** dentro de GradeOps AI: un flujo simple, vendible y demostrable para que un docente genere, aplique y revise pruebas de alternativas con control, velocidad y evidencia.
+
+---
+
+## 2. Lectura comparada de producto
+
+### 2.1 Qué representa GRADE
+
+GRADE es un sistema centrado en el ciclo completo de evaluación objetiva.
+
+Su flujo natural es:
+
+```text
+Banco de preguntas
+  -> Composición de evaluación
+  -> Generación de entregable
+  -> Aplicación
+  -> Ingesta de respuestas
+  -> Calificación automática
+  -> Revisión/publicación
+  -> Reportes y trazabilidad
+```
+
+Los elementos más valiosos desde UX/Product son:
+
+- Banco centralizado de preguntas.
+- Preguntas versionadas.
+- Tipos objetivos: verdadero/falso, selección única, selección múltiple.
+- Alternativas como objetos propios.
+- Metadatos pedagógicos: asignatura, unidad, tema, dificultad, resultado de aprendizaje.
+- Ítems activos, retirados o reactivables.
+- Composición de evaluación desde preguntas vigentes.
+- PDF o formato digital con ID/QR.
+- Estado de evaluación: borrador, publicada/lista, aplicada, calificada, archivada.
+- Asociación a curso/sección y alumnos.
+- Ingesta por CSV, web, foto u OCR.
+- Validación de integridad antes de calificar.
+- Calificación automática contra clave.
+- Conversión de puntaje a nota.
+- Reportes por evaluación y por ítem.
+- Auditoría de acciones críticas.
+
+### 2.2 Qué representa GradeOps AI actual
+
+GradeOps AI está posicionado como operación de evaluación con agentes.
+
+Su flujo natural es:
+
+```text
+Objetivo de aprendizaje
+  -> Evaluación generada
+  -> Rúbrica generada
+  -> Aprobación docente
+  -> Carga de submissions
+  -> Sugerencia de calificación
+  -> Feedback
+  -> Brechas
+  -> Reforzamiento
+  -> Reporte docente
+  -> Evidencia operacional
+```
+
+Los elementos más valiosos desde UX/Product son:
+
+- Teacher workspace.
+- Flujo guiado y no administrativo.
+- Aprobación docente obligatoria.
+- Estados claros de outputs generados por IA.
+- Logs de agentes.
+- Costos por ejecución.
+- Evidencia para negocio/hackathon.
+- Métrica de uso basada en submissions procesadas.
+- Revisión, edición, rechazo y aprobación.
+- Reporte docente con valor narrativo.
+- Foco en no construir LMS completo.
+
+### 2.3 Diagnóstico central
+
+GRADE tiene la **estructura evaluativa objetiva**.  
+GradeOps AI tiene la **estructura operativa, de revisión y evidencia**.
+
+El nuevo producto debe unir ambas:
+
+```text
+GRADE aporta:
+  dominio evaluativo cerrado, banco, pauta, alternativas, estados, reportabilidad
+
+GradeOps AI aporta:
+  operación guiada, teacher control, evidencia, logs, UX de consola, negocio
+```
+
+---
+
+## 3. Principales gaps detectados
+
+| Gap | Qué tiene GRADE | Qué falta o está débil en GradeOps AI | Impacto UX/Product | Recomendación |
+|---|---|---|---|---|
+| Banco de preguntas | Banco centralizado, versionado, reutilizable | El MVP actual desprioriza banco grande y se centra en evaluación generada | Sin banco no hay reutilización, trazabilidad ni consistencia | Crear banco liviano P0 para alternativas, aunque no sea institucional |
+| Modelo de alternativas | Opciones con `is_correct`, posición y score parcial | No está modelado el ítem objetivo como entidad principal | No se puede hacer flujo cerrado confiable | Agregar `Question`, `QuestionOption`, `AnswerKey` y reglas por tipo |
+| Tipos objetivos | TF, SC, MC con reglas de cardinalidad | GradeOps se centra en rúbricas y submissions de programación | La evaluación con alternativas queda fuera del lenguaje del producto | Crear modo “Alternatives Assessment” |
+| Snapshot al publicar | GRADE congela opciones para preservar historia | No aparece equivalente para evaluación objetiva | Editar una pregunta podría alterar pruebas pasadas | Incorporar snapshot de preguntas/opciones al publicar |
+| Ciclo formal de evaluación | Draft → Published/Applied/Graded/Archived | GradeOps tiene estados, pero orientados a rubrica/submission | Los estados no cubren bien aplicación de prueba objetiva | Definir lifecycle específico para alternativas |
+| Entregable aplicable | PDF/digital con ID/QR | GradeOps no prioriza PDF/QR | Pierde capacidad de evaluación física/simple | Mantener PDF/QR como P1 o P0 según demo |
+| Ingesta de respuestas cerradas | CSV, web, foto/OCR | GradeOps solo contempla submissions de texto/código | Falta flujo natural de alternativas | P0: web/CSV. P1: hoja física/OCR |
+| Manejo de errores de ingesta | Reporte de errores por fila, alumno, columnas, OCR | GradeOps tiene errores genéricos de upload | Docente necesita resolver rápido sin perder confianza | Crear “intake validation queue” |
+| Calificación automática objetiva | Comparación contra clave, puntaje, escala | GradeOps usa sugerencias por rúbrica | Alternativas no requieren IA para corregir; requieren exactitud | Motor determinístico + revisión de excepciones |
+| Resultados por ítem | Dificultad, tasa de acierto, distribución | GradeOps reporta brechas y feedback, no necesariamente ítem | Se pierde análisis pedagógico de prueba objetiva | Reporte por pregunta obligatorio |
+| Cursos/alumnos | Modelo explícito de curso y estudiantes | GradeOps minimiza identidad estudiantil con `student_identifier` | Bien para MVP, pero falta “roster ligero” | Adoptar lista liviana de participantes por evaluación |
+| Roles y gobernanza | Admin, Coordinador, Docente | GradeOps simplifica Teacher/Operator/Admin | Correcto para MVP, pero falta vista agregada de coordinador | Mantener simple; agregar `Reviewer/Coordinator` como futuro cercano |
+| Auditoría académica | Quién/cuándo/qué en acciones críticas | GradeOps audita agentes, costos y aprobaciones | Faltan eventos académicos no-IA | Unificar auditoría académica + agent logs |
+| Publicación de resultados | Confirmación antes de publicar | GradeOps tiene aprobación de outputs | Falta evento “publicar resultados” | Separar “aprobado por docente” de “publicado/exportado” |
+| Notificaciones | Hitos de calificación/errores/publicación | GradeOps no lo usa como flujo central | Aumenta carga del docente si debe revisar manualmente | P1: notificación de carga inválida/calificación lista |
+
+---
+
+## 4. Oportunidades de mejora para preguntas con alternativas
+
+### 4.1 Convertir el banco en un asset de producto, no solo una tabla
+
+El banco debe ser presentado como una herramienta de trabajo docente:
+
+- “Mis preguntas”.
+- “Preguntas sugeridas”.
+- “Preguntas reutilizadas”.
+- “Preguntas retiradas”.
+- “Preguntas con bajo desempeño”.
+- “Preguntas con posible ambigüedad”.
+- “Preguntas usadas recientemente”.
+
+Esto permite que el docente no vea el banco como una base de datos, sino como un **repositorio pedagógico vivo**.
+
+### 4.2 Crear un flujo de generación de evaluación por dos caminos
+
+El docente debe poder partir de:
+
+```text
+Camino A: desde objetivo
+  "Quiero evaluar X contenido con Y dificultad"
+  -> AI sugiere preguntas
+  -> docente aprueba/edit
+
+Camino B: desde banco
+  "Quiero armar prueba con preguntas existentes"
+  -> búsqueda/filtros
+  -> selección manual
+  -> generación de evaluación
+```
+
+Ambos caminos deben converger en la misma pantalla de revisión.
+
+### 4.3 Usar AI para diseño, no para corrección objetiva
+
+En preguntas con alternativas, la corrección debe ser determinística.
+
+La IA puede ayudar en:
+
+- Generar preguntas.
+- Detectar ambigüedad.
+- Sugerir distractores.
+- Clasificar por dificultad.
+- Asociar resultado de aprendizaje.
+- Explicar resultados.
+- Generar reporte narrativo.
+- Proponer reforzamiento.
+
+Pero la nota objetiva debe salir de:
+
+```text
+respuestas del estudiante + clave congelada + política de puntaje + escala
+```
+
+### 4.4 Agregar revisión de excepciones
+
+La revisión docente no debe obligar a mirar todo cuando la prueba es objetiva.
+
+Debe concentrarse en excepciones:
+
+- Respuestas incompletas.
+- Preguntas anuladas.
+- Preguntas con más de una alternativa marcada en selección única.
+- Estudiante duplicado.
+- Respuesta sin estudiante asociado.
+- CSV inválido.
+- OCR con baja confianza.
+- Cambio de clave después de aplicar.
+- Ítem detectado como ambiguo.
+- Reclamo o recorrección.
+
+### 4.5 Diferenciar estados académicos de estados operativos
+
+Para alternativas, el estado del ciclo debe separar:
+
+- estado de la evaluación;
+- estado del entregable;
+- estado de ingesta;
+- estado de calificación;
+- estado de publicación.
+
+Esto evita pantallas confusas y mejora la trazabilidad.
+
+---
+
+## 5. Arquitectura de información sugerida
+
+### 5.1 Navegación principal propuesta
+
+```text
+GradeOps AI
+├── Inicio / Workspace
+│   ├── Evaluaciones recientes
+│   ├── Pendientes de revisión
+│   ├── Cargas con errores
+│   ├── Reportes listos
+│   └── Crear evaluación
+│
+├── Banco de preguntas
+│   ├── Todas las preguntas
+│   ├── Crear pregunta
+│   ├── Generar con AI
+│   ├── Preguntas retiradas
+│   ├── Taxonomías
+│   └── Desempeño de ítems
+│
+├── Evaluaciones
+│   ├── Borradores
+│   ├── Listas para aplicar
+│   ├── Aplicadas
+│   ├── Calificadas
+│   ├── Publicadas
+│   └── Archivadas
+│
+├── Aplicación / Ingesta
+│   ├── Respuestas web
+│   ├── Importar CSV
+│   ├── Subir capturas / OCR
+│   ├── Validaciones
+│   └── Errores por resolver
+│
+├── Revisión y resultados
+│   ├── Calificaciones
+│   ├── Excepciones
+│   ├── Ajustes / anulaciones
+│   ├── Publicación
+│   └── Exportación
+│
+├── Reportes
+│   ├── Reporte por evaluación
+│   ├── Dificultad por ítem
+│   ├── Cobertura por resultado
+│   ├── Distribución de notas
+│   └── Reforzamiento sugerido
+│
+└── Evidencia / Auditoría
+    ├── Eventos académicos
+    ├── Aprobaciones docentes
+    ├── AI/Agent logs
+    ├── Costos estimados
+    └── Export de evidencia
+```
+
+### 5.2 Pantallas críticas
+
+#### Pantalla 1 — Workspace docente
+
+Objetivo: mostrar al docente qué requiere acción.
+
+Debe incluir:
+
+- botón “Crear evaluación”;
+- evaluaciones en curso;
+- estados visibles;
+- errores pendientes;
+- resultados listos para publicar;
+- evidencias/logs accesibles sin protagonismo excesivo.
+
+#### Pantalla 2 — Banco de preguntas
+
+Objetivo: administrar preguntas reutilizables sin sentirse como sistema institucional pesado.
+
+Debe incluir:
+
+- buscador;
+- filtros por asignatura, unidad, tema, dificultad, resultado;
+- tipo de pregunta;
+- estado: activa, retirada, borrador;
+- uso histórico;
+- tasa de acierto;
+- acciones rápidas: usar, editar, versionar, clonar, retirar.
+
+#### Pantalla 3 — Crear pregunta
+
+Campos mínimos:
+
+- enunciado;
+- tipo: verdadero/falso, selección única, selección múltiple;
+- alternativas;
+- correcta(s);
+- puntaje o score parcial;
+- explicación opcional;
+- dificultad;
+- taxonomía;
+- resultado de aprendizaje;
+- estado inicial.
+
+#### Pantalla 4 — Crear evaluación
+
+Debe ser wizard o stepper:
+
+```text
+1. Datos básicos
+2. Selección/generación de preguntas
+3. Pauta y puntajes
+4. Revisión docente
+5. Publicar/generar entregable
+```
+
+#### Pantalla 5 — Aplicación
+
+Debe permitir:
+
+- generar PDF;
+- compartir link/formulario;
+- descargar plantilla CSV;
+- ver ID/QR;
+- marcar evaluación como aplicada;
+- habilitar recepción de respuestas.
+
+#### Pantalla 6 — Ingesta y validación
+
+Debe mostrar:
+
+- respuestas recibidas;
+- cantidad esperada vs recibida;
+- estudiantes no asociados;
+- respuestas incompletas;
+- errores de formato;
+- duplicados;
+- OCR baja confianza;
+- acciones para corregir.
+
+#### Pantalla 7 — Calificación y revisión
+
+Debe mostrar:
+
+- nota sugerida/determinada;
+- respuestas correctas/incorrectas;
+- puntaje por estudiante;
+- excepciones;
+- overrides docentes;
+- opción de recalcular;
+- publicar resultados.
+
+#### Pantalla 8 — Reporte pedagógico
+
+Debe mostrar:
+
+- promedio;
+- mediana;
+- distribución;
+- tasa de aprobación;
+- dificultad por ítem;
+- preguntas problemáticas;
+- cobertura de resultados;
+- sugerencia de reforzamiento;
+- exportación PDF/CSV.
+
+#### Pantalla 9 — Auditoría/evidencia
+
+Debe mostrar:
+
+- creación de preguntas;
+- versionado;
+- publicación de evaluación;
+- carga de respuestas;
+- calificación;
+- cambios de pauta;
+- anulaciones;
+- publicación de resultados;
+- logs AI si hubo generación/reporte asistido.
+
+---
+
+## 6. Flujo recomendado: generación, aplicación y revisión
+
+### 6.1 Flujo de generación
+
+```text
+Docente inicia evaluación
+  -> define propósito, curso/sección, fecha, duración
+  -> elige camino:
+      A. generar preguntas con AI
+      B. seleccionar desde banco
+      C. combinar ambos
+  -> revisa preguntas y alternativas
+  -> valida que cada pregunta tenga respuesta correcta
+  -> define puntajes
+  -> define escala/umbral
+  -> sistema ejecuta validaciones
+  -> docente aprueba pauta
+  -> sistema genera snapshot
+  -> evaluación queda lista para aplicar
+```
+
+#### Reglas UX
+
+- La evaluación no puede publicarse si hay preguntas sin alternativa correcta.
+- La evaluación no puede publicarse si la suma de puntajes no es válida.
+- La evaluación no puede publicarse si existen ítems retirados, salvo confirmación explícita y justificada.
+- Toda pregunta generada por AI debe entrar como borrador y requerir aprobación.
+- La clave debe quedar congelada al publicar.
+
+### 6.2 Flujo de aplicación
+
+```text
+Evaluación lista
+  -> docente elige modo de aplicación:
+      - formulario web
+      - PDF imprimible
+      - CSV de respuestas
+      - captura/OCR
+  -> sistema genera ID/QR/link
+  -> docente aplica evaluación
+  -> sistema marca estado "Aplicada"
+  -> recepción de respuestas queda habilitada
+```
+
+#### Reglas UX
+
+- El ID/QR debe identificar evaluación, versión y eventualmente estudiante/copia.
+- Si es PDF, debe tener pauta/hoja de respuestas separada o estructura clara para OCR.
+- Si es digital, debe bloquear cambios en estructura después de iniciar aplicación.
+- El docente debe poder descargar plantilla CSV antes o después de aplicar.
+
+### 6.3 Flujo de revisión
+
+```text
+Respuestas recibidas
+  -> sistema valida integridad
+  -> si hay errores: cola de corrección
+  -> si pasa validación: calificación automática
+  -> sistema calcula puntajes y notas
+  -> docente revisa resumen y excepciones
+  -> docente puede anular pregunta / ajustar clave / excluir intento
+  -> sistema recalcula con trazabilidad
+  -> docente confirma resultados
+  -> sistema genera reporte
+  -> docente publica/exporta
+```
+
+#### Reglas UX
+
+- Calificación objetiva no debe depender de IA.
+- El sistema debe distinguir “calificado” de “publicado”.
+- Los cambios posteriores a la calificación deben crear evento de auditoría.
+- Si se modifica la pauta después de aplicar, debe existir recalculo versionado.
+- El reporte debe separar datos calculados, ajustes docentes y recomendaciones generadas.
+
+---
+
+## 7. Matriz comparativa funcional
+
+| Área | GRADE | GradeOps AI actual | Recomendación para nuevo producto |
+|---|---|---|---|
+| Posicionamiento | Plataforma de gestión de evaluaciones | Operación AI-native de evaluaciones | Posicionar como operación de evaluación, pero con modo objetivo cerrado |
+| Usuario primario | Docente independiente / docente institucional | Docente de programación / bootcamp | Mantener docente como usuario primario |
+| Banco de preguntas | Central y estratégico | Fuera o débil en MVP | Absorber como P0 liviano para alternativas |
+| Tipos de pregunta | TF, selección única, selección múltiple | Evaluaciones prácticas/rúbricas | Agregar `ObjectiveQuestion` como entidad clave |
+| Metadatos pedagógicos | Unidad, dificultad, resultado, tema | Topic/level/language para programación | Adaptar a taxonomía simple: área → tema → outcome |
+| Versionado de preguntas | Sí | Versionado de rúbrica, no banco | Absorber versionado de ítems |
+| Vigencia de ítems | Activo/retirado | No documentado | Absorber estado activo/retirado/borrador |
+| Composición de evaluación | Desde banco | Desde objetivo generado por AI | Permitir ambos caminos |
+| Generación AI | Fuera del MVP GRADE | Núcleo del MVP | Usar AI para generar preguntas, no para cerrar notas |
+| Pauta/clave | Clave por alternativas | Rúbrica aprobada | Agregar answer key aprobada |
+| Snapshot | Opciones congeladas al publicar | No documentado para alternativas | Debe ser obligatorio |
+| Entregable | PDF/digital con ID/QR | No prioritario | P0 si demo necesita impresión; P1 si demo web |
+| Aplicación | Curso/sección/alumnos | StudentSubmission sin cuenta | Adoptar lista liviana por evaluación |
+| Ingesta | CSV, web, foto/OCR | paste/upload code/text | P0 web/CSV; P1 OCR |
+| Calificación | Automática determinística | Sugerencia AI contra rúbrica | Motor objetivo determinístico |
+| Revisión docente | Incongruencia detectada: falta ajuste manual | Muy fuerte: approve/edit/reject | Absorber teacher control de GradeOps |
+| Reportes | Promedio, distribución, dificultad ítem, cobertura | Reporte, gaps, time saved, evidence | Fusionar: métricas objetivas + narrativa AI opcional |
+| Auditoría | Académica/sistema | Agent logs/evidence/costos | Unificar ambos eventos |
+| Roles | Admin, Coordinador, Docente | Teacher, Operator/Admin | Mantener simple; coordinador como futuro |
+| Notificaciones | Hitos y errores | No central | P1 para calificación lista y errores |
+| Business evidence | No es foco | Muy fuerte | Mantener como diferenciador |
+
+---
+
+## 8. Casos de borde detectados y mitigaciones
+
+### 8.1 Banco de preguntas
+
+| Edge case | Riesgo | Mitigación UX/Product |
+|---|---|---|
+| Pregunta sin alternativa correcta | Evaluación inválida | Bloquear publicación |
+| Selección única con dos correctas | Calificación incorrecta | Validación por tipo |
+| Verdadero/falso con más de dos opciones | Confusión y error de pauta | Regla fuerte de cardinalidad |
+| Selección múltiple con todas correctas | Ítem de baja calidad | Advertencia de calidad |
+| Alternativas duplicadas | Ambigüedad | Validación de textos duplicados |
+| Pregunta editada después de ser usada | Se altera historia | Crear nueva versión, no editar aplicada |
+| Pregunta retirada ya usada | Pérdida de trazabilidad | Retirada solo bloquea uso futuro |
+| Pregunta clonada sin cambios | Duplicidad de banco | Detección de similitud |
+| Taxonomía eliminada con preguntas asociadas | Inconsistencia curricular | No eliminar; desactivar |
+| Dificultad mal clasificada | Evaluación desbalanceada | Permitir revisión y métricas post-aplicación |
+
+### 8.2 Composición de evaluación
+
+| Edge case | Riesgo | Mitigación UX/Product |
+|---|---|---|
+| Evaluación sin preguntas | Entregable inválido | Bloquear avance |
+| Puntaje total cero | Nota imposible | Bloquear publicación |
+| Puntaje parcial mayor al puntaje de la pregunta | Nota inflada | Validación |
+| Ítem retirado seleccionado | Uso de contenido obsoleto | Advertencia o bloqueo |
+| Mismo ítem repetido | Sobreexposición | Advertencia |
+| Evaluación publicada editada | Descalce con respuestas | Requiere nueva versión |
+| Docente cambia escala después de aplicar | Reclamos | Recalculo auditado |
+| AI genera distractores ambiguos | Mala evaluación | Validación + revisión humana |
+| Evaluación sin resultado de aprendizaje | Reporte pobre | Permitir, pero advertir |
+| Fecha/duración inconsistentes | Mala aplicación | Validaciones blandas |
+
+### 8.3 Aplicación e ingesta
+
+| Edge case | Riesgo | Mitigación UX/Product |
+|---|---|---|
+| CSV con columnas incorrectas | Error de carga | Reporte por columna |
+| CSV con estudiante duplicado | Doble calificación | Cola de resolución |
+| Estudiante no asociado | Nota huérfana | Requiere asignación o exclusión |
+| Respuestas incompletas | Nota incorrecta | Marcar como incompleta |
+| Respuesta con alternativa inexistente | Error de pauta/plantilla | Rechazo de fila |
+| QR no coincide con evaluación | Asociación incorrecta | Bloquear lote |
+| Lote contiene respuestas de varias evaluaciones | Mezcla de datos | Separar por ID o rechazar |
+| OCR baja confianza | Error silencioso | Cola de revisión |
+| Foto borrosa | Respuesta inválida | Solicitar recaptura |
+| Alumno ausente | Cálculo de promedio incorrecto | Estado ausente/excluido |
+| Intento repetido | Doble nota | Política: reemplaza, conserva o bloquea |
+| Entrega tardía | Decisión docente | Flag de tardanza |
+
+### 8.4 Calificación y revisión
+
+| Edge case | Riesgo | Mitigación UX/Product |
+|---|---|---|
+| Clave mal configurada | Notas masivamente erróneas | Prevalidación + recalculo auditado |
+| Pregunta anulada después de aplicada | Reclamos | Acción “anular ítem” con recalculo |
+| Más de una respuesta en selección única | Criterio incierto | Política visible: 0, parcial o revisión |
+| Selección múltiple con crédito parcial | Inconsistencia | Configuración explícita de scoring |
+| Nota publicada prematuramente | Daño de confianza | Confirmación antes de publicar |
+| Cambio de nota manual | Falta de evidencia | Override con motivo obligatorio |
+| Recalificación | Versionamiento de resultado | Guardar cálculo anterior y nuevo |
+| Exportación expone datos sensibles | Riesgo privacidad | Export según rol y minimización |
+| Coordinador ve datos individuales | Riesgo privacidad | Vista agregada por defecto |
+| Reporte interpreta mal dificultad | Mala decisión pedagógica | Definir tooltip/documentación de métricas |
+
+---
+
+## 9. Requerimientos funcionales clave para backlog de diseño
+
+### Epic A — Banco de preguntas objetivo
+
+#### RF-A01 — Crear pregunta de alternativas
+Como docente, quiero crear una pregunta con alternativas para reutilizarla en evaluaciones.
+
+**Criterios:**
+- Permite tipos: verdadero/falso, selección única, selección múltiple.
+- Permite ingresar enunciado y alternativas.
+- Permite marcar correcta(s).
+- Valida cardinalidad por tipo.
+- Guarda estado inicial: borrador o activa.
+
+#### RF-A02 — Metadatos pedagógicos
+Como docente, quiero clasificar preguntas por tema, dificultad y resultado para encontrarlas y reportarlas.
+
+**Criterios:**
+- Pregunta contiene dificultad.
+- Pregunta contiene taxonomía mínima.
+- Pregunta puede asociarse a resultado de aprendizaje.
+- Los filtros usan estos metadatos.
+
+#### RF-A03 — Versionar, clonar y retirar pregunta
+Como docente/coordinador, quiero modificar preguntas sin perder historia.
+
+**Criterios:**
+- Editar pregunta usada genera nueva versión o advertencia fuerte.
+- Clonar crea nueva pregunta editable.
+- Retirar oculta de nuevas evaluaciones.
+- Reactivar vuelve a habilitar.
+
+#### RF-A04 — Generar pregunta con AI y aprobar
+Como docente, quiero generar preguntas sugeridas desde un objetivo, pero aprobarlas antes de usarlas.
+
+**Criterios:**
+- AI genera pregunta en estado borrador.
+- AI sugiere alternativas y correcta.
+- Docente puede editar/aprobar/rechazar.
+- Acción queda registrada.
+
+---
+
+### Epic B — Creación de evaluación
+
+#### RF-B01 — Crear evaluación desde objetivo o banco
+Como docente, quiero crear una evaluación partiendo de un objetivo, banco o combinación.
+
+**Criterios:**
+- Permite datos básicos: título, fecha, duración, curso/lista, escala.
+- Permite agregar preguntas existentes.
+- Permite agregar preguntas generadas.
+- Evaluación inicia como borrador.
+
+#### RF-B02 — Configurar puntajes y pauta
+Como docente, quiero definir puntajes y revisar la clave antes de aplicar.
+
+**Criterios:**
+- Cada pregunta tiene puntaje.
+- Se calcula total.
+- Se valida que todas tengan clave.
+- Se visualiza pauta completa antes de publicar.
+
+#### RF-B03 — Definir escala de calificación
+Como docente, quiero convertir puntaje a nota según mi criterio.
+
+**Criterios:**
+- Permite escala 1–7, 0–100 u otra.
+- Permite umbral de aprobación.
+- Muestra preview de conversión.
+- Cambios quedan auditados.
+
+#### RF-B04 — Publicar evaluación y congelar snapshot
+Como docente, quiero publicar una evaluación sin riesgo de que cambios futuros alteren la prueba.
+
+**Criterios:**
+- Publicar crea snapshot de preguntas y alternativas.
+- Bloquea edición estructural.
+- Genera versión de evaluación.
+- Permite crear nueva versión si se requieren cambios.
+
+---
+
+### Epic C — Aplicación
+
+#### RF-C01 — Generar entregable aplicable
+Como docente, quiero obtener un entregable para aplicar la evaluación.
+
+**Criterios:**
+- Genera formato digital o PDF.
+- Incluye ID/QR.
+- Permite descargar o compartir.
+- El entregable referencia evaluación y versión.
+
+#### RF-C02 — Gestionar participantes simples
+Como docente, quiero asociar una lista de estudiantes/identificadores a la evaluación.
+
+**Criterios:**
+- Permite ingresar manualmente o importar lista.
+- Cada participante tiene identificador único en la evaluación.
+- No requiere cuenta de estudiante en MVP.
+- Permite marcar ausente/excluido.
+
+#### RF-C03 — Marcar evaluación como aplicada
+Como docente, quiero marcar que la prueba fue aplicada para iniciar recepción de respuestas.
+
+**Criterios:**
+- Cambia estado a aplicada.
+- Habilita ingesta.
+- Registra fecha/hora.
+- Bloquea cambios de estructura.
+
+---
+
+### Epic D — Ingesta y validación
+
+#### RF-D01 — Recibir respuestas por formulario o CSV
+Como docente, quiero cargar respuestas cerradas para calificación automática.
+
+**Criterios:**
+- Permite respuesta web o CSV.
+- Valida formato.
+- Valida cantidad de preguntas.
+- Valida estudiante/identificador.
+- Muestra errores claros.
+
+#### RF-D02 — Cola de errores de ingesta
+Como docente, quiero resolver errores antes de calificar.
+
+**Criterios:**
+- Lista errores por fila, estudiante, pregunta o archivo.
+- Permite corregir, excluir o reintentar.
+- Bloquea calificación si hay errores críticos.
+- Guarda historial de intentos.
+
+#### RF-D03 — Ingesta por captura/OCR
+Como docente, quiero subir capturas de respuestas físicas cuando el flujo lo requiera.
+
+**Prioridad sugerida:** P1, no P0, salvo que la demo dependa de papel.
+
+**Criterios:**
+- Captura/subida de imagen.
+- Detección de baja calidad.
+- OCR con confianza.
+- Cola de revisión para baja confianza.
+
+---
+
+### Epic E — Calificación objetiva
+
+#### RF-E01 — Calificar automáticamente respuestas cerradas
+Como docente, quiero que el sistema calcule puntajes y notas.
+
+**Criterios:**
+- Compara respuestas con snapshot de clave.
+- Calcula puntos por pregunta.
+- Calcula total.
+- Convierte a nota.
+- Genera estado calificada.
+
+#### RF-E02 — Revisión de excepciones
+Como docente, quiero revisar solo casos problemáticos.
+
+**Criterios:**
+- Lista respuestas incompletas, duplicadas o inválidas.
+- Lista preguntas anuladas o con conflicto.
+- Permite resolver antes de publicar.
+- Registra acciones.
+
+#### RF-E03 — Ajustes y recálculo auditado
+Como docente, quiero corregir errores de pauta sin perder trazabilidad.
+
+**Criterios:**
+- Permite anular pregunta.
+- Permite corregir clave con motivo.
+- Recalcula resultados.
+- Conserva cálculo anterior.
+
+---
+
+### Epic F — Resultados y reportes
+
+#### RF-F01 — Publicar resultados
+Como docente, quiero publicar resultados cuando estén revisados.
+
+**Criterios:**
+- Separar estado calificada de publicada.
+- Confirmación obligatoria.
+- Publicación registra auditoría.
+- Resultados quedan exportables.
+
+#### RF-F02 — Reporte pedagógico objetivo
+Como docente, quiero entender cómo resultó la evaluación.
+
+**Criterios:**
+- Promedio.
+- Mediana.
+- Distribución.
+- Tasa de aprobación.
+- Tasa de acierto por pregunta.
+- Índice de dificultad.
+- Cobertura por resultado.
+- Preguntas críticas.
+
+#### RF-F03 — Reforzamiento sugerido
+Como docente, quiero recibir sugerencias de reforzamiento a partir de los resultados.
+
+**Criterios:**
+- Detecta temas con bajo desempeño.
+- Sugiere acción de reforzamiento.
+- Puede usar AI, pero queda como sugerencia.
+- Docente puede editar.
+
+---
+
+### Epic G — Auditoría y evidencia
+
+#### RF-G01 — Auditoría académica
+Como administrador/docente, quiero saber quién hizo qué y cuándo.
+
+**Criterios:**
+- Registra creación, edición, publicación, ingesta, calificación, ajuste y exportación.
+- Permite filtro por usuario, evaluación, fecha y acción.
+- Exporta CSV/JSON.
+- No editable por usuarios comunes.
+
+#### RF-G02 — Logs AI y evidencia operacional
+Como operador, quiero registrar ejecuciones AI cuando correspondan.
+
+**Criterios:**
+- Registra generación de preguntas, reportes o reforzamientos.
+- Registra input/output resumido.
+- Registra costo/modelo si aplica.
+- Vincula aprobación docente.
+
+---
+
+## 10. Modelo conceptual recomendado para alternativas
+
+```text
+Organization
+  └── UserAccount
+
+QuestionBank
+  ├── Question
+  │   ├── QuestionVersion
+  │   ├── QuestionOption
+  │   ├── Difficulty
+  │   ├── Topic
+  │   └── LearningOutcome
+
+Assessment
+  ├── AssessmentQuestionSnapshot
+  ├── AssessmentOptionSnapshot
+  ├── ScoringPolicy
+  ├── Deliverable
+  ├── Participant
+  └── AssessmentRun
+
+AssessmentRun
+  ├── ResponseBatch
+  ├── StudentAttempt
+  ├── StudentAnswer
+  ├── SelectedOption
+  ├── GradeResult
+  ├── ReviewException
+  └── PublicationEvent
+
+Report
+  ├── AssessmentReport
+  ├── ItemAnalysis
+  ├── OutcomeCoverage
+  └── RecoverySuggestion
+
+Audit
+  ├── AcademicAuditEvent
+  ├── ApprovalEvent
+  └── AgentExecutionLog
+```
+
+### Entidades nuevas o adaptadas necesarias en GradeOps AI
+
+| Entidad | Motivo |
+|---|---|
+| `Question` | Ítem objetivo reutilizable |
+| `QuestionOption` | Alternativas y correctas |
+| `QuestionVersion` | Control histórico |
+| `QuestionTaxonomy` | Búsqueda y reportes |
+| `AssessmentQuestionSnapshot` | Congelar evaluación publicada |
+| `AssessmentOptionSnapshot` | Congelar alternativas y clave |
+| `ScoringPolicy` | Escala, umbral, crédito parcial |
+| `Participant` | Identidad mínima por evaluación |
+| `StudentAttempt` | Rendición del participante |
+| `StudentAnswer` | Respuesta por pregunta |
+| `SelectedOption` | Alternativas elegidas |
+| `ReviewException` | Cola de casos problemáticos |
+| `ItemAnalysis` | Reporte de dificultad/aciertos |
+| `AcademicAuditEvent` | Auditoría no ligada a AI |
+
+---
+
+## 11. Priorización sugerida
+
+### P0 — Debe estar para el flujo de alternativas
+
+- Crear pregunta con alternativas.
+- Validar tipos TF/SC/MC.
+- Banco simple con búsqueda/filtros.
+- Crear evaluación desde banco o generación AI aprobada.
+- Configurar puntajes y escala.
+- Publicar evaluación con snapshot.
+- Responder por formulario web o importar CSV.
+- Calificación automática determinística.
+- Revisión de excepciones.
+- Publicar/exportar resultados.
+- Reporte básico por evaluación e ítem.
+- Auditoría académica mínima.
+
+### P1 — Importante para producto vendible
+
+- PDF con ID/QR.
+- Plantilla CSV descargable.
+- Lista liviana de participantes.
+- Anulación de pregunta y recálculo.
+- Reforzamiento sugerido por AI.
+- Notificaciones de calificación lista/errores.
+- Desempeño histórico del ítem.
+- Clonar/versionar con UX más completa.
+
+### P2 — Futuro
+
+- OCR móvil robusto.
+- Banco institucional compartido.
+- Coordinador con vistas agregadas.
+- Integraciones LMS/SIS.
+- Múltiples versiones A/B.
+- Analítica longitudinal.
+- Proctoring.
+- Marketplace de bancos.
+
+---
+
+## 12. Decisiones de diseño recomendadas
+
+### Decisión 1 — Crear un modo explícito: “Evaluación con alternativas”
+
+No mezclarlo con el flujo de programación/rúbrica. Debe ser un modo propio:
+
+```text
+Crear evaluación
+  -> Con alternativas
+  -> Práctica / código
+```
+
+Esto evita que el usuario se enfrente a conceptos innecesarios.
+
+### Decisión 2 — Separar “pauta” de “rúbrica”
+
+Para alternativas no corresponde usar rúbrica como concepto principal.
+
+Usar:
+
+- `Pauta` o `Clave de respuestas`.
+- `Política de puntaje`.
+- `Escala de nota`.
+
+La rúbrica puede quedar para evaluaciones abiertas/prácticas.
+
+### Decisión 3 — Usar AI como copiloto de construcción, no como juez final
+
+En el flujo de alternativas:
+
+- AI sugiere preguntas.
+- AI revisa ambigüedad.
+- AI sugiere distractores.
+- AI explica resultados.
+- AI sugiere reforzamiento.
+
+Pero el cálculo objetivo debe ser determinístico.
+
+### Decisión 4 — Mantener estudiantes sin cuenta en MVP
+
+Adoptar la lógica de GradeOps AI actual:
+
+```text
+student_identifier dentro de la evaluación
+```
+
+No crear portal estudiante ni cuenta obligatoria en el MVP.
+
+### Decisión 5 — Incorporar snapshot obligatorio
+
+Es una de las mejores decisiones de GRADE.
+
+Una evaluación aplicada nunca debe depender de la pregunta viva del banco.
+
+### Decisión 6 — Diseñar la revisión desde excepciones
+
+El docente no quiere revisar 40 pruebas una por una si son alternativas.
+
+Quiere revisar:
+
+- errores;
+- ambigüedades;
+- anulaciones;
+- duplicados;
+- cambios de pauta;
+- estudiantes no asociados.
+
+### Decisión 7 — Reporte objetivo + narrativa AI
+
+El reporte debe tener datos duros primero y narrativa después.
+
+Orden recomendado:
+
+1. resultados numéricos;
+2. desempeño por ítem;
+3. cobertura;
+4. hallazgos;
+5. sugerencia de reforzamiento.
+
+---
+
+## 13. Backlog mínimo recomendado para diseño de pantallas
+
+| ID | Pantalla / flujo | Prioridad |
+|---|---|---|
+| UX-01 | Workspace docente con estados de evaluación | P0 |
+| UX-02 | Banco de preguntas: lista, filtros, acciones | P0 |
+| UX-03 | Crear/editar pregunta con alternativas | P0 |
+| UX-04 | Generar preguntas con AI y aprobar | P0 |
+| UX-05 | Wizard crear evaluación | P0 |
+| UX-06 | Seleccionar preguntas desde banco | P0 |
+| UX-07 | Configurar pauta/puntaje/escala | P0 |
+| UX-08 | Revisión previa a publicación | P0 |
+| UX-09 | Generar aplicación web/CSV/PDF | P0/P1 |
+| UX-10 | Cargar respuestas | P0 |
+| UX-11 | Validación y errores de ingesta | P0 |
+| UX-12 | Calificación automática y resumen | P0 |
+| UX-13 | Cola de excepciones | P0 |
+| UX-14 | Publicar/exportar resultados | P0 |
+| UX-15 | Reporte por evaluación | P0 |
+| UX-16 | Reporte por ítem | P0 |
+| UX-17 | Auditoría académica | P1 |
+| UX-18 | Evidencia AI/operación | P1 |
+| UX-19 | Anular pregunta y recalcular | P1 |
+| UX-20 | OCR/captura móvil | P2 |
+
+---
+
+## 14. Conclusión estratégica
+
+Para evaluaciones con alternativas, GradeOps AI debe absorber el corazón funcional de GRADE: banco de preguntas, alternativas, pauta, snapshots, aplicación, ingesta, calificación objetiva y reportes por ítem.
+
+Pero debe evitar absorber el peso institucional completo de GRADE: demasiados roles, integraciones complejas, administración profunda y OCR como dependencia inicial.
+
+La dirección recomendada es:
+
+```text
+GradeOps AI — Objective Assessment Ops
+
+Un flujo simple para que docentes creen, apliquen y revisen evaluaciones de alternativas,
+con banco reutilizable, calificación automática confiable, revisión de excepciones,
+reportes pedagógicos y evidencia operacional.
+```
+
+La propuesta más fuerte no es “hacer un generador de quizzes”.  
+Es convertir la evaluación objetiva en una operación controlada:
+
+```text
+Generar
+  -> Validar
+  -> Aplicar
+  -> Calificar
+  -> Revisar excepciones
+  -> Publicar
+  -> Aprender del resultado
+```
+
+Ese es el puente correcto entre GRADE y GradeOps AI.
+
+
+---
+
+## Source: `.raw/13-chat.md`
+
+# Ajuste estratégico — Banco de preguntas generado por AI en GradeOps AI
+
+## Contexto del ajuste
+
+En GRADE, el banco de preguntas estaba concebido principalmente como un repositorio construido manualmente por el docente o por roles académicos autorizados.
+
+En GradeOps AI, ese supuesto cambia:
+
+> El banco de preguntas y las evaluaciones construidas a partir de ese banco pueden ser generados por AI, siempre con revisión, curaduría y aprobación final del docente.
+
+Este ajuste cambia el centro del producto. El banco ya no debe verse solo como una base de datos de preguntas reutilizables, sino como un **sistema de producción, curaduría, versionado y operación de ítems evaluativos asistido por AI**.
+
+---
+
+## Nueva tesis de producto
+
+La tesis corregida debería ser:
+
+```text
+GradeOps AI permite que un docente genere un banco de preguntas con AI,
+revise y apruebe los ítems, construya evaluaciones automáticamente desde ese banco,
+aplique la evaluación, califique respuestas objetivas y obtenga reportes pedagógicos
+con evidencia operacional.
+```
+
+Esto conserva lo mejor de GRADE:
+
+- banco versionado;
+- alternativas;
+- pauta;
+- snapshot;
+- aplicación;
+- ingesta;
+- calificación automática;
+- reportes;
+- auditoría.
+
+Pero agrega el diferencial de GradeOps AI:
+
+- generación AI de preguntas;
+- generación AI de alternativas;
+- generación AI de distractores;
+- validación AI de ambigüedad;
+- sugerencia AI de dificultad;
+- sugerencia AI de resultado de aprendizaje;
+- armado AI de evaluaciones;
+- reporte AI narrativo;
+- reforzamiento AI posterior.
+
+---
+
+## Cambio conceptual principal
+
+### Antes
+
+```text
+Docente crea manualmente preguntas
+  -> banco guarda preguntas
+  -> docente arma evaluación
+  -> sistema aplica/califica
+```
+
+### Ahora
+
+```text
+Docente define intención evaluativa
+  -> AI genera preguntas y alternativas
+  -> AI propone metadatos y dificultad
+  -> sistema valida estructura objetiva
+  -> docente revisa/aprueba/edita/rechaza
+  -> preguntas aprobadas entran al banco
+  -> AI o docente arma evaluación desde banco
+  -> docente aprueba pauta
+  -> sistema aplica/califica/reporta
+```
+
+---
+
+## Nuevo rol del banco de preguntas
+
+El banco debe tener cuatro zonas funcionales:
+
+```text
+Banco de preguntas
+├── Preguntas aprobadas
+├── Preguntas generadas por AI pendientes de revisión
+├── Preguntas rechazadas / descartadas
+└── Preguntas retiradas / históricas
+```
+
+Esto es clave porque una pregunta generada por AI **no debe entrar automáticamente como ítem válido**.
+
+Debe pasar por un flujo de curaduría.
+
+---
+
+## Estados sugeridos para una pregunta
+
+```text
+ai_generated
+  -> pending_teacher_review
+  -> approved
+  -> active
+  -> used_in_assessment
+  -> retired
+```
+
+Estados alternativos:
+
+```text
+ai_generated
+  -> rejected
+
+approved
+  -> needs_revision
+  -> new_version_created
+```
+
+Tabla recomendada:
+
+| Estado | Significado | Puede usarse en evaluación |
+|---|---|---|
+| `ai_generated` | La AI creó el ítem, pero aún no fue revisado | No |
+| `pending_review` | Está esperando revisión docente | No |
+| `approved` | El docente validó contenido, alternativas y clave | Sí |
+| `active` | Está disponible en el banco | Sí |
+| `needs_revision` | Tiene advertencias o fue reportada como ambigua | No, salvo confirmación |
+| `retired` | Fue retirada para uso futuro | No |
+| `rejected` | Fue descartada | No |
+| `versioned` | Tiene una versión posterior | No como versión vigente |
+
+---
+
+## Nuevo flujo UX para generar banco con AI
+
+```text
+1. Docente define contexto
+   - Asignatura / área
+   - Unidad / tema
+   - Resultado de aprendizaje
+   - Nivel
+   - Dificultad
+   - Cantidad de preguntas
+   - Tipo de preguntas
+   - Restricciones pedagógicas
+
+2. AI genera lote de preguntas
+   - Enunciado
+   - Alternativas
+   - Respuesta correcta
+   - Explicación de la respuesta
+   - Dificultad sugerida
+   - Resultado de aprendizaje sugerido
+   - Tags
+   - Riesgos de ambigüedad
+
+3. Sistema valida estructura objetiva
+   - TF: exactamente 2 opciones y 1 correcta
+   - Selección única: 2+ opciones y 1 correcta
+   - Selección múltiple: 2+ opciones y 1+ correctas
+   - Sin alternativas duplicadas
+   - Sin pregunta sin clave
+   - Sin puntaje inválido
+
+4. Docente revisa
+   - Aprueba
+   - Edita
+   - Regenera
+   - Rechaza
+   - Marca como dudosa
+
+5. Preguntas aprobadas pasan al banco activo
+
+6. Preguntas rechazadas quedan como evidencia/descartadas
+```
+
+---
+
+## Flujo UX para generar evaluación desde banco AI-generated
+
+```text
+1. Docente define evaluación
+   - Objetivo
+   - Duración
+   - Cantidad de preguntas
+   - Distribución de dificultad
+   - Temas/resultados a cubrir
+   - Tipo de preguntas
+   - Puntaje total
+   - Escala
+
+2. AI propone composición
+   - Selecciona preguntas aprobadas del banco
+   - Balancea dificultad
+   - Evita repetición excesiva
+   - Cubre resultados de aprendizaje
+   - Propone orden
+   - Propone puntajes
+
+3. Docente revisa matriz de evaluación
+   - Preguntas seleccionadas
+   - Dificultad
+   - Resultado cubierto
+   - Puntaje
+   - Clave
+   - Alertas
+
+4. Sistema valida
+   - Todas las preguntas están aprobadas
+   - Todas tienen alternativas válidas
+   - Todas tienen clave
+   - Total de puntaje consistente
+   - No hay ítems retirados
+   - No hay ítems duplicados
+
+5. Docente aprueba evaluación
+
+6. Sistema crea snapshot
+   - Preguntas congeladas
+   - Alternativas congeladas
+   - Clave congelada
+   - Puntajes congelados
+   - Escala congelada
+```
+
+---
+
+## Nuevos agentes o capacidades AI necesarias
+
+### 1. Question Generation Agent
+
+Genera preguntas objetivas desde un objetivo docente.
+
+Debe producir:
+
+- enunciado;
+- tipo de pregunta;
+- alternativas;
+- respuesta(s) correcta(s);
+- explicación;
+- dificultad;
+- resultado de aprendizaje sugerido;
+- tags;
+- justificación pedagógica.
+
+### 2. Distractor Quality Agent
+
+Evalúa si las alternativas incorrectas son plausibles.
+
+Debe detectar:
+
+- distractores obvios;
+- alternativas absurdas;
+- alternativas duplicadas;
+- alternativas parcialmente correctas;
+- pistas involuntarias;
+- longitud desbalanceada;
+- sesgos de redacción.
+
+### 3. Ambiguity Review Agent
+
+Detecta problemas de interpretación.
+
+Debe marcar:
+
+- enunciado ambiguo;
+- más de una respuesta potencialmente válida;
+- falta de contexto;
+- términos no enseñados;
+- pregunta con doble negación;
+- alternativa dependiente de opinión;
+- inconsistencia con nivel declarado.
+
+### 4. Assessment Assembly Agent
+
+Arma evaluaciones desde el banco aprobado.
+
+Debe considerar:
+
+- cantidad de preguntas;
+- dificultad;
+- temas;
+- resultados de aprendizaje;
+- historial de uso;
+- tiempo estimado;
+- balance de tipos;
+- puntaje total;
+- cobertura.
+
+### 5. Item Analytics Agent
+
+Después de aplicar evaluaciones, interpreta desempeño de ítems.
+
+Debe detectar:
+
+- pregunta demasiado fácil;
+- pregunta demasiado difícil;
+- posible ambigüedad por baja tasa de acierto;
+- distractores que nadie eligió;
+- distractor demasiado atractivo;
+- contenido que requiere reforzamiento.
+
+---
+
+## Regla de oro
+
+La AI puede **crear, sugerir, clasificar, balancear y explicar**.
+
+Pero no debe:
+
+- activar automáticamente preguntas sin aprobación;
+- publicar una evaluación sin aprobación docente;
+- modificar una clave ya aplicada sin trazabilidad;
+- corregir objetivamente usando juicio probabilístico cuando existe clave determinística.
+
+La calificación de alternativas debe seguir siendo:
+
+```text
+respuesta del estudiante
++ snapshot de clave aprobada
++ política de puntaje
++ escala de nota
+= resultado calculado
+```
+
+---
+
+## Cambios requeridos en el análisis anterior
+
+### Donde decía
+
+> “El banco de preguntas debe ser presentado como repositorio pedagógico vivo.”
+
+Debe cambiar a:
+
+> “El banco de preguntas debe ser presentado como una fábrica curada de ítems evaluativos: AI genera, el docente valida, el sistema versiona y las evaluaciones consumen solo preguntas aprobadas.”
+
+### Donde decía
+
+> “Camino A: desde objetivo -> AI sugiere preguntas -> docente aprueba/edit”
+
+Debe quedar como flujo principal, no secundario.
+
+Nuevo orden:
+
+```text
+Camino principal:
+  Desde objetivo -> AI genera banco/lote -> docente cura -> evaluación se arma desde aprobadas
+
+Camino secundario:
+  Desde banco existente -> docente selecciona -> evaluación se arma manualmente
+
+Camino híbrido:
+  Banco existente + generación AI para cubrir gaps
+```
+
+### Donde decía
+
+> “Banco simple con búsqueda/filtros”
+
+Debe ampliarse a:
+
+> “Banco AI-assisted con cola de revisión, aprobación docente, validaciones automáticas y trazabilidad de generación.”
+
+---
+
+## Cambios en priorización
+
+### P0 corregido
+
+- Generar preguntas con AI desde objetivo.
+- Generar alternativas y clave sugerida.
+- Validar cardinalidad y estructura de pregunta.
+- Cola de revisión docente de preguntas AI-generated.
+- Aprobar/editar/rechazar pregunta.
+- Guardar pregunta aprobada en banco.
+- Crear evaluación desde preguntas aprobadas.
+- Permitir que AI arme evaluación desde banco.
+- Revisar y aprobar pauta.
+- Crear snapshot al publicar.
+- Calificar respuestas de forma determinística.
+- Generar reporte por evaluación e ítem.
+- Registrar logs AI y aprobación docente.
+
+### P1 corregido
+
+- Regenerar lote completo o preguntas individuales.
+- Mejorar distractores con AI.
+- Detectar preguntas similares/duplicadas.
+- Sugerir cobertura por outcome.
+- Rebalancear evaluación por dificultad.
+- Analítica histórica por ítem.
+- Anulación y recálculo auditado.
+- PDF/QR si el demo necesita prueba física.
+
+### P2 corregido
+
+- OCR móvil robusto.
+- Banco compartido entre docentes.
+- Marketplace de bancos.
+- Integraciones LMS.
+- Proctoring.
+- Analítica longitudinal.
+
+---
+
+## Modelo de datos ajustado
+
+Además del modelo objetivo base, se requieren campos para procedencia AI.
+
+### `Question`
+
+Campos recomendados adicionales:
+
+| Campo | Propósito |
+|---|---|
+| `source_type` | `manual`, `ai_generated`, `imported` |
+| `source_agent_execution_id` | vínculo al log AI que generó la pregunta |
+| `generation_prompt_summary` | resumen del input usado |
+| `ai_confidence` | confianza o calidad estimada |
+| `review_status` | estado de revisión docente |
+| `reviewed_by` | docente que aprobó/editó/rechazó |
+| `reviewed_at` | fecha de revisión |
+| `rejection_reason` | motivo si se rechaza |
+| `quality_flags_json` | ambigüedad, distractores débiles, duplicidad |
+| `approved_version_id` | versión aprobada actual |
+
+### `QuestionOption`
+
+Campos recomendados adicionales:
+
+| Campo | Propósito |
+|---|---|
+| `is_ai_generated` | identifica alternativa generada por AI |
+| `distractor_rationale` | por qué la alternativa es plausible |
+| `quality_flags_json` | problemas detectados |
+| `edited_by_teacher` | indica intervención humana |
+
+### `QuestionReviewEvent`
+
+Entidad nueva sugerida:
+
+| Campo | Propósito |
+|---|---|
+| `id` | identificador |
+| `question_id` | pregunta revisada |
+| `actor_user_id` | docente |
+| `action` | approve/edit/reject/regenerate/request_changes |
+| `notes` | comentario docente |
+| `previous_status` | estado previo |
+| `new_status` | estado nuevo |
+| `created_at` | auditoría |
+
+---
+
+## UX específica para la cola de revisión
+
+La pantalla clave del nuevo banco no es solo “lista de preguntas”.
+
+Debe existir una pantalla:
+
+# Revisión de preguntas generadas por AI
+
+Cada card de pregunta debe mostrar:
+
+- enunciado;
+- tipo;
+- alternativas;
+- alternativa(s) correcta(s);
+- explicación de la respuesta;
+- dificultad sugerida;
+- outcome sugerido;
+- alertas de calidad;
+- acciones:
+  - aprobar;
+  - editar;
+  - regenerar alternativas;
+  - regenerar pregunta;
+  - rechazar;
+  - guardar como borrador.
+
+### Indicadores visuales recomendados
+
+| Indicador | Uso |
+|---|---|
+| `Lista para aprobar` | Sin errores estructurales |
+| `Requiere revisión` | Hay advertencias |
+| `Inválida` | Falta clave, alternativas o regla |
+| `Posible ambigüedad` | AI detectó más de una interpretación |
+| `Distractores débiles` | Alternativas incorrectas muy obvias |
+| `Duplicada probable` | Similar a otra del banco |
+
+---
+
+## Nuevo pitch funcional del módulo
+
+> GradeOps AI no solo genera evaluaciones. Construye un banco de preguntas curado por el docente: la AI propone ítems, alternativas y claves; el sistema valida estructura y trazabilidad; el docente aprueba; y las evaluaciones se arman automáticamente desde preguntas confiables.
+
+---
+
+## Conclusión corregida
+
+La recomendación ya no debe ser simplemente “absorber el banco de GRADE”.
+
+La recomendación correcta es:
+
+```text
+Tomar el modelo robusto de banco de GRADE,
+pero convertirlo en un banco AI-native:
+AI genera preguntas y evaluaciones,
+el sistema valida,
+el docente cura,
+y solo lo aprobado se aplica/califica.
+```
+
+Esto hace que GradeOps AI sea más potente que GRADE en su versión original, porque no solo administra preguntas: **produce, mejora, valida, organiza y opera evaluaciones completas asistidas por AI**.
+
+
+---
+
+## Source: `.raw/14-chat.md`
+
+# GradeOps AI — Modelo unificado de evaluaciones abiertas, cerradas y acceso de estudiantes sin cuenta
+
+## 1. Decisión de producto
+
+GradeOps AI debe soportar dos tipos principales de evaluación:
+
+1. **Evaluaciones abiertas**
+   - El estudiante entrega desarrollo, código, archivo, texto libre o respuesta extensa.
+   - La creación de la evaluación es asistida por AI.
+   - La pauta/rúbrica de corrección es asistida por AI.
+   - La calificación es asistida por AI, pero requiere revisión/aprobación docente.
+   - El resultado final es una nota ponderada asociada a un alumno y una asignatura.
+
+2. **Evaluaciones cerradas**
+   - El estudiante responde seleccionando alternativas dentro de un universo definido por pregunta.
+   - La AI puede generar preguntas, alternativas, metadatos, dificultad, resultados de aprendizaje y pauta.
+   - La evaluación se vuelve determinística una vez aprobada y publicada.
+   - La calificación se calcula por clave, puntaje y escala.
+   - El resultado final es una nota ponderada asociada a un alumno y una asignatura.
+
+Además, el sistema debe permitir que el alumno:
+
+- realice una entrega abierta mediante un link único y seguro;
+- responda una evaluación cerrada mediante un link único y seguro;
+- vea sus resultados mediante un portal sin cuenta;
+- valide acceso mediante link enviado a su email;
+- no necesite registro ni contraseña dentro de la solución en la primera versión.
+
+---
+
+## 2. Tesis corregida del producto
+
+```text
+GradeOps AI permite a docentes crear, aplicar, revisar y calificar evaluaciones abiertas y cerradas con asistencia AI, manteniendo autoridad docente, trazabilidad, evidencia operacional y acceso seguro para estudiantes sin cuenta mediante links enviados por correo.
+```
+
+---
+
+## 3. Diferencia entre evaluación abierta y cerrada
+
+| Dimensión | Evaluación abierta | Evaluación cerrada |
+|---|---|---|
+| Tipo de respuesta | Desarrollo, código, archivo, texto libre, respuesta extensa | Selección de alternativa(s) |
+| Creación | AI genera contexto, caso, instrucciones, entregables y rúbrica | AI genera preguntas, alternativas, clave, metadatos y configuración |
+| Corrección | AI sugiere evaluación contra rúbrica | Motor determinístico compara contra clave |
+| Control docente | Revisa, edita y aprueba rúbrica, sugerencias y nota | Revisa, edita y aprueba preguntas, pauta y resultados excepcionales |
+| Resultado | Nota ponderada con feedback cualitativo | Nota ponderada con análisis objetivo |
+| Riesgo principal | Subjetividad / inconsistencia de criterio | Error en clave, alternativas ambiguas o mala configuración |
+| Mejor uso de AI | Generación, rúbrica, feedback, brechas, recuperación | Generación de ítems, distractores, balance, explicación, reportes |
+| Cálculo de nota | Asistido por AI + aprobación docente | Determinístico |
+
+---
+
+## 4. Ciclo común de toda evaluación
+
+Ambos tipos deben terminar en el mismo objetivo operacional:
+
+```text
+Alumno
+  -> realiza evaluación
+  -> sistema procesa respuesta
+  -> docente revisa/controla según tipo
+  -> sistema calcula o consolida nota
+  -> nota queda asociada a alumno + asignatura + evaluación
+  -> alumno puede consultar resultado mediante portal seguro sin cuenta
+```
+
+### Estado común de una evaluación
+
+```text
+draft
+  -> pending_teacher_review
+  -> approved
+  -> published
+  -> accepting_responses
+  -> responses_received
+  -> grading_in_progress
+  -> pending_teacher_review
+  -> graded
+  -> results_published
+  -> archived
+```
+
+### Estado común de un alumno frente a una evaluación
+
+```text
+invited
+  -> link_sent
+  -> access_validated
+  -> started
+  -> submitted
+  -> processing
+  -> graded
+  -> result_available
+  -> viewed_result
+```
+
+---
+
+## 5. Evaluación abierta
+
+### 5.1 Flujo de creación
+
+```text
+Docente define intención evaluativa
+  -> AI genera borrador de evaluación
+      - contexto
+      - caso
+      - instrucciones
+      - entregables esperados
+      - restricciones
+      - criterios de evaluación
+  -> AI genera rúbrica
+      - criterios
+      - ponderaciones
+      - niveles de desempeño
+      - errores frecuentes
+      - condiciones de aprobación
+  -> docente revisa/edita/aprueba
+  -> evaluación se publica
+  -> sistema genera links únicos para estudiantes
+```
+
+### 5.2 Flujo de entrega del alumno
+
+```text
+Alumno recibe email
+  -> abre link único
+  -> sistema valida token
+  -> alumno ve evaluación
+  -> alumno responde o sube entrega
+  -> alumno confirma envío
+  -> sistema registra entrega
+  -> link queda cerrado o limitado según política
+```
+
+### 5.3 Flujo de corrección
+
+```text
+Entrega recibida
+  -> AI analiza contra rúbrica aprobada
+  -> AI sugiere puntaje por criterio
+  -> AI genera feedback
+  -> AI marca incertidumbres
+  -> docente revisa
+      - aprueba
+      - edita
+      - rechaza
+      - pide regeneración
+  -> sistema consolida nota final
+  -> resultado queda listo para publicar
+```
+
+### 5.4 Elementos clave
+
+- La rúbrica aprobada es el contrato de corrección.
+- La AI no debe publicar nota sin revisión docente.
+- El estudiante no necesita cuenta.
+- La entrega debe quedar trazable.
+- El docente debe poder comparar sugerencia AI vs nota final.
+- El feedback debe ser editable antes de estar disponible para el alumno.
+
+---
+
+## 6. Evaluación cerrada
+
+### 6.1 Flujo de creación
+
+```text
+Docente define intención evaluativa
+  -> AI genera lote de preguntas
+      - enunciado
+      - alternativas
+      - respuesta correcta
+      - explicación
+      - dificultad
+      - resultado de aprendizaje
+      - tags
+  -> sistema valida estructura
+      - alternativas completas
+      - clave definida
+      - cardinalidad según tipo
+      - sin duplicados
+      - sin errores críticos
+  -> docente revisa/edita/aprueba preguntas
+  -> preguntas aprobadas entran al banco
+  -> AI o docente arma evaluación
+  -> docente revisa pauta y ponderación
+  -> sistema congela snapshot
+  -> evaluación se publica
+  -> sistema genera links únicos para estudiantes
+```
+
+### 6.2 Flujo de respuesta del alumno
+
+```text
+Alumno recibe email
+  -> abre link único
+  -> sistema valida token
+  -> alumno ve evaluación cerrada
+  -> responde seleccionando alternativas
+  -> sistema guarda progreso si aplica
+  -> alumno envía intento
+  -> sistema bloquea o marca intento como enviado
+```
+
+### 6.3 Flujo de calificación
+
+```text
+Intento recibido
+  -> sistema compara respuestas contra snapshot de clave
+  -> calcula puntaje por pregunta
+  -> calcula puntaje total
+  -> convierte a nota según escala
+  -> identifica excepciones
+  -> docente revisa resumen/excepciones
+  -> docente publica resultados
+```
+
+### 6.4 Elementos clave
+
+- La calificación no depende de AI.
+- La AI ayuda a crear, mejorar y explicar.
+- La clave queda congelada al publicar.
+- Cambios posteriores requieren nueva versión o recálculo auditado.
+- El docente no debe revisar cada respuesta si no hay excepciones.
+- El reporte debe mostrar desempeño por pregunta y resultado de aprendizaje.
+
+---
+
+## 7. Acceso del alumno sin cuenta
+
+### 7.1 Principio
+
+El estudiante no tendrá cuenta en la primera versión.  
+El acceso se realiza mediante **links únicos, seguros, enviados al correo del estudiante**.
+
+Esto aplica para:
+
+- realizar una evaluación abierta;
+- responder una evaluación cerrada;
+- revisar resultados publicados;
+- descargar feedback o reporte individual si corresponde.
+
+### 7.2 Flujo de invitación
+
+```text
+Docente publica evaluación
+  -> sistema genera lista de destinatarios
+  -> sistema crea token único por alumno/evaluación
+  -> sistema envía email
+  -> alumno abre link
+  -> sistema valida token
+  -> alumno accede solo a su evaluación
+```
+
+### 7.3 Tipos de link
+
+| Link | Uso |
+|---|---|
+| `assessment_access_link` | Permite rendir/responder la evaluación |
+| `submission_resume_link` | Permite continuar si se permite guardado parcial |
+| `result_access_link` | Permite ver resultado publicado |
+| `feedback_access_link` | Permite ver feedback individual |
+| `magic_reauth_link` | Permite revalidar acceso desde correo |
+
+### 7.4 Reglas de seguridad mínimas
+
+- Token único por alumno + evaluación.
+- Token firmado o aleatorio de alta entropía.
+- Expiración configurable.
+- Uso único o uso limitado según tipo.
+- Validación de estado de evaluación.
+- No revelar si un correo existe.
+- No permitir listar evaluaciones ajenas.
+- Revocación manual por docente.
+- Registro de accesos.
+- Rate limiting.
+- Reenvío de link con invalidación opcional del anterior.
+- Vista estrictamente individual.
+
+### 7.5 Portal libre de resultados
+
+El portal libre no es una cuenta de estudiante. Es una zona de acceso validada por link.
+
+Debe permitir:
+
+```text
+Alumno abre portal de resultados
+  -> ingresa email o abre magic link
+  -> recibe link de acceso
+  -> ve sus evaluaciones publicadas
+  -> entra al detalle de una evaluación
+  -> ve nota, puntaje, feedback y estado
+```
+
+### 7.6 Qué puede ver el alumno
+
+| Información | Evaluación abierta | Evaluación cerrada |
+|---|---|---|
+| Nota final | Sí | Sí |
+| Puntaje total | Sí | Sí |
+| Feedback docente/AI aprobado | Sí | Opcional |
+| Rúbrica / criterios | Sí, si el docente lo publica | No aplica o resumen |
+| Respuestas correctas | No siempre | Configurable |
+| Preguntas erradas | No aplica | Configurable |
+| Reforzamiento sugerido | Sí, si se publica | Sí, si se publica |
+| Historial completo de auditoría | No | No |
+| Logs AI internos | No | No |
+| Costos/modelos | No | No |
+
+---
+
+## 8. Modelo de actores corregido
+
+| Actor | Descripción |
+|---|---|
+| Docente | Crea, configura, aprueba, aplica, revisa y publica resultados |
+| Alumno sin cuenta | Accede mediante link seguro para responder o ver resultados |
+| Sistema AI | Genera, sugiere, analiza, redacta y resume |
+| Motor determinístico | Corrige evaluaciones cerradas |
+| Operador/Admin | Ve métricas, evidencia, costos, logs y soporte |
+| Coordinador | Futuro: vista agregada por asignatura/cohorte |
+
+---
+
+## 9. Modelo de entidades sugerido
+
+```text
+Organization
+  └── UserAccount
+
+Subject
+  └── CourseSection
+      └── Enrollment / LearnerRef
+
+LearnerRef
+  ├── id
+  ├── email
+  ├── display_name
+  └── external_identifier
+
+Assessment
+  ├── assessment_type: open | closed
+  ├── subject_id
+  ├── course_section_id
+  ├── weighting
+  ├── grading_scale
+  ├── status
+  └── published_at
+
+OpenAssessment
+  ├── context
+  ├── case_statement
+  ├── instructions
+  ├── expected_deliverables
+  └── rubric
+
+ClosedAssessment
+  ├── question_snapshots
+  ├── option_snapshots
+  ├── answer_key_snapshot
+  └── scoring_policy
+
+AssessmentInvitation
+  ├── assessment_id
+  ├── learner_ref_id
+  ├── email
+  ├── token_hash
+  ├── expires_at
+  ├── used_at
+  ├── revoked_at
+  └── status
+
+AssessmentAttempt
+  ├── assessment_id
+  ├── learner_ref_id
+  ├── started_at
+  ├── submitted_at
+  ├── status
+  └── attempt_no
+
+OpenSubmission
+  ├── attempt_id
+  ├── text_response
+  ├── file_artifacts
+  └── submitted_at
+
+ClosedResponse
+  ├── attempt_id
+  ├── answer_items
+  └── submitted_at
+
+GradeResult
+  ├── attempt_id
+  ├── raw_score
+  ├── weighted_score
+  ├── final_grade
+  ├── grading_status
+  ├── teacher_approved_by
+  └── published_at
+
+StudentResultAccess
+  ├── learner_ref_id
+  ├── result_token_hash
+  ├── expires_at
+  ├── accessed_at
+  └── revoked_at
+```
+
+---
+
+## 10. Ponderación y nota final
+
+Toda evaluación debe terminar generando una nota para un alumno en una asignatura.
+
+### 10.1 Nota de evaluación
+
+```text
+resultado evaluación = puntaje obtenido convertido a escala
+```
+
+Ejemplo:
+
+```text
+Evaluación cerrada:
+  17/20 puntos
+  escala 1.0 a 7.0
+  exigencia 60%
+  nota = 6.1
+
+Evaluación abierta:
+  rúbrica 100 puntos
+  AI sugiere 82
+  docente ajusta a 86
+  nota = 6.3
+```
+
+### 10.2 Ponderación en asignatura
+
+Una evaluación puede tener ponderación dentro de una asignatura:
+
+```text
+nota ponderada = nota evaluación * porcentaje ponderación
+```
+
+Ejemplo:
+
+```text
+Evaluación 1: nota 6.0, ponderación 30%
+Evaluación 2: nota 5.5, ponderación 40%
+Evaluación 3: nota 6.4, ponderación 30%
+
+nota asignatura = 6.0*0.3 + 5.5*0.4 + 6.4*0.3
+```
+
+### 10.3 Estados de nota
+
+```text
+calculated
+  -> pending_teacher_approval
+  -> teacher_approved
+  -> published_to_student
+  -> viewed_by_student
+  -> locked
+```
+
+---
+
+## 11. Implicancias sobre el MVP
+
+La documentación previa que decía que el estudiante no necesitaba cuenta sigue siendo válida, pero debe corregirse la interpretación:
+
+### Antes
+
+```text
+El alumno no necesita cuenta y no tiene portal.
+```
+
+### Ahora
+
+```text
+El alumno no necesita cuenta, pero sí necesita experiencia de acceso seguro mediante links para:
+  - responder evaluaciones;
+  - entregar desarrollos;
+  - ver resultados publicados.
+```
+
+Esto evita construir un LMS completo, pero sí reconoce que la operación real de evaluación requiere una superficie mínima para el alumno.
+
+---
+
+## 12. Backlog P0 corregido
+
+### Evaluaciones abiertas
+
+- Crear evaluación abierta con AI.
+- Generar contexto/caso/instrucciones.
+- Generar rúbrica.
+- Aprobar rúbrica.
+- Enviar links únicos a estudiantes.
+- Recibir entregas.
+- Analizar entrega con AI.
+- Generar sugerencia de puntaje y feedback.
+- Revisar/aprobar por docente.
+- Publicar resultado.
+
+### Evaluaciones cerradas
+
+- Generar preguntas con AI.
+- Generar alternativas y clave.
+- Validar estructura.
+- Aprobar preguntas.
+- Crear banco de preguntas.
+- Armar evaluación desde banco.
+- Aprobar pauta.
+- Publicar evaluación.
+- Enviar links únicos a estudiantes.
+- Recibir respuestas.
+- Calificar determinísticamente.
+- Revisar excepciones.
+- Publicar resultado.
+
+### Alumno sin cuenta
+
+- Generar link único seguro.
+- Enviar email.
+- Validar token.
+- Acceder a evaluación.
+- Enviar respuesta/entrega.
+- Acceder a resultados publicados.
+- Reenviar link si corresponde.
+- Revocar link.
+- Auditar accesos.
+
+### Resultados
+
+- Asociar nota a alumno.
+- Asociar nota a evaluación.
+- Asociar evaluación a asignatura.
+- Aplicar ponderación.
+- Publicar resultado individual.
+- Portal libre de resultados por link/email.
+
+---
+
+## 13. Decisiones pendientes
+
+1. **¿El link de evaluación será de uso único o permitirá reingreso antes de enviar?**
+   - Recomendación: permitir reingreso antes de enviar, bloquear después del envío.
+
+2. **¿El alumno podrá guardar avance?**
+   - Recomendación: P1. En P0, envío único con advertencia.
+
+3. **¿El alumno verá respuestas correctas en evaluaciones cerradas?**
+   - Recomendación: configurable por docente.
+
+4. **¿El alumno podrá apelar o pedir revisión?**
+   - Recomendación: P2. Para MVP, solo vista de resultado.
+
+5. **¿El portal libre requiere ingreso de email o solo magic link?**
+   - Recomendación: ambos:
+     - magic link directo desde email;
+     - opción “reenviar acceso” ingresando email.
+
+6. **¿Se permitirán múltiples intentos?**
+   - Recomendación: configurable, pero P0 con intento único.
+
+7. **¿La nota ponderada impacta promedio de asignatura dentro de GradeOps AI?**
+   - Recomendación: sí como cálculo básico, no como LMS completo.
+
+---
+
+## 14. Principio final de producto
+
+GradeOps AI debe evitar ser un LMS, pero ya no puede ser solo una consola docente.
+
+Debe ser una **operación completa de evaluación**:
+
+```text
+Docente diseña con AI
+  -> estudiante responde/entrega sin cuenta
+  -> sistema corrige o asiste corrección
+  -> docente conserva control
+  -> alumno ve resultado seguro
+  -> la asignatura recibe una nota ponderada
+  -> la operación queda trazada
+```
+
+Esa es la versión más coherente del producto.
+
+
+---
+
+## Source: `.raw/15-chat.md`
+
+# GradeOps AI — Ingesta de respuestas digitales y físicas
+
+## 1. Decisión de producto
+
+GradeOps AI debe soportar dos canales principales de ingesta de respuestas:
+
+1. **Ingesta digital directa**
+   - El alumno responde en una interfaz web/portal.
+   - Accede mediante link único y seguro enviado a su correo.
+   - No requiere cuenta.
+   - El sistema valida identidad operacional mediante token.
+   - La respuesta queda asociada automáticamente a alumno, evaluación, asignatura e intento.
+
+2. **Ingesta física digitalizada**
+   - El alumno responde en una hoja física.
+   - La evaluación puede ser entregada impresa.
+   - El alumno marca o escribe sus respuestas en una hoja de respuesta.
+   - El profesor escanea o fotografía la hoja.
+   - El sistema procesa la imagen mediante OCR/OMR o técnica equivalente.
+   - El sistema detecta respuestas y las ingresa como intento del alumno.
+   - El docente revisa y confirma casos dudosos.
+
+---
+
+## 2. Principio central
+
+```text
+Toda respuesta, independiente del canal de ingreso,
+debe terminar convertida en un intento normalizado.
+```
+
+Es decir:
+
+```text
+Portal digital
+  -> respuesta estructurada
+  -> intento normalizado
+
+Hoja física escaneada/fotografiada
+  -> extracción OCR/OMR
+  -> validación
+  -> intento normalizado
+```
+
+Luego de eso, el flujo de calificación debe ser común:
+
+```text
+intento normalizado
+  -> evaluación abierta o cerrada
+  -> corrección asistida o determinística
+  -> nota
+  -> publicación de resultado
+```
+
+---
+
+## 3. Distinción OCR vs OMR
+
+Para el producto conviene separar los conceptos:
+
+| Técnica | Uso principal | Aplica mejor a |
+|---|---|---|
+| OCR | Reconocer texto escrito o impreso | nombre, código, respuestas abiertas breves, identificadores |
+| OMR | Reconocer marcas, burbujas o alternativas seleccionadas | evaluaciones cerradas de alternativas |
+| QR / código único | Identificar evaluación, alumno o intento | vinculación segura de hoja física |
+| Computer Vision | Detectar orientación, calidad, bordes, zonas de respuesta | captura fotográfica móvil |
+
+Para evaluaciones cerradas impresas, la técnica más apropiada no es OCR puro, sino **OMR + QR/ID + validación visual**.
+
+---
+
+## 4. Canales de ingesta
+
+## 4.1 Canal A — Respuesta digital directa
+
+### Flujo
+
+```text
+Docente publica evaluación
+  -> sistema genera link único por alumno
+  -> sistema envía email
+  -> alumno abre link
+  -> sistema valida token
+  -> alumno responde en portal
+  -> alumno confirma envío
+  -> sistema registra intento
+  -> intento pasa a calificación
+```
+
+### Aplica a
+
+| Tipo de evaluación | Uso |
+|---|---|
+| Abierta | Respuesta escrita, desarrollo, código, archivo |
+| Cerrada | Selección de alternativas en interfaz |
+| Mixta futura | Preguntas abiertas + cerradas |
+
+### Ventajas
+
+- Menos fricción operativa.
+- Identificación automática.
+- Menos errores de lectura.
+- Registro inmediato.
+- Permite guardado parcial si se implementa.
+- Permite calificación inmediata para cerradas.
+
+### Riesgos
+
+- Requiere acceso a dispositivo e internet.
+- Requiere control de expiración y uso del link.
+- Riesgo de reenvío del link.
+- Necesita bloqueo de edición post-envío.
+
+---
+
+## 4.2 Canal B — Hoja física con digitalización docente
+
+### Flujo
+
+```text
+Docente publica evaluación cerrada
+  -> sistema genera versión imprimible
+  -> sistema genera hoja de respuesta
+  -> hoja incluye ID/QR de evaluación y alumno
+  -> alumno responde en papel
+  -> alumno entrega hoja al profesor
+  -> profesor escanea o fotografía
+  -> sistema detecta hoja y respuestas
+  -> sistema valida calidad y consistencia
+  -> docente revisa casos dudosos
+  -> sistema registra intento
+  -> intento pasa a calificación
+```
+
+### Aplica principalmente a
+
+| Tipo de evaluación | Uso recomendado |
+|---|---|
+| Cerrada | Muy recomendado |
+| Abierta | Solo si hay OCR/transcripción posterior, no como P0 |
+| Mixta | Futuro, con separación de zonas |
+
+### Ventajas
+
+- Funciona en contextos con baja conectividad.
+- Compatible con sala de clases tradicional.
+- Permite evaluación impresa.
+- Reduce barrera de adopción docente.
+- No obliga al alumno a usar dispositivo.
+
+### Riesgos
+
+- Calidad variable de foto/escaneo.
+- Respuestas ambiguas.
+- Marcas dobles.
+- Hojas dañadas.
+- Error de vinculación alumno/evaluación.
+- Necesidad de revisión manual.
+
+---
+
+## 5. Hoja de respuesta física
+
+## 5.1 Elementos obligatorios
+
+Toda hoja de respuesta física debe incluir:
+
+- ID único de evaluación.
+- ID único de intento o invitación.
+- Identificador del alumno.
+- QR o código visual seguro.
+- Versión de evaluación.
+- Instrucciones de marcado.
+- Área de respuestas.
+- Marcas de alineación.
+- Espacio para validación humana si corresponde.
+
+### Ejemplo conceptual
+
+```text
+┌───────────────────────────────────────────────┐
+│ GradeOps AI                                   │
+│ Evaluación: EVA-2026-00045                    │
+│ Alumno: Ana Pérez                             │
+│ Curso: Programación I                         │
+│ QR: [assessment_invitation_token]             │
+├───────────────────────────────────────────────┤
+│ Instrucciones: marque una alternativa por ítem │
+├───────────────────────────────────────────────┤
+│ 1.  A ○   B ○   C ○   D ○                     │
+│ 2.  A ○   B ○   C ○   D ○                     │
+│ 3.  A ○   B ○   C ○   D ○                     │
+│ ...                                           │
+└───────────────────────────────────────────────┘
+```
+
+---
+
+## 5.2 Reglas de diseño de hoja
+
+- Una hoja debe corresponder a una evaluación y alumno específicos.
+- La hoja debe tener un QR/ID que evite asociación manual cuando sea posible.
+- La hoja debe incluir versión de evaluación.
+- El orden de preguntas y alternativas debe coincidir con el snapshot publicado.
+- Si se permite aleatorización, la hoja debe conocer su forma/variante.
+- Las marcas deben ser claras y separadas.
+- Las zonas de respuesta deben ser detectables.
+- Debe existir tolerancia a rotación, sombras y perspectiva.
+- Debe haber estados de confianza por respuesta.
+
+---
+
+## 6. Procesamiento de hoja física
+
+## 6.1 Flujo de captura
+
+```text
+Profesor abre módulo de ingesta
+  -> selecciona evaluación o escanea QR
+  -> toma foto/sube escaneo
+  -> sistema valida imagen
+      - nitidez
+      - iluminación
+      - orientación
+      - hoja completa
+      - QR legible
+  -> sistema acepta o pide recaptura
+```
+
+## 6.2 Flujo de extracción
+
+```text
+Imagen aceptada
+  -> detectar QR/ID
+  -> identificar evaluación
+  -> identificar alumno/invitación
+  -> identificar versión/forma
+  -> detectar zonas de respuesta
+  -> leer marcas seleccionadas
+  -> calcular confianza por ítem
+  -> generar pre-ingesta
+```
+
+## 6.3 Flujo de validación docente
+
+```text
+Sistema muestra pre-ingesta
+  -> respuestas detectadas
+  -> nivel de confianza
+  -> advertencias
+  -> imagen original
+  -> docente confirma/corrige
+  -> sistema registra intento normalizado
+```
+
+---
+
+## 7. Estados de ingesta
+
+## 7.1 Estado de una captura
+
+```text
+uploaded
+  -> image_quality_check
+  -> accepted_for_processing
+  -> rejected_quality
+  -> processing
+  -> extraction_completed
+  -> needs_human_review
+  -> confirmed
+  -> failed
+```
+
+## 7.2 Estado de una respuesta detectada
+
+```text
+detected
+  -> high_confidence
+  -> low_confidence
+  -> ambiguous
+  -> manually_corrected
+  -> confirmed
+```
+
+## 7.3 Estado de un intento físico
+
+```text
+paper_received
+  -> scanned
+  -> extracted
+  -> pending_teacher_confirmation
+  -> normalized_attempt_created
+  -> graded
+```
+
+---
+
+## 8. Casos ambiguos que el sistema debe manejar
+
+| Caso | Acción recomendada |
+|---|---|
+| QR ilegible | Permitir selección manual de evaluación/alumno con auditoría |
+| Hoja sin alumno | Marcar como pendiente de identificación |
+| Dos alternativas marcadas en selección única | Marcar ítem como ambiguo |
+| Marca débil | Mostrar baja confianza |
+| Respuesta borrada | Requiere revisión docente |
+| Hoja incompleta | Rechazar o procesar parcialmente con alerta |
+| Foto borrosa | Solicitar recaptura |
+| Foto con sombra fuerte | Solicitar recaptura |
+| Evaluación no coincide con hoja | Bloquear ingesta |
+| Versión incorrecta | Bloquear o pedir confirmación controlada |
+| Duplicado de hoja ya procesada | Alertar y requerir decisión |
+| Alumno ya respondió digitalmente | Marcar conflicto de intento |
+| Alumno no pertenece a la sección | Bloquear o permitir excepción auditada |
+
+---
+
+## 9. Conflictos de canal
+
+GradeOps AI debe evitar que un mismo alumno tenga dos respuestas válidas para la misma evaluación, salvo que el docente lo permita.
+
+### Escenarios
+
+| Escenario | Regla recomendada |
+|---|---|
+| Alumno respondió online y también entregó hoja | Bloquear segundo intento o pedir decisión docente |
+| Hoja física procesada dos veces | Detectar duplicado |
+| Link digital usado después de ingesta física | Bloquear si ya existe intento confirmado |
+| Profesor sube hoja antes de publicar evaluación | No permitir |
+| Alumno inició online, pero entrega en papel | Permitir reemplazo solo con aprobación docente |
+| Evaluación permite múltiples intentos | Registrar intento N con política explícita |
+
+---
+
+## 10. Relación con evaluaciones abiertas y cerradas
+
+## 10.1 Cerradas
+
+Las evaluaciones cerradas son el caso ideal para doble canal:
+
+```text
+cerrada online
+  -> selección directa
+  -> calificación determinística
+
+cerrada en papel
+  -> OMR/QR
+  -> validación docente
+  -> calificación determinística
+```
+
+## 10.2 Abiertas
+
+Las evaluaciones abiertas pueden tener ingesta digital directa como P0:
+
+```text
+abierta online
+  -> texto / archivo / código
+  -> análisis AI
+  -> revisión docente
+```
+
+La ingesta física de respuestas abiertas debería quedar como P1/P2, porque requiere transcripción OCR y revisión más intensa:
+
+```text
+abierta papel
+  -> foto/escaneo
+  -> OCR
+  -> transcripción
+  -> revisión docente
+  -> análisis AI
+```
+
+Recomendación:
+
+```text
+P0:
+  - abierta digital
+  - cerrada digital
+  - cerrada papel con OMR/QR básico
+
+P1:
+  - abierta papel mediante OCR asistido
+
+P2:
+  - corrección avanzada de manuscritos extensos
+```
+
+---
+
+## 11. Modelo de datos sugerido
+
+```text
+Assessment
+  ├── assessment_type: open | closed
+  ├── delivery_modes_allowed: online | paper | both
+  └── status
+
+AssessmentInvitation
+  ├── assessment_id
+  ├── learner_ref_id
+  ├── secure_token_hash
+  ├── email
+  ├── status
+  └── expires_at
+
+AssessmentAttempt
+  ├── assessment_id
+  ├── learner_ref_id
+  ├── channel: online | paper_scan
+  ├── status
+  ├── started_at
+  ├── submitted_at
+  └── confirmed_by_teacher_id
+
+PaperAnswerSheet
+  ├── assessment_id
+  ├── learner_ref_id
+  ├── invitation_id
+  ├── form_version
+  ├── qr_payload_hash
+  ├── generated_at
+  └── status
+
+PaperCapture
+  ├── paper_answer_sheet_id
+  ├── uploaded_by_teacher_id
+  ├── file_url
+  ├── image_quality_status
+  ├── processing_status
+  ├── created_at
+  └── processed_at
+
+ExtractedAnswer
+  ├── paper_capture_id
+  ├── question_snapshot_id
+  ├── selected_option_snapshot_id
+  ├── confidence
+  ├── detection_status
+  ├── manually_corrected
+  └── confirmed_value
+
+IngestionReviewEvent
+  ├── paper_capture_id
+  ├── actor_user_id
+  ├── action
+  ├── previous_value
+  ├── new_value
+  ├── reason
+  └── created_at
+```
+
+---
+
+## 12. UX del docente para ingesta física
+
+La pantalla de ingesta no debe ser una simple carga de archivo. Debe funcionar como una estación de control.
+
+### Pantalla: Ingesta de hojas
+
+Debe mostrar:
+
+- evaluación seleccionada;
+- curso/sección;
+- cantidad de alumnos esperados;
+- hojas procesadas;
+- hojas pendientes;
+- hojas con error;
+- hojas duplicadas;
+- hojas con baja confianza;
+- botón para subir archivo o tomar foto;
+- estado del lote.
+
+### Pantalla: Revisión de captura
+
+Debe mostrar:
+
+- imagen original;
+- datos detectados:
+  - alumno;
+  - evaluación;
+  - versión;
+  - fecha;
+- respuestas detectadas;
+- confianza por pregunta;
+- alertas;
+- acciones:
+  - confirmar;
+  - corregir respuesta;
+  - rechazar captura;
+  - pedir nueva captura;
+  - marcar como duplicada;
+  - asociar manualmente.
+
+---
+
+## 13. UX del alumno para ingesta digital
+
+### Evaluación cerrada online
+
+```text
+Alumno abre link
+  -> ve instrucciones
+  -> responde preguntas
+  -> revisa resumen
+  -> confirma envío
+  -> recibe confirmación
+```
+
+### Evaluación abierta online
+
+```text
+Alumno abre link
+  -> ve contexto/caso/instrucciones
+  -> escribe respuesta o sube archivo
+  -> revisa entrega
+  -> confirma envío
+  -> recibe confirmación
+```
+
+### Reglas UX
+
+- Mostrar claramente fecha límite.
+- Mostrar si el envío es único.
+- Bloquear edición después del envío.
+- Confirmar recepción.
+- No mostrar resultados hasta publicación docente.
+- Permitir reenvío de link al correo si corresponde.
+- No pedir contraseña.
+
+---
+
+## 14. Reglas de seguridad
+
+- El link digital no debe exponer IDs internos.
+- La hoja física no debe contener datos sensibles innecesarios.
+- El QR debe apuntar a un identificador firmado o tokenizado.
+- El sistema debe guardar hash del token, no token plano.
+- El acceso debe expirar.
+- El docente debe poder revocar links.
+- El sistema debe auditar:
+  - apertura de evaluación;
+  - envío de respuesta;
+  - subida de hoja;
+  - procesamiento;
+  - corrección manual;
+  - confirmación docente.
+- Las imágenes de hojas deben tratarse como evidencia sensible.
+- No permitir acceso cruzado entre alumnos.
+
+---
+
+## 15. Relación con calificación
+
+Después de la ingesta, el sistema debe crear un intento normalizado.
+
+### Cerrada online
+
+```text
+ClosedResponse
+  -> GradeEngine
+  -> GradeResult
+```
+
+### Cerrada papel
+
+```text
+PaperCapture
+  -> ExtractedAnswer
+  -> TeacherConfirmation
+  -> ClosedResponse normalizada
+  -> GradeEngine
+  -> GradeResult
+```
+
+### Abierta online
+
+```text
+OpenSubmission
+  -> AI Grading Suggestion
+  -> TeacherReview
+  -> GradeResult
+```
+
+### Abierta papel futura
+
+```text
+PaperCapture
+  -> OCR transcription
+  -> TeacherConfirmation
+  -> OpenSubmission normalizada
+  -> AI Grading Suggestion
+  -> TeacherReview
+  -> GradeResult
+```
+
+---
+
+## 16. Backlog P0 recomendado
+
+### Ingesta digital
+
+- Link seguro por alumno/evaluación.
+- Portal de respuesta sin cuenta.
+- Respuesta cerrada online.
+- Entrega abierta online.
+- Confirmación de envío.
+- Bloqueo post-envío.
+- Registro de intento.
+
+### Ingesta física cerrada
+
+- Generar hoja de respuesta imprimible.
+- Incluir QR/ID de evaluación, alumno, intento y versión.
+- Subir foto/escaneo.
+- Validar calidad básica.
+- Leer QR/ID.
+- Detectar alternativas marcadas.
+- Calcular confianza por respuesta.
+- Mostrar pre-ingesta al docente.
+- Permitir corrección manual.
+- Confirmar ingesta.
+- Crear intento normalizado.
+
+### Auditoría y conflictos
+
+- Detectar duplicados.
+- Detectar conflicto online vs papel.
+- Registrar correcciones manuales.
+- Mantener evidencia de captura.
+- Asociar canal de respuesta al intento.
+
+---
+
+## 17. Backlog P1 recomendado
+
+- Procesamiento por lote de varias hojas.
+- Recorte automático de hoja.
+- Corrección de perspectiva.
+- Comparación visual de original vs detección.
+- Reintentos de captura.
+- OCR para respuestas abiertas breves.
+- Modo móvil docente para captura en sala.
+- Estado de avance por curso/sección.
+- Reenvío de links a alumnos pendientes.
+- Exportación de reporte de ingesta.
+
+---
+
+## 18. Backlog P2 recomendado
+
+- OCR avanzado de manuscritos extensos.
+- Evaluaciones mixtas papel/digital.
+- App móvil nativa para captura.
+- Reconocimiento offline.
+- Corrección automática de hojas sin QR.
+- Banco de plantillas físicas.
+- Firma o comprobante del alumno.
+- Revisión colaborativa por ayudante/co-docente.
+
+---
+
+## 19. Principio final de ingesta
+
+GradeOps AI debe permitir que el docente elija el canal más realista para su contexto:
+
+```text
+Si hay dispositivos e internet:
+  alumno responde online por link seguro.
+
+Si la evaluación es presencial/impresa:
+  alumno responde en hoja física,
+  docente escanea/fotografía,
+  sistema extrae respuestas,
+  docente valida excepciones.
+```
+
+En ambos casos, el producto debe llegar al mismo resultado:
+
+```text
+respuesta válida
+  -> intento normalizado
+  -> calificación
+  -> nota ponderada
+  -> resultado publicable para el alumno
+```
+
+
+---
+
+## Source: `.raw/16-chat.md`
+
+# GradeOps AI — Esquema estructurado de materias, currículo y vinculación evaluativa
+
+## 1. Decisión de producto
+
+GradeOps AI necesita un esquema estructurado de **materias/contenidos curriculares** para vincular preguntas cerradas, bancos de preguntas, evaluaciones cerradas, evaluaciones abiertas, rúbricas, resultados de aprendizaje, reportes de desempeño y generación AI de evaluaciones.
+
+Este esquema no debe limitarse a una jerarquía simple `Asignatura > Unidad > Tema`, aunque esa estructura debe seguir existiendo como vista básica.
+
+La recomendación es evolucionar a un modelo de **taxonomía curricular versionada**, capaz de representar:
+
+```text
+País / sistema educativo
+  -> marco curricular
+  -> nivel educativo / curso
+  -> asignatura
+  -> eje / unidad / módulo
+  -> tema
+  -> subtema
+  -> objetivo de aprendizaje / resultado de aprendizaje
+  -> habilidad / competencia
+```
+
+---
+
+## 2. Problema que resuelve
+
+Para crear evaluaciones cerradas con AI desde un banco de preguntas, el sistema no puede seleccionar preguntas arbitrarias.
+
+Debe garantizar que las preguntas pertenezcan a un espacio curricular compatible.
+
+Ejemplo incorrecto:
+
+```text
+Evaluación: Matemática / Aritmética / Suma
+Banco contiene:
+  - Suma
+  - Fotosíntesis
+  - Revolución Francesa
+  - Verbos irregulares en inglés
+```
+
+Ejemplo correcto:
+
+```text
+Evaluación: Matemática / Aritmética / Suma
+
+Banco elegible:
+  - Preguntas vinculadas a Matemática
+  - Nivel compatible
+  - Unidad o eje compatible
+  - Tema compatible
+  - Objetivo de aprendizaje compatible
+```
+
+---
+
+## 3. Principio de diseño
+
+```text
+Toda pregunta, rúbrica o evaluación debe saber qué materia evalúa.
+```
+
+Más específicamente:
+
+```text
+Toda pregunta o evaluación debe quedar vinculada a:
+  - una asignatura;
+  - uno o más temas;
+  - uno o más objetivos de aprendizaje;
+  - un nivel/curso cuando aplique;
+  - un marco curricular cuando exista.
+```
+
+---
+
+## 4. Modelo base inspirado en GRADE
+
+GRADE planteaba una estructura base:
+
+```text
+Asignatura
+  -> Unidad
+  -> Tema
+```
+
+Ejemplo:
+
+```text
+Matemática
+  -> Aritmética
+  -> La suma
+```
+
+Este modelo es útil, simple y entendible para docentes. Debe mantenerse como **modo simple/manual**.
+
+Sin embargo, para GradeOps AI se necesita una estructura más extensible.
+
+---
+
+## 5. Modelo recomendado para GradeOps AI
+
+### 5.1 Vista simple
+
+Para la UX inicial del docente:
+
+```text
+Asignatura
+  -> Unidad
+  -> Tema
+```
+
+Ejemplo:
+
+```text
+Matemática
+  -> Aritmética
+  -> Suma de números naturales
+```
+
+Esta vista sirve para docentes independientes, educación superior, cursos libres, bootcamps, capacitaciones e instituciones sin currículo formal cargado.
+
+### 5.2 Vista curricular completa
+
+Para contextos escolares o institucionales:
+
+```text
+Sistema educativo
+  -> Marco curricular
+  -> Nivel / Curso
+  -> Asignatura
+  -> Eje / Unidad / Módulo
+  -> Tema
+  -> Objetivo de aprendizaje
+  -> Habilidad / competencia
+```
+
+Ejemplo Chile:
+
+```text
+Chile
+  -> Currículum Nacional
+  -> 1° Básico
+  -> Matemática
+  -> Números y operaciones
+  -> Adición y sustracción hasta 20
+  -> MA01 OA 09
+  -> Resolver problemas / Representar / Modelar
+```
+
+---
+
+## 6. Por qué esto es necesario
+
+### 6.1 Para generar preguntas cerradas
+
+Cuando la AI genera preguntas, debe recibir contexto curricular:
+
+```text
+Genera 10 preguntas de selección única para:
+  - país: Chile
+  - nivel: 1° básico
+  - asignatura: Matemática
+  - eje: Números y operaciones
+  - objetivo: MA01 OA 09
+  - tema: adición y sustracción hasta 20
+  - dificultad: básica/intermedia
+```
+
+Sin esa estructura, la AI puede generar preguntas fuera de nivel, fuera de tema o con dificultad incorrecta.
+
+### 6.2 Para construir evaluaciones cerradas desde banco
+
+La evaluación debe tener una **blueprint curricular**:
+
+```text
+Evaluación:
+  - Matemática
+  - 1° básico
+  - Números y operaciones
+  - OA 07, OA 09, OA 10
+  - 20 preguntas
+  - 60% suma/resta
+  - 20% cálculo mental
+  - 20% relación inversa suma-resta
+```
+
+El sistema solo puede seleccionar preguntas que cumplan el scope:
+
+```text
+question.subject = Matemática
+question.level = 1° Básico
+question.curricular_nodes contiene OA definido
+question.status = approved
+question.type = closed
+```
+
+### 6.3 Para evaluaciones abiertas
+
+Las evaluaciones abiertas también deben vincularse a materias, pero de otra forma:
+
+```text
+Evaluación abierta:
+  - asignatura
+  - unidad/tema
+  - objetivo de aprendizaje
+  - habilidad evaluada
+  - rúbrica alineada al objetivo
+```
+
+Ejemplo:
+
+```text
+Asignatura: Programación
+Unidad: Programación orientada a objetos
+Tema: Herencia y polimorfismo
+Resultado de aprendizaje: Diseñar clases reutilizables aplicando herencia
+Evaluación: caso práctico de modelamiento
+Rúbrica:
+  - diseño de clases
+  - uso correcto de herencia
+  - encapsulamiento
+  - ejecución funcional
+  - claridad del código
+```
+
+---
+
+## 7. Fuentes de creación de materias
+
+GradeOps AI debe permitir tres fuentes:
+
+| Fuente | Descripción | Uso |
+|---|---|---|
+| Manual | El docente crea asignatura, unidad y tema | Cursos propios, educación superior, bootcamps |
+| AI-assisted | La AI propone estructura curricular desde un programa o descripción | Acelerar configuración inicial |
+| Oficial/importada | Se carga un currículo oficial por país/nivel/asignatura | Escolar, colegios, alineación normativa |
+
+---
+
+## 8. Currículo oficial por país
+
+### 8.1 Concepto
+
+GradeOps AI puede incorporar currículos oficiales como **paquetes curriculares**.
+
+Ejemplo:
+
+```text
+Curriculum Pack: Chile — Currículum Nacional
+  -> Educación Básica
+  -> 1° Básico
+  -> Matemática
+  -> Ejes
+  -> Objetivos de Aprendizaje
+  -> Habilidades
+  -> Actitudes
+```
+
+Otro país podría tener su propio pack:
+
+```text
+Curriculum Pack: Colombia
+Curriculum Pack: México
+Curriculum Pack: España
+Curriculum Pack: Argentina
+Curriculum Pack: Perú
+```
+
+El producto no debe asumir que todos los países tienen la misma estructura. Por eso el modelo debe ser flexible.
+
+### 8.2 Enfoque recomendado
+
+No hardcodear el currículo chileno en el núcleo.
+
+Crear una arquitectura por capas:
+
+```text
+Core GradeOps AI
+  -> modelo genérico de taxonomía curricular
+
+Country Curriculum Packs
+  -> Chile
+  -> otros países
+
+Institution Custom Curriculum
+  -> adaptaciones internas
+  -> programas propios
+```
+
+---
+
+## 9. Modelo conceptual recomendado
+
+```text
+CurriculumProvider
+  └── CurriculumFramework
+      └── CurriculumVersion
+          └── EducationLevel
+              └── Subject
+                  └── CurriculumNode
+                      └── LearningObjective
+                          └── Skill / Competency
+```
+
+### 9.1 CurriculumProvider
+
+Representa la fuente.
+
+Ejemplos:
+
+```text
+Ministerio de Educación de Chile
+Institución educativa
+Docente independiente
+GradeOps AI generated
+```
+
+Campos sugeridos:
+
+| Campo | Descripción |
+|---|---|
+| `id` | identificador |
+| `country_code` | CL, MX, CO, PE, etc. |
+| `name` | nombre del proveedor |
+| `provider_type` | official, institution, teacher, ai_generated |
+| `source_url` | fuente si existe |
+| `active` | vigente |
+
+### 9.2 CurriculumFramework
+
+Representa un marco curricular.
+
+Ejemplos:
+
+```text
+Currículum Nacional Chile
+Programa interno Bootcamp Java
+Plan de estudios Ingeniería Informática
+```
+
+Campos:
+
+| Campo | Descripción |
+|---|---|
+| `id` | identificador |
+| `provider_id` | fuente |
+| `name` | nombre |
+| `education_system` | escolar, superior, bootcamp, corporate |
+| `description` | descripción |
+| `status` | draft, active, archived |
+
+### 9.3 CurriculumVersion
+
+El currículo cambia con el tiempo. Debe versionarse.
+
+Campos:
+
+| Campo | Descripción |
+|---|---|
+| `id` | identificador |
+| `framework_id` | marco asociado |
+| `version_label` | ej. 2024, 2026, Decreto X |
+| `valid_from` | inicio vigencia |
+| `valid_to` | fin vigencia |
+| `source_document_ref` | documento o fuente |
+| `status` | draft, active, deprecated |
+
+### 9.4 EducationLevel
+
+Representa curso/nivel.
+
+Ejemplos:
+
+```text
+1° Básico
+8° Básico
+2° Medio
+Primer año de carrera
+Módulo inicial
+Nivel introductorio
+```
+
+Campos:
+
+| Campo | Descripción |
+|---|---|
+| `id` | identificador |
+| `curriculum_version_id` | versión curricular |
+| `name` | nombre |
+| `level_code` | código normalizado |
+| `sequence_order` | orden |
+| `education_stage` | básica, media, superior, etc. |
+
+### 9.5 Subject
+
+Representa asignatura/área.
+
+Ejemplos:
+
+```text
+Matemática
+Lenguaje y Comunicación
+Programación I
+Bases de Datos
+Arquitectura de Software
+```
+
+Campos:
+
+| Campo | Descripción |
+|---|---|
+| `id` | identificador |
+| `education_level_id` | nivel |
+| `name` | nombre |
+| `subject_code` | código opcional |
+| `description` | descripción |
+| `source_type` | official, manual, ai_generated |
+
+### 9.6 CurriculumNode
+
+Nodo flexible para eje, unidad, módulo, tema o subtema.
+
+Campos:
+
+| Campo | Descripción |
+|---|---|
+| `id` | identificador |
+| `subject_id` | asignatura |
+| `parent_node_id` | permite jerarquía |
+| `node_type` | eje, unidad, módulo, tema, subtema |
+| `name` | nombre |
+| `description` | descripción |
+| `sequence_order` | orden |
+| `source_type` | official, manual, ai_generated |
+| `review_status` | pending_review, approved, rejected |
+
+Ejemplo:
+
+```text
+Subject: Matemática 1° Básico
+  CurriculumNode: Números y operaciones
+    CurriculumNode: Adición y sustracción
+      CurriculumNode: Suma hasta 20
+```
+
+### 9.7 LearningObjective
+
+Representa OA, RA, competencia o resultado de aprendizaje.
+
+Campos:
+
+| Campo | Descripción |
+|---|---|
+| `id` | identificador |
+| `curriculum_node_id` | nodo asociado |
+| `external_code` | ej. MA01 OA 09 |
+| `description` | texto del objetivo |
+| `objective_type` | knowledge, skill, attitude, competency |
+| `cognitive_level` | recordar, comprender, aplicar, analizar, etc. |
+| `source_type` | official, manual, ai_generated |
+| `review_status` | pending_review, approved, rejected |
+
+---
+
+## 10. Vinculación con preguntas cerradas
+
+Cada pregunta cerrada debe tener metadata curricular obligatoria.
+
+```text
+Question
+  ├── subject_id
+  ├── curriculum_node_ids
+  ├── learning_objective_ids
+  ├── difficulty
+  ├── cognitive_level
+  ├── question_type
+  ├── source_type
+  ├── review_status
+  └── approved_by
+```
+
+### Reglas
+
+- Una pregunta no puede ser `active` si no tiene materia.
+- Una pregunta AI-generated no puede pasar al banco activo sin aprobación.
+- Una pregunta debe tener al menos un vínculo curricular.
+- Una pregunta puede vincularse a más de un OA, pero debe tener uno principal.
+- Una evaluación cerrada solo puede consumir preguntas aprobadas y compatibles.
+- El snapshot de evaluación debe congelar también la metadata curricular.
+
+---
+
+## 11. Vinculación con evaluaciones cerradas
+
+La evaluación cerrada debe tener una blueprint.
+
+```text
+ClosedAssessmentBlueprint
+  ├── subject_id
+  ├── curriculum_node_ids
+  ├── learning_objective_ids
+  ├── number_of_questions
+  ├── distribution_by_topic
+  ├── distribution_by_difficulty
+  ├── distribution_by_question_type
+  ├── scoring_policy
+  └── selection_strategy
+```
+
+### Estrategias de selección
+
+| Estrategia | Descripción |
+|---|---|
+| Manual | El docente selecciona preguntas |
+| AI-assisted | AI propone preguntas desde banco aprobado |
+| Hybrid | Docente fija algunas, AI completa faltantes |
+| Gap-fill | AI genera nuevas preguntas para cubrir temas sin banco suficiente |
+
+---
+
+## 12. Vinculación con evaluaciones abiertas
+
+La evaluación abierta debe vincular:
+
+```text
+OpenAssessment
+  ├── subject_id
+  ├── curriculum_node_ids
+  ├── learning_objective_ids
+  ├── skill_ids
+  ├── case_context
+  ├── rubric
+  └── expected_evidence
+```
+
+La rúbrica debe mapear criterios a objetivos:
+
+```text
+RubricCriterion
+  ├── learning_objective_id
+  ├── criterion_name
+  ├── description
+  ├── weight
+  └── performance_levels
+```
+
+Esto permite reportar:
+
+```text
+El estudiante logró bien el OA X,
+pero presenta brecha en el OA Y.
+```
+
+---
+
+## 13. Generación AI de materias
+
+La AI puede asistir la creación de materias cuando no se cargue un currículo oficial.
+
+### Input posible
+
+```text
+Curso: Programación Orientada a Objetos para primer año de informática.
+Duración: 12 semanas.
+Contenidos: clases, objetos, encapsulamiento, herencia, polimorfismo, interfaces, excepciones.
+```
+
+### Output esperado
+
+```text
+Asignatura: Programación Orientada a Objetos
+Unidades:
+  1. Fundamentos de clases y objetos
+  2. Encapsulamiento
+  3. Relaciones entre clases
+  4. Herencia
+  5. Polimorfismo
+  6. Manejo de excepciones
+
+Temas:
+  - definición de clase
+  - atributos y métodos
+  - constructores
+  - modificadores de acceso
+  - sobreescritura
+  - clases abstractas
+
+Resultados de aprendizaje:
+  - Modelar entidades usando clases y objetos.
+  - Aplicar encapsulamiento en diseños simples.
+  - Implementar herencia para reutilización de código.
+```
+
+### Regla
+
+Las materias generadas por AI deben quedar en estado:
+
+```text
+ai_generated
+  -> pending_teacher_review
+  -> approved
+```
+
+No deben usarse automáticamente para generar evaluaciones hasta ser aprobadas.
+
+---
+
+## 14. Incorporación del currículo chileno
+
+Para Chile, GradeOps AI debería permitir un pack curricular basado en el Currículum Nacional.
+
+La estructura visible en el portal oficial permite acceder por curso/nivel y asignatura a objetivos de aprendizaje, programas, planes y orientaciones. Además, organiza el currículo por asignaturas y cursos, y en una página concreta como Matemática 1° Básico expone ejes, habilidades, objetivos de aprendizaje, actitudes y documentos curriculares.
+
+### Ejemplo de mapeo Chile
+
+```text
+CurriculumProvider
+  name: Ministerio de Educación de Chile
+  country_code: CL
+  provider_type: official
+
+CurriculumFramework
+  name: Currículum Nacional
+
+CurriculumVersion
+  version_label: vigente
+
+EducationLevel
+  name: 1° Básico
+
+Subject
+  name: Matemática
+
+CurriculumNode
+  node_type: eje
+  name: Números y operaciones
+
+LearningObjective
+  external_code: MA01 OA 09
+  description: Demostrar que comprenden la adición y la sustracción de números del 0 al 20...
+```
+
+---
+
+## 15. UX recomendada
+
+### 15.1 Selector de materia
+
+En creación de evaluación:
+
+```text
+¿Desde dónde quieres generar la evaluación?
+
+[ ] Materia creada por mí
+[ ] Currículo oficial
+[ ] Programa institucional
+[ ] Crear materia con AI
+```
+
+Luego:
+
+```text
+País: Chile
+Marco curricular: Currículum Nacional
+Nivel: 1° Básico
+Asignatura: Matemática
+Eje/Unidad: Números y operaciones
+Objetivo(s): MA01 OA 07, MA01 OA 09
+Tipo: cerrada
+Cantidad: 20 preguntas
+```
+
+### 15.2 Banco de preguntas con filtro curricular
+
+Filtros mínimos:
+
+- asignatura;
+- nivel/curso;
+- unidad/eje;
+- tema;
+- objetivo de aprendizaje;
+- dificultad;
+- tipo de pregunta;
+- estado;
+- origen: manual / AI / importada;
+- uso histórico.
+
+### 15.3 Generador AI de evaluación cerrada
+
+El docente define:
+
+```text
+Generar evaluación cerrada para:
+  - Matemática
+  - 1° Básico
+  - Números y operaciones
+  - OA 09
+  - 15 preguntas
+  - dificultad progresiva
+  - selección única
+```
+
+El sistema responde:
+
+```text
+Encontré 23 preguntas aprobadas compatibles.
+Propongo usar 15:
+  - 5 fáciles
+  - 7 intermedias
+  - 3 desafiantes
+
+Faltan preguntas para cubrir OA 10.
+¿Deseas generar nuevas preguntas con AI?
+```
+
+---
+
+## 16. Validadores obligatorios
+
+### 16.1 Validador de materia común
+
+Antes de armar evaluación cerrada:
+
+```text
+Todas las preguntas seleccionadas deben compartir:
+  - asignatura compatible;
+  - nivel compatible;
+  - nodo curricular compatible;
+  - objetivo de aprendizaje declarado o aceptado.
+```
+
+### 16.2 Validador de cobertura
+
+El sistema debe advertir:
+
+```text
+La evaluación declara cubrir OA 07, OA 09 y OA 10,
+pero no contiene preguntas para OA 10.
+```
+
+### 16.3 Validador de mezcla indebida
+
+El sistema debe bloquear o alertar:
+
+```text
+Esta evaluación es de Matemática 1° Básico,
+pero contiene una pregunta de Matemática 3° Básico.
+```
+
+### 16.4 Validador de banco insuficiente
+
+El sistema debe avisar:
+
+```text
+No hay suficientes preguntas aprobadas para este objetivo.
+Opciones:
+  - reducir cantidad;
+  - ampliar alcance;
+  - generar nuevas preguntas con AI;
+  - seleccionar manualmente;
+  - crear evaluación abierta.
+```
+
+---
+
+## 17. Reportes habilitados por esta estructura
+
+Con metadata curricular, GradeOps AI puede reportar:
+
+- desempeño por asignatura;
+- desempeño por unidad;
+- desempeño por tema;
+- desempeño por objetivo de aprendizaje;
+- preguntas más difíciles por OA;
+- brechas por curso/sección;
+- objetivos con baja cobertura;
+- temas sobreevaluados;
+- temas subevaluados;
+- recomendaciones de reforzamiento.
+
+Ejemplo:
+
+```text
+En Matemática / Números y operaciones / MA01 OA 09:
+  - promedio del curso: 58%
+  - pregunta con mayor error: ítem 7
+  - distractor más elegido: B
+  - recomendación: reforzar representación simbólica de la sustracción
+```
+
+---
+
+## 18. Priorización
+
+### P0
+
+- Modelo simple Asignatura > Unidad > Tema.
+- Vincular pregunta cerrada a materia.
+- Vincular evaluación abierta/cerrada a materia.
+- Generar materias con AI y aprobación docente.
+- Filtrar banco por materia.
+- Armar evaluación cerrada solo desde preguntas compatibles.
+- Registrar objetivo/resultado de aprendizaje como metadata.
+- Reporte básico por materia/tema.
+
+### P1
+
+- Curriculum packs por país.
+- Pack Chile inicial.
+- Importación/asistencia desde Currículum Nacional.
+- Mapeo a OA oficiales.
+- Blueprint curricular de evaluación.
+- Cobertura por objetivo de aprendizaje.
+- Generación AI de preguntas desde OA.
+- Reporte por OA.
+
+### P2
+
+- Multi-país robusto.
+- Versionado curricular oficial.
+- Adaptaciones institucionales.
+- Comparación entre currículos.
+- Marketplace de paquetes curriculares.
+- Sincronización con fuentes oficiales.
+- Recomendaciones de progresión longitudinal.
+
+---
+
+## 19. Decisión estratégica
+
+La estructura `Asignatura > Unidad > Tema` debe mantenerse como base UX porque es simple y conocida.
+
+Pero internamente GradeOps AI debe modelar una taxonomía curricular más fuerte:
+
+```text
+Materia simple para empezar.
+Currículo versionado para escalar.
+Objetivos de aprendizaje para generar y medir.
+AI para crear, mapear y cubrir.
+Docente para aprobar.
+```
+
+Esta estructura permite que GradeOps AI funcione tanto para docentes independientes, colegios chilenos, educación superior, bootcamps, capacitación corporativa y futuros mercados internacionales.
+
+---
+
+## 20. Conclusión
+
+El módulo de materias no debe tratarse como configuración secundaria.
+
+Debe ser uno de los pilares de GradeOps AI, porque habilita:
+
+- generación AI más precisa;
+- bancos de preguntas reutilizables;
+- evaluaciones cerradas coherentes;
+- evaluaciones abiertas alineadas;
+- reportes pedagógicos útiles;
+- trazabilidad curricular;
+- adaptación a currículos oficiales como el chileno.
+
+La definición final debería ser:
+
+```text
+GradeOps AI organiza todo contenido evaluativo en una taxonomía curricular.
+Las preguntas, rúbricas y evaluaciones se vinculan a materias, temas y objetivos.
+La AI puede crear o mapear esta estructura, pero el docente o institución la aprueba.
+Las evaluaciones cerradas solo se arman desde preguntas curricularmente compatibles.
+Las evaluaciones abiertas usan la misma estructura para alinear caso, rúbrica y feedback.
+```
+
+
+---
+
 ## Source: `.raw/README.md`
 
 # Raw Conversation Notes
@@ -2729,6 +6487,10 @@ Prefer the thematic folders for current decisions:
 | `09-chat.md` | Review summary for aligning `03-ai-agents` with project/product docs. |
 | `10-chat.md` | Review summary for aligning `04-architecture` with prior canonical docs. |
 | `11-chat.md` | Conceptual correction around student responses, `StudentSubmission`, and plan limits. |
+| `12-chat.md` | UX/Product gap analysis: absorption of GRADE capabilities for objective/alternatives assessments into GradeOps AI. Information architecture, flows, functional requirements, edge cases, and conceptual data model. |
+| `13-chat.md` | Strategic correction: the Question Bank is AI-native in GradeOps AI, not manually authored. AI generates questions; teacher curates. New agents: Question Generation, Distractor Quality, Ambiguity Review, Assessment Assembly, Item Analytics. |
+| `14-chat.md` | Unified product model: open assessments (practical/rubric) + closed assessments (alternatives/deterministic), student access via secure links without account, grade result associated to subject, weighted scoring model. |
+| `15-chat.md` | Response ingestion: digital channel (student portal via link) and physical channel (paper answer sheet, OMR/QR, docente validation). Canonical for PaperAnswerSheet, PaperCapture, ExtractedAnswer, and related UX flows. |
 
 ## How To Use This Folder
 
@@ -2765,4 +6527,5 @@ Raw notes should still be readable:
 - keep the original prompt when useful;
 - separate diagnosis, decisions, changes, and outcomes;
 - use Mermaid for diagrams by default, PlantUML only when needed, and ASCII only as a last fallback.
+
 

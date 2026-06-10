@@ -6,11 +6,16 @@
 
 - `03-ai-agents/README.md`
 - `03-ai-agents/agents-overview.md`
+- `03-ai-agents/ambiguity-review-agent.md`
 - `03-ai-agents/assessment-agent.md`
+- `03-ai-agents/assessment-assembly-agent.md`
+- `03-ai-agents/distractor-quality-agent.md`
 - `03-ai-agents/feedback-agent.md`
 - `03-ai-agents/grading-agent.md`
+- `03-ai-agents/item-analytics-agent.md`
 - `03-ai-agents/learning-gap-agent.md`
 - `03-ai-agents/ops-agent.md`
+- `03-ai-agents/question-generation-agent.md`
 - `03-ai-agents/recovery-agent.md`
 - `03-ai-agents/rubric-agent.md`
 - `03-ai-agents/teacher-report-agent.md`
@@ -49,18 +54,28 @@ Each agent should be treated as an operational component with:
 
 Start with:
 
-1. `agents-overview.md` — overall agent architecture, common envelope, logs, model routing, and control principles.
+1. `agents-overview.md` — overall agent architecture, common envelope, logs, model routing, and control principles. Covers both open and closed assessment agents.
 
-Then use the individual contracts:
+Then use the individual contracts.
 
-- `assessment-agent.md`;
-- `rubric-agent.md`;
-- `grading-agent.md`;
-- `feedback-agent.md`;
-- `learning-gap-agent.md`;
-- `recovery-agent.md`;
-- `teacher-report-agent.md`;
-- `ops-agent.md`.
+**Open assessment agents:**
+
+- `assessment-agent.md` — generates assessment draft from learning goal;
+- `rubric-agent.md` — creates and validates rubric criteria;
+- `grading-agent.md` — analyzes submissions against approved rubric;
+- `feedback-agent.md` — drafts student-facing feedback;
+- `learning-gap-agent.md` — identifies cohort-level recurring issues;
+- `recovery-agent.md` — suggests reinforcement activities;
+- `teacher-report-agent.md` — prepares the final class report;
+- `ops-agent.md` — records usage, costs, outcomes, and agent logs.
+
+**Closed assessment agents:**
+
+- `question-generation-agent.md` — generates objective questions (TF/SC/MC) with alternatives, answer key, difficulty, and learning outcome;
+- `distractor-quality-agent.md` — evaluates and flags weak, biased, or misleading incorrect alternatives;
+- `ambiguity-review-agent.md` — detects interpretation problems, double-valid answers, and structural issues;
+- `assessment-assembly-agent.md` — composes a balanced assessment from approved bank questions;
+- `item-analytics-agent.md` — analyzes post-assessment item performance, difficulty, and outcome coverage.
 
 ## What Belongs Here
 
@@ -108,6 +123,8 @@ GradeOps AI uses specialized agents to operate the assessment workflow for progr
 
 ## Agent Set
 
+### Open Assessment Agents
+
 | Agent | Responsibility | Primary output |
 | --- | --- | --- |
 | Assessment Agent | Draft assessment from learning goal and constraints. | Assessment brief. |
@@ -119,7 +136,19 @@ GradeOps AI uses specialized agents to operate the assessment workflow for progr
 | Teacher Report Agent | Summarize the assessment cycle. | Teacher report. |
 | Ops Agent | Capture usage, cost, and business evidence. | Logs and evidence summaries. |
 
-## End-To-End Agent Flow
+### Closed Assessment Agents
+
+| Agent | Responsibility | Primary output |
+| --- | --- | --- |
+| Question Generation Agent | Generate objective questions (TF/SC/MC) with alternatives, key, difficulty, and outcome. | Question batch for curation. |
+| Distractor Quality Agent | Evaluate and flag weak, biased, or misleading incorrect alternatives. | Distractor quality assessment. |
+| Ambiguity Review Agent | Detect interpretation problems, double-valid answers, and structural issues in questions. | Ambiguity flags per question. |
+| Assessment Assembly Agent | Compose a balanced assessment from approved bank questions. | Proposed question composition. |
+| Item Analytics Agent | Analyze post-assessment item performance, difficulty, and learning outcome coverage. | Item analytics report and reinforcement suggestions. |
+
+## End-To-End Agent Flows
+
+### Open Assessment
 
 ```mermaid
 flowchart TD
@@ -140,6 +169,30 @@ flowchart TD
   A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L --> M
 ```
 
+### Closed Assessment
+
+```mermaid
+flowchart TD
+  A[Teacher defines evaluative intent]
+  B[Question Generation Agent]
+  C[Distractor Quality Agent]
+  D[Ambiguity Review Agent]
+  E[Teacher curation queue: approve / edit / reject]
+  F[Approved questions enter bank]
+  G[Assessment Assembly Agent]
+  H[Teacher reviews and approves composition]
+  I[Snapshot created — assessment published]
+  J[Student access links sent]
+  K[Students respond via secure link]
+  L[Deterministic grading engine]
+  M[Teacher reviews exception queue]
+  N[Item Analytics Agent]
+  O[Teacher approves and publishes results]
+  P[Ops Agent evidence aggregation]
+
+  A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L --> M --> N --> O --> P
+```
+
 ## Design Principles
 
 1. One clear responsibility per agent.
@@ -155,6 +208,8 @@ flowchart TD
 
 ## Required Control Checkpoints
 
+### Open Assessment
+
 | Checkpoint | Human control |
 | --- | --- |
 | Assessment draft | Teacher approves before student use. |
@@ -164,6 +219,22 @@ flowchart TD
 | Learning gap summary | Teacher confirms instructional relevance. |
 | Recovery activity | Teacher approves before assigning. |
 | Teacher report | Teacher validates before sharing. |
+
+### Closed Assessment
+
+| Checkpoint | Human control |
+| --- | --- |
+| Each generated question | Teacher approves, edits, or rejects before entering bank. |
+| Assessment composition | Teacher approves before snapshot is created. |
+| Answer key and scoring policy | Teacher confirms before publish. |
+| Exception queue | Teacher resolves all exceptions before publishing results. |
+| Item analytics and reinforcement | Teacher reviews before acting on or sharing. |
+| Answer key correction (post-grading) | Teacher explicit action; triggers audited recalculation. |
+
+### Shared
+
+| Checkpoint | Human control |
+| --- | --- |
 | Evidence dashboard | Operator validates before public/demo use. |
 
 ## Common Agent Input Envelope
@@ -247,6 +318,11 @@ flowchart TD
 | Recovery Agent | Flash-class | Pedagogical usefulness matters. |
 | Teacher Report Agent | Flash-class | Summary quality matters. |
 | Ops Agent | Deterministic code first; LLM only for summaries | Avoid unnecessary model spend. |
+| Question Generation Agent | Flash-class | Content quality and pedagogical correctness matter. |
+| Distractor Quality Agent | Flash-Lite-class | Structured evaluation; high volume per batch. |
+| Ambiguity Review Agent | Flash-class | Interpretation quality matters. |
+| Assessment Assembly Agent | Flash-Lite-class | Selection and optimization; deterministic rules preferred. |
+| Item Analytics Agent | Flash-class | Interpretation and narrative require quality. |
 
 ## Quality Rules
 
@@ -254,7 +330,109 @@ Agents must separate evidence from interpretation, reference rubric criteria whe
 
 ## MVP Cut Line
 
-Protect these capabilities first: Assessment Agent, Rubric Agent, Grading Agent, Feedback Agent, Teacher Report Agent, and Ops Agent logs. Learning Gap and Recovery Agents may be lighter in the first build, but should still exist in the demo narrative and data model.
+### Open Assessment MVP
+
+Protect these first: Assessment Agent, Rubric Agent, Grading Agent, Feedback Agent, Teacher Report Agent, and Ops Agent logs. Learning Gap and Recovery Agents may be lighter in the first build but must exist in the demo narrative and data model.
+
+### Closed Assessment MVP
+
+Protect these first: Question Generation Agent, question curation queue (Distractor Quality + Ambiguity Review integrated), Assessment Assembly Agent, deterministic grading engine (not an AI agent), and Item Analytics Agent. The demo must show at least one complete closed assessment cycle with student link delivery.
+
+
+---
+
+## Source: `03-ai-agents/ambiguity-review-agent.md`
+
+# Ambiguity Review Agent
+
+The Ambiguity Review Agent checks objective questions for interpretation problems that could invalidate the item or produce inconsistent results during grading.
+
+## Role
+
+Detect ambiguity, double-valid answers, missing context, inappropriate complexity, and other structural problems in question items before they are approved into the active bank.
+
+## Non-Goals
+
+The agent must not approve or reject questions autonomously, determine absolute pedagogical validity, or function as a language-quality proofreader. It detects interpretive risks; the teacher resolves them.
+
+## Inputs
+
+| Input | Required | Description |
+| --- | --- | --- |
+| `question` | Yes | Full question item: stem, all options, correct option(s), type |
+| `subject_area` | Yes | Domain context for meaning interpretation |
+| `learning_outcome` | No | Used to verify question relevance |
+| `level` | No | Audience level to calibrate terminology expectations |
+| `prior_context` | No | Preceding questions or instructions in the same assessment |
+
+## Output Contract
+
+```json
+{
+  "schema_version": "1.0",
+  "item_id": "ITEM-007",
+  "ambiguity_verdict": "flagged",
+  "flags": [
+    {
+      "code": "multiple_valid_interpretations",
+      "severity": "high",
+      "description": "The stem uses 'default behavior' which may refer to both language defaults and framework defaults without distinguishing context.",
+      "suggestion": "Specify whether the question refers to Java language specification or Spring Framework defaults."
+    }
+  ],
+  "requires_teacher_review": true
+}
+```
+
+## Ambiguity Verdicts
+
+| Verdict | Meaning |
+| --- | --- |
+| `clean` | No significant interpretation issues detected |
+| `flagged` | At least one ambiguity risk requires teacher attention |
+| `critical` | Multiple valid correct answers exist; question should not be used as-is |
+
+## Ambiguity Flags
+
+| Flag | Description |
+| --- | --- |
+| `multiple_valid_interpretations` | More than one option could be reasonably argued as correct |
+| `missing_context` | Stem requires information not provided in the question or assessment instructions |
+| `double_negation` | Question uses negation inside negation, making intent unclear |
+| `vague_qualifier` | Terms like "usually," "sometimes," or "often" make the correct answer ambiguous |
+| `terminology_not_taught` | Question references concepts that may not be part of the declared learning outcome |
+| `cultural_or_locale_sensitivity` | Answer may vary by region, language version, or library version |
+| `assumption_required` | Correct answer depends on an assumption not stated in the stem |
+| `scope_drift` | Question tests knowledge beyond the declared learning outcome |
+| `dependent_on_previous_question` | Answer requires context from a previous item in the assessment |
+
+## Severity Levels
+
+| Severity | Recommendation |
+| --- | --- |
+| `low` | Stylistic concern; teacher may accept without change |
+| `medium` | Should be addressed before publication but does not invalidate the question |
+| `high` | Question is likely to produce inconsistent student results; should be revised |
+| `critical` | Multiple correct answers exist or the question cannot be reliably scored |
+
+## Human Control
+
+Teacher receives ambiguity flags as part of the question curation queue. The teacher can:
+
+- accept the question despite flags (noted in curation log);
+- edit the stem or options to resolve the flag;
+- request regeneration of the full question;
+- reject the question.
+
+A question flagged with `critical` severity should require explicit confirmation to approve.
+
+## Logging Requirements
+
+Log item ID, subject area, flags detected with severity, overall verdict, model policy, and token and cost estimate.
+
+## Acceptance Criteria
+
+The Ambiguity Review Agent is ready when it evaluates question stems and alternatives, produces actionable flags with specific descriptions and suggestions, assigns severity levels consistently, and integrates into the question curation review queue without blocking teacher decisions.
 
 
 ---
@@ -378,6 +556,216 @@ Log teacher/account, assessment ID, input summary, output summary, model policy,
 ## Acceptance Criteria
 
 The Assessment Agent is MVP-ready when it generates a complete structured assessment draft, includes objectives and expected evidence, prepares rubric seed data, flags ambiguity, requires teacher approval, and creates a valid agent log.
+
+
+---
+
+## Source: `03-ai-agents/assessment-assembly-agent.md`
+
+# Assessment Assembly Agent
+
+The Assessment Assembly Agent composes a closed assessment by selecting and organizing questions from the approved Question Bank. It optimizes for coverage, difficulty balance, and learning outcome alignment.
+
+## Role
+
+Propose a question set and scoring structure for a closed assessment based on teacher-defined parameters. The teacher reviews and approves the composition before the snapshot is created.
+
+## Non-Goals
+
+The agent must not create a snapshot, publish an assessment, use questions that are not in `approved` or `active` state, include questions that are `retired` or `rejected`, or apply final scoring without teacher confirmation.
+
+## Inputs
+
+| Input | Required | Description |
+| --- | --- | --- |
+| `assessment_intent` | Yes | Title, subject, topic, level, purpose |
+| `question_count` | Yes | Target number of questions |
+| `difficulty_distribution` | No | e.g., `{ "easy": 30, "medium": 50, "hard": 20 }` in percentage |
+| `learning_outcomes_to_cover` | No | List of outcomes that must be represented |
+| `available_questions` | Yes | Approved/active questions from the bank with metadata |
+| `scoring_policy` | No | Total points, per-question weight, partial credit rules |
+| `grade_scale` | No | Target scale (e.g., 1.0–7.0, 0–100) |
+| `exclusions` | No | Questions to avoid (recently used, marked ambiguous, specific IDs) |
+
+## Output Contract
+
+```json
+{
+  "schema_version": "1.0",
+  "assembly_run_id": "ASSY-001",
+  "assessment_id": "ASSESSMENT-042",
+  "proposed_composition": [
+    {
+      "position": 1,
+      "item_id": "ITEM-023",
+      "type": "single_choice",
+      "difficulty": "easy",
+      "learning_outcome": "Variable declaration",
+      "proposed_points": 5
+    },
+    {
+      "position": 2,
+      "item_id": "ITEM-045",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "learning_outcome": "Loop control",
+      "proposed_points": 10
+    }
+  ],
+  "coverage_summary": {
+    "total_questions": 15,
+    "total_points": 100,
+    "difficulty_achieved": { "easy": 33, "medium": 47, "hard": 20 },
+    "outcomes_covered": ["Variable declaration", "Loop control", "Conditionals"],
+    "outcomes_missing": []
+  },
+  "alerts": [],
+  "requires_teacher_approval": true
+}
+```
+
+## Selection Rules
+
+The agent must only select questions that are `approved` or `active` in the bank. It must not:
+
+- include the same item twice;
+- include items flagged as `retired`, `rejected`, or `needs_revision` (unless teacher explicitly overrides);
+- exceed the requested question count;
+- produce a composition where all questions have the same difficulty;
+- leave declared learning outcomes uncovered unless no bank questions exist for them.
+
+## Composition Alerts
+
+| Alert | Description |
+| --- | --- |
+| `insufficient_questions` | Bank does not have enough approved questions for the requested composition |
+| `coverage_gap` | A declared learning outcome has no matching approved question |
+| `difficulty_imbalance` | Cannot achieve requested difficulty distribution with available questions |
+| `recently_used_items` | Proposed questions were used in the last N assessments for the same cohort |
+| `low_bank_diversity` | Multiple proposed questions test the same concept at the same level |
+
+## Human Control
+
+The teacher reviews the proposed composition before the snapshot is created. The teacher can:
+
+- approve the composition as proposed;
+- swap individual questions with alternatives from the bank;
+- adjust scoring weights per question;
+- change the difficulty target and request a new proposal;
+- approve a partial composition with manual additions.
+
+The snapshot is created only after teacher explicit approval of the final composition.
+
+## Handoff
+
+When teacher approves the composition, pass the confirmed item list, scoring policy, and grade scale to the snapshot service. The assessment transitions to `published` state.
+
+## Logging Requirements
+
+Log assessment ID, requested and achieved composition parameters, coverage summary, alerts, number of items considered, number proposed, model policy, and token and cost estimate.
+
+## Acceptance Criteria
+
+The Assessment Assembly Agent is ready when it selects only approved bank questions, respects difficulty and coverage constraints, produces clear alerts for gaps, returns a composition the teacher can review and modify before approval, and correctly passes the approved composition for snapshotting.
+
+
+---
+
+## Source: `03-ai-agents/distractor-quality-agent.md`
+
+# Distractor Quality Agent
+
+The Distractor Quality Agent evaluates the quality of incorrect alternatives (distractors) in objective questions. It helps the teacher identify weak, biased, or misleading options before the question enters the active bank.
+
+## Role
+
+Assess each incorrect alternative in a question and flag problems that would reduce the pedagogical validity of the item. Provide actionable suggestions for improvement.
+
+## Non-Goals
+
+The agent must not auto-fix alternatives without teacher review, block questions from approval, or guarantee that an approved question is pedagogically perfect. Recommendations are suggestions, not verdicts.
+
+## Inputs
+
+| Input | Required | Description |
+| --- | --- | --- |
+| `question` | Yes | Full question item: stem, all options, correct option(s) |
+| `question_type` | Yes | `true_false`, `single_choice`, `multiple_choice` |
+| `subject_area` | Yes | Domain context |
+| `learning_outcome` | No | Used to assess distractor relevance |
+| `difficulty_target` | No | Used to calibrate expectations on distractor plausibility |
+
+## Output Contract
+
+```json
+{
+  "schema_version": "1.0",
+  "item_id": "ITEM-001",
+  "overall_quality": "acceptable",
+  "distractor_assessments": [
+    {
+      "option_label": "B",
+      "text": "int x = if (a > b) a else b;",
+      "is_correct": false,
+      "quality_verdict": "acceptable",
+      "flags": [],
+      "suggestion": null
+    },
+    {
+      "option_label": "D",
+      "text": "Something clearly nonsensical",
+      "is_correct": false,
+      "quality_verdict": "weak",
+      "flags": ["absurd_option"],
+      "suggestion": "Replace with a plausible misconception such as reversing the condition."
+    }
+  ],
+  "summary_flags": ["weak_distractor_present"],
+  "requires_teacher_review": true
+}
+```
+
+## Quality Verdicts
+
+| Verdict | Meaning |
+| --- | --- |
+| `acceptable` | Distractor is plausible and represents a genuine misconception |
+| `weak` | Distractor is too easy to eliminate; lacks pedagogical value |
+| `too_similar` | Distractor is nearly identical to the correct answer or another option |
+| `partially_correct` | Distractor could be argued as correct under some interpretation |
+| `biased` | Distractor contains stereotyping, leading language, or cultural bias |
+| `length_mismatch` | Distractor is significantly longer or shorter than the correct answer (cues the test-wise) |
+
+## Distractor Flags
+
+| Flag | Description |
+| --- | --- |
+| `absurd_option` | Option is clearly non-serious; no student would choose it |
+| `duplicate_text` | Two options share identical or near-identical text |
+| `partial_overlap_with_correct` | Option includes part of the correct answer |
+| `unintended_hint` | Option reveals information that helps the student identify the correct answer |
+| `double_negative` | Option uses confusing negation |
+| `length_signal` | Correct answer is consistently longer than distractors (format signal) |
+| `outdated_content` | Distractor references deprecated behavior or syntax |
+
+## Human Control
+
+Teacher receives the distractor assessment as part of the question curation review queue. The teacher can:
+
+- accept the assessment and approve the question;
+- edit the flagged distractor and re-run the check;
+- accept the weak distractor intentionally and note it;
+- reject the question and request regeneration.
+
+The agent does not block the teacher from approving a question with weak distractors. It flags; the teacher decides.
+
+## Logging Requirements
+
+Log item ID, number of distractors evaluated, flags raised per option, overall quality verdict, model policy, and token and cost estimate.
+
+## Acceptance Criteria
+
+The Distractor Quality Agent is ready when it evaluates all incorrect options per question, applies consistent quality verdicts, produces actionable improvement suggestions, and returns results as part of the question curation queue without blocking teacher authority.
 
 
 ---
@@ -574,6 +962,130 @@ Log assessment ID, submission ID, rubric version, model policy, token/cost estim
 ## Acceptance Criteria
 
 The Grading Agent is MVP-ready when it accepts an approved rubric and submission, returns score suggestions per criterion, provides evidence notes, flags uncertainty, marks outputs as suggestions, supports teacher edit/reject workflows, and logs execution/cost metadata.
+
+
+---
+
+## Source: `03-ai-agents/item-analytics-agent.md`
+
+# Item Analytics Agent
+
+The Item Analytics Agent analyzes objective assessment results after a graded run to evaluate item performance, detect problematic questions, and surface learning insights.
+
+## Role
+
+Process post-assessment response data to produce item-level statistics, identify questions that underperformed or produced unexpected patterns, and suggest instructional follow-up.
+
+The agent runs after the assessment is graded, not during grading. Grading is always deterministic.
+
+## Non-Goals
+
+The agent must not modify the answer key, recalculate grades, change published results, or invalidate a question without teacher action. It provides analytical interpretation; the teacher acts.
+
+## Inputs
+
+| Input | Required | Description |
+| --- | --- | --- |
+| `assessment_id` | Yes | The completed assessment |
+| `graded_attempts` | Yes | All student attempts with selected options and scores |
+| `answer_key_snapshot` | Yes | Frozen answer key used for grading |
+| `question_snapshots` | Yes | Frozen question list with type, difficulty, and learning outcomes |
+| `learner_count` | Yes | Total participants for context |
+
+## Output Contract
+
+```json
+{
+  "schema_version": "1.0",
+  "analytics_run_id": "IANA-001",
+  "assessment_id": "ASSESSMENT-042",
+  "overall": {
+    "mean_score": 72.4,
+    "median_score": 75.0,
+    "pass_rate": 0.68,
+    "score_distribution": [
+      { "range": "0-49", "count": 3 },
+      { "range": "50-69", "count": 8 },
+      { "range": "70-89", "count": 12 },
+      { "range": "90-100", "count": 7 }
+    ]
+  },
+  "item_analysis": [
+    {
+      "item_id": "ITEM-023",
+      "position": 1,
+      "correct_rate": 0.93,
+      "difficulty_index": 0.93,
+      "difficulty_rating": "easy_as_expected",
+      "most_chosen_wrong_option": null,
+      "flags": [],
+      "interpretation": "Item performed as expected for an easy question on variable declaration."
+    },
+    {
+      "item_id": "ITEM-045",
+      "position": 5,
+      "correct_rate": 0.23,
+      "difficulty_index": 0.23,
+      "difficulty_rating": "harder_than_expected",
+      "most_chosen_wrong_option": "B",
+      "flags": ["possible_ambiguity", "possible_misconception_target"],
+      "interpretation": "Only 23% answered correctly. Option B was selected by 61% of students. The item may be ambiguous or option B may represent a widespread misconception about loop termination."
+    }
+  ],
+  "learning_outcome_coverage": [
+    {
+      "outcome": "Loop control",
+      "items_assessed": 3,
+      "mean_correct_rate": 0.41,
+      "insight": "Students consistently underperformed on loop control items. Reinforcement recommended."
+    }
+  ],
+  "reinforcement_suggestions": [
+    {
+      "outcome": "Loop control",
+      "suggested_action": "Dedicate one session to loop termination conditions with worked examples.",
+      "priority": "high"
+    }
+  ],
+  "items_flagged_for_review": ["ITEM-045"],
+  "requires_teacher_review": true
+}
+```
+
+## Item-Level Flags
+
+| Flag | Description |
+| --- | --- |
+| `possible_ambiguity` | Very low correct rate combined with spread across multiple wrong options |
+| `possible_misconception_target` | One wrong option attracted a large share of students; may indicate a predictable misconception |
+| `distractor_not_chosen` | A distractor was selected by fewer than 5% of students; may be too obvious |
+| `harder_than_expected` | Correct rate is substantially lower than declared difficulty |
+| `easier_than_expected` | Correct rate is substantially higher than declared difficulty |
+| `possible_key_error` | Correct rate is below 10%; may indicate an error in the answer key |
+
+## Reinforcement Suggestions
+
+When a learning outcome shows low correct rates across multiple items, the agent suggests a targeted reinforcement action. Suggestions are labeled as AI-generated and require teacher approval before any student-facing use.
+
+## Human Control
+
+Teacher reviews the item analytics report. The teacher can:
+
+- accept the analysis and use reinforcement suggestions;
+- flag a specific question for future review or retirement;
+- initiate an answer-key correction if `possible_key_error` is raised (which triggers a recalculation event with audit log);
+- approve reinforcement suggestions for inclusion in teacher report or recovery plan;
+- dismiss flags they disagree with.
+
+Item analytics do not retroactively change grades unless the teacher explicitly initiates a key correction through the official recalculation workflow.
+
+## Logging Requirements
+
+Log assessment ID, number of items analyzed, number of flags raised, reinforcement suggestions generated, model policy, token and cost estimate, and whether the teacher reviewed the report.
+
+## Acceptance Criteria
+
+The Item Analytics Agent is ready when it produces correct-rate statistics per item, applies difficulty and ambiguity flags, generates learning-outcome coverage summaries, suggests reinforcement for underperforming outcomes, and returns results for teacher review without modifying grades or the answer key.
 
 
 ---
@@ -803,6 +1315,121 @@ The Ops Agent itself logs evidence summaries generated, dashboard exports, missi
 ## Acceptance Criteria
 
 The Ops Agent is MVP-ready when every agent run can be traced, every assessment has usage metrics, cost/model metadata is present or flagged as missing, approval states are visible, customer/pilot evidence can be linked, revenue and related-party flags can be tracked, dashboard data supports the demo, and no private student data is required for public evidence.
+
+
+---
+
+## Source: `03-ai-agents/question-generation-agent.md`
+
+# Question Generation Agent
+
+The Question Generation Agent produces batches of objective questions from a teacher-defined evaluative intent. All output enters the Question Bank in `ai_generated` / `pending_review` state. Nothing activates without teacher curation.
+
+## Role
+
+Generate structured question items — True/False, Single Choice, Multiple Choice — for closed assessments. Every question includes alternatives, a proposed answer key, difficulty, learning outcome association, and rationale.
+
+## Non-Goals
+
+The agent must not publish questions directly to the active bank, auto-approve questions, create final answer keys for published assessments, or produce questions with factual errors or culturally biased language without flagging them.
+
+## Inputs
+
+| Input | Required | Description |
+| --- | --- | --- |
+| `subject_area` | Yes | Topic domain (e.g., Java fundamentals, data structures, networking) |
+| `learning_outcome` | Yes | Specific skill or knowledge to assess |
+| `question_type` | Yes | `true_false`, `single_choice`, `multiple_choice`, or `mixed` |
+| `difficulty_target` | Yes | `easy`, `medium`, `hard` |
+| `question_count` | Yes | Number of questions to generate |
+| `level` | No | Audience level (intro, intermediate, advanced) |
+| `language` | No | Natural language for question text; defaults to English |
+| `constraints` | No | Teacher restrictions (avoid topic X, use terminology Y) |
+| `prior_questions` | No | Existing bank questions to avoid duplication |
+
+## Output Contract
+
+```json
+{
+  "schema_version": "1.0",
+  "generation_request_id": "QG-001",
+  "subject_area": "Java fundamentals",
+  "learning_outcome": "Identify correct use of conditional expressions",
+  "questions": [
+    {
+      "item_id": "ITEM-001",
+      "type": "single_choice",
+      "stem": "Which statement correctly implements a ternary conditional in Java?",
+      "options": [
+        { "label": "A", "text": "int x = (a > b) ? a : b;", "is_correct": true },
+        { "label": "B", "text": "int x = if (a > b) a else b;", "is_correct": false },
+        { "label": "C", "text": "int x = a > b then a else b;", "is_correct": false },
+        { "label": "D", "text": "int x = a > b ? b : a;", "is_correct": false }
+      ],
+      "correct_option_labels": ["A"],
+      "explanation": "The ternary operator syntax is condition ? valueIfTrue : valueIfFalse.",
+      "difficulty_suggested": "easy",
+      "learning_outcome_suggested": "Ternary operator syntax",
+      "distractor_rationale": ["B is incorrect Java syntax", "C uses pseudo-code syntax", "D inverts the result"],
+      "quality_flags": [],
+      "requires_teacher_review": true
+    }
+  ],
+  "batch_quality_summary": {
+    "generated_count": 5,
+    "flagged_count": 1,
+    "duplicate_risk_count": 0
+  }
+}
+```
+
+## Question Type Rules
+
+| Type | Alternatives | Correct answers |
+| --- | --- | --- |
+| `true_false` | Exactly 2 (True / False) | Exactly 1 |
+| `single_choice` | 2–5 options | Exactly 1 |
+| `multiple_choice` | 2–6 options | 1 or more |
+
+The agent must validate these constraints and flag violations before returning the batch.
+
+## Quality Rules
+
+Questions must have a unique, clear stem. Alternatives must be plausible. The correct option must be unambiguously correct. Distractors must represent realistic misconceptions, not nonsense. Answer explanations must support teacher review decisions. The agent must not include trick questions, double negatives, or unstated assumptions.
+
+## Uncertainty Flags
+
+| Flag | Trigger |
+| --- | --- |
+| `possible_ambiguity` | More than one option could be argued correct |
+| `weak_distractors` | Incorrect options are too obvious or absurd |
+| `duplicate_risk` | Question is structurally similar to a prior_question in bank |
+| `factual_uncertainty` | Agent is not confident about the correct answer |
+| `scope_mismatch` | Generated question does not match the declared learning outcome |
+| `language_quality` | Stem or options have grammatical or clarity issues |
+
+## Human Control
+
+Every generated question enters the bank as `ai_generated` and requires teacher curation before it can be used in an assessment. The teacher can:
+
+- approve: question moves to `approved`;
+- edit and approve: teacher edits content, then approves;
+- regenerate: request a new question for the same slot;
+- reject: question is moved to `rejected` with optional reason.
+
+No question can skip teacher approval.
+
+## Handoff To Assessment Assembly Agent
+
+Pass approved questions from the bank, including their `item_id`, `type`, `difficulty`, `learning_outcome`, and `scoring_weight` if assigned.
+
+## Logging Requirements
+
+Log subject area, learning outcome, question count requested and returned, flagged count, model policy, token and cost estimate, any factual uncertainty flags, and the agent run ID for traceability to subsequent curation events.
+
+## Acceptance Criteria
+
+The Question Generation Agent is ready when it generates well-structured questions for all three supported types, validates type-specific cardinality rules, attaches explanations and distractor rationale, flags quality issues, produces output in `pending_review` state, and logs the full execution with cost estimate.
 
 
 ---
@@ -1151,4 +1778,5 @@ Log assessment ID, submissions included, approval status of source data, report 
 ## Acceptance Criteria
 
 The Teacher Report Agent is MVP-ready when it generates a concise report from assessment data, includes learning gaps and next actions, includes evidence/cost summary, respects approval states, requires teacher validation, and returns structured logs.
+
 

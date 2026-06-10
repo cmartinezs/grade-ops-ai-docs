@@ -10,10 +10,14 @@ It answers:
 
 `02-product` turns the project and business strategy into product behavior:
 
-- MVP scope;
+- MVP scope (two assessment modes: open and closed);
 - personas;
 - user stories;
 - workflows;
+- assessment modes and their specific flows;
+- student access model;
+- response intake channels;
+- curriculum and subject structure;
 - product metrics.
 
 The folder is intentionally product-focused. It describes user experience, states, flows, priorities, and acceptance criteria without becoming backend architecture.
@@ -22,11 +26,15 @@ The folder is intentionally product-focused. It describes user experience, state
 
 Use these files to drive product planning and implementation:
 
-1. `mvp-scope.md` — what is in scope, out of scope, and required for the demo.
+1. `mvp-scope.md` — what is in scope, out of scope, and required for the demo; scope matrix with priorities.
 2. `personas.md` — users, buyers, operators, reviewers, and anti-personas.
-3. `user-stories.md` — backlog by epic, priority, and acceptance criteria.
-4. `workflows.md` — end-to-end workflows, approval states, failure flows, and evidence flow.
-5. `metrics.md` — product, business, AI-native operations, trust, and hackathon evidence metrics.
+3. `user-stories.md` — backlog by epic, priority, and acceptance criteria (Epics 1–13).
+4. `workflows.md` — end-to-end workflows for open and closed assessment, approval states, failure flows, and evidence flow.
+5. `assessment-modes.md` — open vs. closed assessment comparison, shared lifecycle, AI role per mode, question bank states, and snapshot rule.
+6. `student-access.md` — student (LearnerRef) model, secure link types, invitation flow, what students can see, and security rules.
+7. `response-intake.md` — digital (P0) and physical paper (P1) intake channels, OCR vs OMR, conflict resolution, and normalization to AssessmentAttempt.
+8. `curriculum-structure.md` — subject/topic/learning-outcome taxonomy; P0 string tagging; P1 structured model with CurriculumNode and LearningObjective; AI-generated curriculum; Chile pack reference.
+9. `metrics.md` — product, business, AI-native operations, trust, and hackathon evidence metrics.
 
 ## What Belongs Here
 

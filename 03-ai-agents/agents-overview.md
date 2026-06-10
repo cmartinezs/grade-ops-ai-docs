@@ -14,6 +14,8 @@ GradeOps AI uses specialized agents to operate the assessment workflow for progr
 
 ## Agent Set
 
+### Open Assessment Agents
+
 | Agent | Responsibility | Primary output |
 | --- | --- | --- |
 | Assessment Agent | Draft assessment from learning goal and constraints. | Assessment brief. |
@@ -25,7 +27,19 @@ GradeOps AI uses specialized agents to operate the assessment workflow for progr
 | Teacher Report Agent | Summarize the assessment cycle. | Teacher report. |
 | Ops Agent | Capture usage, cost, and business evidence. | Logs and evidence summaries. |
 
-## End-To-End Agent Flow
+### Closed Assessment Agents
+
+| Agent | Responsibility | Primary output |
+| --- | --- | --- |
+| Question Generation Agent | Generate objective questions (TF/SC/MC) with alternatives, key, difficulty, and outcome. | Question batch for curation. |
+| Distractor Quality Agent | Evaluate and flag weak, biased, or misleading incorrect alternatives. | Distractor quality assessment. |
+| Ambiguity Review Agent | Detect interpretation problems, double-valid answers, and structural issues in questions. | Ambiguity flags per question. |
+| Assessment Assembly Agent | Compose a balanced assessment from approved bank questions. | Proposed question composition. |
+| Item Analytics Agent | Analyze post-assessment item performance, difficulty, and learning outcome coverage. | Item analytics report and reinforcement suggestions. |
+
+## End-To-End Agent Flows
+
+### Open Assessment
 
 ```mermaid
 flowchart TD
@@ -46,6 +60,30 @@ flowchart TD
   A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L --> M
 ```
 
+### Closed Assessment
+
+```mermaid
+flowchart TD
+  A[Teacher defines evaluative intent]
+  B[Question Generation Agent]
+  C[Distractor Quality Agent]
+  D[Ambiguity Review Agent]
+  E[Teacher curation queue: approve / edit / reject]
+  F[Approved questions enter bank]
+  G[Assessment Assembly Agent]
+  H[Teacher reviews and approves composition]
+  I[Snapshot created — assessment published]
+  J[Student access links sent]
+  K[Students respond via secure link]
+  L[Deterministic grading engine]
+  M[Teacher reviews exception queue]
+  N[Item Analytics Agent]
+  O[Teacher approves and publishes results]
+  P[Ops Agent evidence aggregation]
+
+  A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L --> M --> N --> O --> P
+```
+
 ## Design Principles
 
 1. One clear responsibility per agent.
@@ -61,6 +99,8 @@ flowchart TD
 
 ## Required Control Checkpoints
 
+### Open Assessment
+
 | Checkpoint | Human control |
 | --- | --- |
 | Assessment draft | Teacher approves before student use. |
@@ -70,6 +110,22 @@ flowchart TD
 | Learning gap summary | Teacher confirms instructional relevance. |
 | Recovery activity | Teacher approves before assigning. |
 | Teacher report | Teacher validates before sharing. |
+
+### Closed Assessment
+
+| Checkpoint | Human control |
+| --- | --- |
+| Each generated question | Teacher approves, edits, or rejects before entering bank. |
+| Assessment composition | Teacher approves before snapshot is created. |
+| Answer key and scoring policy | Teacher confirms before publish. |
+| Exception queue | Teacher resolves all exceptions before publishing results. |
+| Item analytics and reinforcement | Teacher reviews before acting on or sharing. |
+| Answer key correction (post-grading) | Teacher explicit action; triggers audited recalculation. |
+
+### Shared
+
+| Checkpoint | Human control |
+| --- | --- |
 | Evidence dashboard | Operator validates before public/demo use. |
 
 ## Common Agent Input Envelope
@@ -153,6 +209,11 @@ flowchart TD
 | Recovery Agent | Flash-class | Pedagogical usefulness matters. |
 | Teacher Report Agent | Flash-class | Summary quality matters. |
 | Ops Agent | Deterministic code first; LLM only for summaries | Avoid unnecessary model spend. |
+| Question Generation Agent | Flash-class | Content quality and pedagogical correctness matter. |
+| Distractor Quality Agent | Flash-Lite-class | Structured evaluation; high volume per batch. |
+| Ambiguity Review Agent | Flash-class | Interpretation quality matters. |
+| Assessment Assembly Agent | Flash-Lite-class | Selection and optimization; deterministic rules preferred. |
+| Item Analytics Agent | Flash-class | Interpretation and narrative require quality. |
 
 ## Quality Rules
 
@@ -160,4 +221,10 @@ Agents must separate evidence from interpretation, reference rubric criteria whe
 
 ## MVP Cut Line
 
-Protect these capabilities first: Assessment Agent, Rubric Agent, Grading Agent, Feedback Agent, Teacher Report Agent, and Ops Agent logs. Learning Gap and Recovery Agents may be lighter in the first build, but should still exist in the demo narrative and data model.
+### Open Assessment MVP
+
+Protect these first: Assessment Agent, Rubric Agent, Grading Agent, Feedback Agent, Teacher Report Agent, and Ops Agent logs. Learning Gap and Recovery Agents may be lighter in the first build but must exist in the demo narrative and data model.
+
+### Closed Assessment MVP
+
+Protect these first: Question Generation Agent, question curation queue (Distractor Quality + Ambiguity Review integrated), Assessment Assembly Agent, deterministic grading engine (not an AI agent), and Item Analytics Agent. The demo must show at least one complete closed assessment cycle with student link delivery.

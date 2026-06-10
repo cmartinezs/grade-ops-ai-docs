@@ -57,6 +57,17 @@ A decision record should explain:
 - status;
 - date.
 
+## Active Decision Records
+
+| File | Topic | Status |
+| --- | --- | --- |
+| `2026-06-10-closed-assessment-mode.md` | Adding closed (objective/alternatives) assessment mode alongside open mode | Accepted |
+| `2026-06-10-ai-native-question-bank.md` | Question bank is AI-generated and teacher-curated, not manually authored | Accepted |
+| `2026-06-10-assessment-snapshot-on-publish.md` | Questions, options, answer key, and scoring policy are frozen at publication | Accepted |
+| `2026-06-10-deterministic-grading-for-closed.md` | Closed assessment grading is deterministic; no AI in the scoring calculation | Accepted |
+| `2026-06-10-student-access-via-secure-link.md` | Students access assessments and results via signed email links; no account required | Accepted |
+| `2026-06-10-curriculum-taxonomy.md` | Layered curriculum taxonomy: P0 string tagging, P1 relational Subject/CurriculumNode/LearningObjective model | Accepted |
+
 ## Current Template
 
 Use:

@@ -4,9 +4,14 @@
 
 **Core promise:** Run your next programming assessment with AI agents.
 
-GradeOps AI helps programming educators, tutors, bootcamps, and small academies operate practical assessment workflows with AI agents while preserving teacher control.
+GradeOps AI helps programming educators, tutors, bootcamps, and small academies operate assessment workflows — both practical code tasks and objective knowledge checks — with AI agents while preserving teacher control.
 
-It is not a generic quiz generator, chatbot, or LMS. It is an AI-operated workflow that helps educators create assessments, generate rubrics, process submissions, assist grading, produce personalized feedback, detect learning gaps, suggest recovery activities, prepare teacher reports, and capture operational evidence.
+It is not a generic quiz generator, chatbot, or LMS. It is an AI-operated workflow that supports two assessment modes:
+
+- **Open assessments** — practical code/text tasks with rubric-based AI grading suggestions, teacher approval, and personalized feedback.
+- **Closed assessments** — objective questions with alternatives (TF, single choice, multiple choice), an AI-native question bank, and deterministic grading against a frozen answer key.
+
+Both modes share the same teacher workspace, evidence layer, and approval infrastructure.
 
 ## Strategic position
 
@@ -41,23 +46,36 @@ Existing tools fall short:
 
 ## Solution
 
-GradeOps AI helps educators move from a learning goal to reviewed feedback and teacher reports through a controlled agent workflow.
+GradeOps AI helps educators move from a learning goal to reviewed results through a controlled agent workflow.
 
-Core workflow:
+**Open assessment flow:**
 
 1. Teacher defines what they want to evaluate.
-2. Assessment Agent generates the activity.
+2. Assessment Agent generates the activity draft.
 3. Rubric Agent creates and validates criteria.
-4. Students submit answers or code.
+4. Students submit answers, code, or files via secure link.
 5. Grading Agent analyzes submissions against the rubric.
 6. Feedback Agent drafts personalized feedback.
-7. Learning Gap Agent identifies recurring issues.
+7. Learning Gap Agent identifies recurring cohort issues.
 8. Recovery Agent suggests reinforcement activities.
-9. Teacher reviews and approves.
+9. Teacher reviews and approves all AI outputs.
 10. Teacher Report Agent prepares the final report.
 11. Ops Evidence Agent records usage, costs, outcomes, and agent logs.
 
-The teacher remains the final pedagogical authority.
+**Closed assessment flow:**
+
+1. Teacher defines the evaluative intent and learning outcomes.
+2. Question Generation Agent produces objective questions with alternatives, answer key, and difficulty.
+3. Distractor Quality Agent and Ambiguity Review Agent flag quality issues.
+4. Teacher curates and approves questions into the question bank.
+5. Assessment Assembly Agent composes a balanced assessment from approved questions.
+6. Teacher approves composition and scoring policy; system freezes a snapshot.
+7. Students receive secure access links and respond without creating an account.
+8. Deterministic engine grades responses against the frozen answer key.
+9. Teacher reviews exceptions; Item Analytics Agent analyzes item performance.
+10. Teacher publishes results; students view grades via result link.
+
+The teacher is the final pedagogical authority in both modes. AI agents generate, suggest, and analyze — they never finalize grades or deliver feedback without teacher approval.
 
 ## Target users
 
@@ -69,49 +87,54 @@ The teacher remains the final pedagogical authority.
 
 ## MVP scope
 
-The MVP focuses on one narrow, sellable workflow: practical programming assessments.
+The MVP covers two assessment modes for programming educators.
 
 Included:
 
-- Teacher workspace.
-- Assessment creation from a learning goal.
-- AI-assisted rubric generation.
-- Submission intake.
-- Grading support with teacher approval.
-- Personalized feedback drafts.
-- Learning gap summaries.
-- Recovery activity suggestions.
-- Teacher-facing report.
-- Agent execution logs.
-- Usage and cost tracking.
+- Teacher workspace for both open and closed assessments.
+- Open assessment creation from a learning goal; AI-generated rubric.
+- Closed assessment creation with AI-native question bank; AI generation, teacher curation, deterministic grading.
+- Student access via secure email links; no student account required.
+- Grading: AI rubric-based suggestions (open) and deterministic engine against frozen answer key (closed).
+- Personalized feedback drafts (open) and item analytics reports (closed).
+- Learning gap summaries and recovery activity suggestions.
+- Teacher-facing report for both modes.
+- Agent execution logs and cost tracking.
 - Evidence capture for users, revenue, customer learning, and hackathon submission.
-- Basic Google Cloud deployment.
-- Gemini API integration.
+- Basic Google Cloud deployment and Gemini API integration.
 
 Not prioritized for the MVP:
 
 - Full LMS functionality.
 - Complex institutional administration.
 - Mobile app.
-- OCR-heavy flows.
-- Broad multi-subject support.
-- Advanced curriculum management.
-- Large question bank management.
+- Physical paper intake with OCR/OMR (P1, not P0).
+- Broad multi-subject or multi-country curriculum packs (P1).
+- Institutional shared question banks or marketplace.
+- Student account with password, social features, or appeal workflow.
 
 ## AI-native operations
 
 GradeOps AI must show agents executing meaningful operational steps, not only generating text.
 
-Core agents:
+**Open assessment agents:**
 
-- Assessment Agent.
-- Rubric Agent.
-- Grading Agent.
-- Feedback Agent.
-- Learning Gap Agent.
-- Recovery Agent.
-- Teacher Report Agent.
-- Ops Evidence Agent.
+- Assessment Agent — generates activity draft from learning goal.
+- Rubric Agent — creates and validates scoring rubric.
+- Grading Agent — analyzes submissions against approved rubric.
+- Feedback Agent — drafts student-facing feedback.
+- Learning Gap Agent — identifies cohort-level recurring issues.
+- Recovery Agent — suggests reinforcement activities.
+- Teacher Report Agent — prepares the final class report.
+- Ops Evidence Agent — records usage, costs, outcomes, and agent logs.
+
+**Closed assessment agents:**
+
+- Question Generation Agent — generates TF/SC/MC questions with alternatives and answer key.
+- Distractor Quality Agent — evaluates and flags weak or biased alternatives.
+- Ambiguity Review Agent — detects interpretation problems in question stems.
+- Assessment Assembly Agent — composes a balanced assessment from approved bank questions.
+- Item Analytics Agent — analyzes post-assessment item performance and learning outcome coverage.
 
 Each agent execution should produce structured evidence:
 
@@ -170,11 +193,16 @@ For the hackathon, success is measured by evidence, not feature volume.
 ## Current status
 
 - Documentation repository created for the XPRIZE AI hackathon.
-- Product positioning defined as an AI-operated assessment workflow business.
-- Initial market wedge defined: programming educators.
-- MVP direction defined around assessment operations, not generic quiz generation.
-- Evidence-first strategy defined for users, usage, payments, costs, and agent logs.
-- Hackathon strategy pending implementation across product, business, architecture, and evidence documents.
+- Product positioning defined: AI-native assessment operations for programming educators.
+- Two assessment modes fully documented: open (practical/code) and closed (objective/alternatives).
+- 13 AI agents specified with input/output contracts and human control checkpoints.
+- Student access model defined: LearnerRef + secure email links; no student account required.
+- Response intake documented: digital P0, physical paper P1 (OCR/OMR + QR).
+- Curriculum taxonomy defined: P0 string tagging, P1 structured Subject/CurriculumNode/LearningObjective model.
+- Data model, security posture, deployment architecture, and API design documented.
+- Six key architecture/product decisions recorded in `99-decisions/`.
+- MVP scope, user stories (Epics 1–13), and workflows defined.
+- Evidence-first strategy active: product designed to capture usage, cost, revenue, and operational evidence from day one.
 
 ## Strategic principles
 
