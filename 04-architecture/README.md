@@ -53,7 +53,7 @@ Recommended implementation stance:
 
 | Layer | Recommended MVP Choice | Reason |
 | --- | --- | --- |
-| Web | Angular or Next.js | Fast teacher workspace and dashboard. |
+| Web | Next.js + TypeScript | Fast teacher workspace and dashboard. See [[technology-stack]]. |
 | API | Spring Boot modular monolith | Strong fit for workflow, security, audit, and persistence. |
 | Agents | Separate agent worker/service or internal module | Keeps LLM orchestration observable and replaceable. |
 | AI | Gemini API / Vertex AI Gemini | Hackathon requirement and traceable runtime. |
@@ -68,6 +68,7 @@ Recommended implementation stance:
 | File | Purpose |
 | --- | --- |
 | [`system-architecture.md`](system-architecture.md) | System components, runtime topology, module boundaries, and diagrams. |
+| [`repository-structure.md`](repository-structure.md) | Internal folder and module structure for each of the five repositories. |
 | [`data-model.md`](data-model.md) | Core entities, relationships, states, audit/evidence records, and modeling rules. |
 | [`api-design.md`](api-design.md) | REST API resources, commands, endpoints, DTO expectations, and error behavior. |
 | [`security.md`](security.md) | Authentication, authorization, privacy, data handling, audit, and AI safety posture. |

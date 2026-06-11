@@ -198,6 +198,8 @@ flowchart LR
 
 The agents service is a separate Cloud Run deployment. It communicates with the API via internal HTTP (Cloud Run service-to-service auth). Merging `api` and `agents` into a single repo is acceptable during MVP sprints under delivery pressure, provided module boundaries remain explicit and the split is restored before the demo.
 
+For the internal folder and module structure of each repository, see [`repository-structure.md`](repository-structure.md).
+
 **Deferred repositories** — not created for the MVP:
 
 | Repository | Reason deferred |

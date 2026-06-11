@@ -16,10 +16,12 @@ The product supports two assessment modes: **Open** (practical code/text submiss
 | --- | --- |
 | `00-project/` | Vision, pitch, problem statement, solution, roadmap, hackathon strategy |
 | `01-business/` | Business model, pricing, go-to-market, customer discovery, revenue evidence |
-| `02-product/` | Personas, MVP scope, user stories, workflows, product metrics |
+| `02-product/` | Personas, MVP scope, user stories, workflows, and product metrics |
 | `03-ai-agents/` | Agent roles, responsibilities, boundaries, prompt contracts, execution logs |
 | `04-architecture/` | System design, data model, API design, security, deployment, Google Cloud assumptions |
 | `05-evidence/` | Templates for proof of demand, usage, revenue, outcomes, and demo evidence |
+| `06-ux/` | Screen inventory, interaction model, and UX design intent for teacher workspace and student access |
+| `07-hackathon/` | Operational hackathon deliverables: demo script, evidence checklist, submission narrative |
 | `99-decisions/` | Durable architecture, product, business, and scope decision records |
 | `.raw/` | Historical conversation notes and reasoning history — not canonical, not edited directly |
 | `.all-by-category/` | Consolidated Markdown files per category for NotebookLM upload — generated from canonical sources, not edited directly |
