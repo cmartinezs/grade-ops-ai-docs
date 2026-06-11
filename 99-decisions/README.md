@@ -70,6 +70,8 @@ A decision record should explain:
 | [`2026-06-10-deterministic-grading-for-closed.md`](2026-06-10-deterministic-grading-for-closed.md) | Closed assessment grading is deterministic; no AI in the scoring calculation | Accepted |
 | [`2026-06-10-student-access-via-secure-link.md`](2026-06-10-student-access-via-secure-link.md) | Students access assessments and results via signed email links; no account required | Accepted |
 | [`2026-06-10-curriculum-taxonomy.md`](2026-06-10-curriculum-taxonomy.md) | Layered curriculum taxonomy: P0 string tagging, P1 relational Subject/CurriculumNode/LearningObjective model | Accepted |
+| [`2026-06-10-technology-stack.md`](2026-06-10-technology-stack.md) | Next.js for web, Spring Boot + Java 21 for API and agents, Spring AI for the agent runtime | Accepted |
+| [`2026-06-10-agent-runtime-separation.md`](2026-06-10-agent-runtime-separation.md) | `grade-ops-ai-agents` is a separate service; agents do not live inside the API | Accepted |
 
 ## Current Template
 

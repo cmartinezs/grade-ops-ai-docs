@@ -46,4 +46,4 @@ At all times, the P0 string fields are backward-compatible with the P1 model: th
 
 ---
 
-← [Student Access via Secure Link](2026-06-10-student-access-via-secure-link.md) | [↑ inicio](#curriculum-taxonomy-for-questions-and-assessments) | [README](README.md) | [ADR Template →](adr-template.md)
+← [Student Access via Secure Link](2026-06-10-student-access-via-secure-link.md) | [↑ inicio](#curriculum-taxonomy-for-questions-and-assessments) | [README](README.md) | [Technology Stack →](2026-06-10-technology-stack.md)

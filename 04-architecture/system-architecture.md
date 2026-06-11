@@ -55,17 +55,18 @@ flowchart LR
 
 ## Runtime Components
 
-| Component | Responsibility | MVP Recommendation |
+| Component | Responsibility | Stack |
 | --- | --- | --- |
-| Web App | Teacher workspace, review UI, dashboards | Angular or Next.js. |
-| Backend API | Auth integration, workflow state, business rules, REST API | Spring Boot modular monolith. |
-| Workflow Orchestrator | Coordinates assessment lifecycle and agent handoffs | Backend module. |
-| Agent Runtime | Executes agent calls, validates structured outputs, logs execution | Separate module/service. |
-| Gemini Integration | Calls Gemini models through API/Vertex | Server-side only. |
-| Primary DB | Stores users, assessments, rubrics, submissions, feedback, reports, logs | Cloud SQL PostgreSQL or Firestore. |
+| Web App | Teacher workspace, review UI, student access, dashboards | Next.js + TypeScript + Tailwind CSS (`grade-ops-ai-web`). |
+| Backend API | Auth, workflow state, business rules, REST API, billing, audit | Spring Boot 4 + Java 21 + PostgreSQL (`grade-ops-ai-api`). |
+| Workflow Orchestrator | Coordinates assessment lifecycle and agent handoffs | Module inside `grade-ops-ai-api`. |
+| Agent Runtime | Executes agent calls, validates structured outputs, logs execution | Spring Boot 4 + Java 21 + Spring AI (`grade-ops-ai-agents`). |
+| Gemini Integration | Calls Gemini via Vertex AI; API key for local dev | Spring AI Vertex AI Gemini starter; server-side only. |
+| Primary DB | Stores users, assessments, rubrics, submissions, feedback, reports, logs | Cloud SQL PostgreSQL. |
 | Object Storage | Stores uploaded files, exports, report artifacts | Cloud Storage. |
+| Infrastructure | Cloud Run services, secrets, networking, CI/CD | Terraform + GitHub Actions (`grade-ops-ai-infra`). |
 | Evidence Dashboard | Shows agent runs, costs, usage, approvals, business evidence | Backend + Web. |
-| Observability | Technical logs, errors, latency, failures | Cloud Logging + app logs. |
+| Observability | Technical logs, errors, latency, failures | Cloud Logging + application evidence tables. |
 
 ## Module Architecture
 
@@ -187,15 +188,26 @@ flowchart LR
 
 ## Repository Boundary Recommendation
 
-| Repository | Contents |
-| --- | --- |
-| `grade-ops-ai-docs` | Documentation and decision records. |
-| `grade-ops-ai-web` | Teacher workspace, landing, dashboard. |
-| `grade-ops-ai-api` | API, workflow orchestration, security, persistence. |
-| `grade-ops-ai-agents` | Agent definitions, prompts, schemas, model adapters if separated. |
-| `grade-ops-ai-infra` | Deployment scripts, Terraform later, Cloud Run config. |
+| Repository | Stack | Responsibilities |
+| --- | --- | --- |
+| `grade-ops-ai-docs` | Markdown | Documentation, decisions, pitch, roadmap, evidence. |
+| `grade-ops-ai-web` | Next.js + TypeScript + Tailwind | Landing, teacher workspace, student access, dashboards. |
+| `grade-ops-ai-api` | Spring Boot 4 + Java 21 + PostgreSQL | Auth, workflow, rubrics, submissions, billing, audit, persistence. |
+| `grade-ops-ai-agents` | Spring Boot 4 + Java 21 + Spring AI | All 13 agents, prompts, Gemini integration, structured outputs, agent logs. |
+| `grade-ops-ai-infra` | Terraform + GitHub Actions | Cloud Run, Cloud SQL, Cloud Storage, Secret Manager, CI/CD. |
 
-For the hackathon MVP, it is acceptable to merge `api` and `agents` into one backend repo if it reduces delivery risk, as long as module boundaries are explicit.
+The agents service is a separate Cloud Run deployment. It communicates with the API via internal HTTP (Cloud Run service-to-service auth). Merging `api` and `agents` into a single repo is acceptable during MVP sprints under delivery pressure, provided module boundaries remain explicit and the split is restored before the demo.
+
+**Deferred repositories** — not created for the MVP:
+
+| Repository | Reason deferred |
+| --- | --- |
+| `grade-ops-ai-mobile` | Requires validated web MVP first. |
+| `grade-ops-ai-ocr` | Physical paper intake is P1; not required for the hackathon. |
+| `grade-ops-ai-lms` | Out of scope; GradeOps AI is not an LMS. |
+| `grade-ops-ai-code-runner` | Needed only when executing real student code in a sandbox. |
+| `grade-ops-ai-sdk` | Public SDK is a post-product concern, not pre-product. |
+| `grade-ops-ai-admin` | Institutional admin panel is post-MVP. |
 
 ## Synchronous vs Asynchronous Processing
 

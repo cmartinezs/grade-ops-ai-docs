@@ -20,4 +20,4 @@ What becomes easier, harder, or riskier because of this decision?
 
 ---
 
-← [Curriculum Taxonomy](2026-06-10-curriculum-taxonomy.md) | [↑ inicio](#adr-template) | [README](README.md)
+← [Agent Runtime Separation](2026-06-10-agent-runtime-separation.md) | [↑ inicio](#adr-template) | [README](README.md)
